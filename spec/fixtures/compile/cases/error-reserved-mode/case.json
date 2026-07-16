@@ -1,0 +1,6 @@
+{
+  "id": "error-reserved-mode",
+  "description": "Reject an explicit dummy definition of the reserved public sentinel mode.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_RESERVED_MODE"}
+}

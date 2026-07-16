@@ -1,0 +1,30 @@
+{
+  "id": "admin-domain-union-reject",
+  "description": "An admin request outside the dummy domain-wide allowed-mode union is rejected.",
+  "operation": "set",
+  "input": {
+    "actor": "admin",
+    "ctx": null,
+    "requested_mode": "sealed",
+    "domain": "shared"
+  },
+  "expected": {
+    "ok": false,
+    "mode": "focus",
+    "transitioned": false,
+    "rejected": {
+      "requested_mode": "sealed",
+      "reason": "requested mode is not allowed by any route in the domain"
+    },
+    "audit": [
+      {
+        "ts": "1970-01-01T00:00:00.000Z",
+        "event": "switch_rejected",
+        "route_id": "__admin__",
+        "domain": "shared",
+        "from": "focus",
+        "reason": "requested mode is not allowed by any route in the domain"
+      }
+    ]
+  }
+}

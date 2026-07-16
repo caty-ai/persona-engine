@@ -1,0 +1,13 @@
+{
+  "id": "error-route-id-uppercase",
+  "description": "Reject an install route id containing uppercase letters.",
+  "input": {
+    "pack_dir": ".",
+    "install_file": "install.yml"
+  },
+  "expected": {
+    "status": "error",
+    "error": "E_ROUTE_ID_INVALID",
+    "message_includes": "must match [a-z0-9-]+"
+  }
+}

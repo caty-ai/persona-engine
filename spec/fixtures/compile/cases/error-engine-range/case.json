@@ -1,0 +1,6 @@
+{
+  "id": "error-engine-range",
+  "description": "Reject a pack whose declared engine range excludes the compiler engine version.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_SCHEMA_VERSION"}
+}

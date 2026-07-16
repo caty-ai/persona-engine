@@ -1,0 +1,25 @@
+{
+  "id": "missing-block",
+  "description": "A missing dummy mode block fails closed before state resolution.",
+  "operation": "turn",
+  "input": {
+    "ctx": { "platform": "dummy" },
+    "actor": "unknown"
+  },
+  "expected": {
+    "mode": "public",
+    "block": "",
+    "route_id": "dummy-route",
+    "state_domain": "shared",
+    "transitioned": false,
+    "audit": [
+      {
+        "ts": "1970-01-01T00:00:00.000Z",
+        "event": "build_invalid",
+        "route_id": "dummy-route",
+        "domain": "shared",
+        "reason": "block-unavailable"
+      }
+    ]
+  }
+}

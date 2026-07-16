@@ -1,0 +1,6 @@
+{
+  "id": "error-catalog-ref-traversal",
+  "description": "Reject a dummy catalog reference containing parent traversal.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_CATALOG_REF"}
+}

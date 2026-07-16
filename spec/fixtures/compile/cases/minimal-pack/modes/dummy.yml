@@ -1,0 +1,5 @@
+budget_tokens: 100
+sections:
+  - id: dummy
+    text: |
+      dummy section text

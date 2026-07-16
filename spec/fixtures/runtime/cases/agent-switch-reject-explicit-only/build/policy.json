@@ -1,0 +1,16 @@
+{
+  "routes": [
+    {
+      "id": "explicit-route",
+      "match": { "platform": "dummy" },
+      "allowed_modes": ["focus"],
+      "switching": "explicit",
+      "state_domain": "shared",
+      "owner_verified": true
+    }
+  ],
+  "domains": ["shared", "quarantine"],
+  "modes": ["public", "focus"],
+  "default_route": { "state_domain": "quarantine" },
+  "audit_dir": "audit/"
+}

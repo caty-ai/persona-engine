@@ -1,0 +1,7 @@
+sections:
+  - id: dummy
+    text: ordinary dummy text
+catalog_refs:
+  - id: escaped
+    path: catalogs/../manifest.yml
+    priority: 0

@@ -1,0 +1,6 @@
+{
+  "id": "yaml-extension-support",
+  "description": "Discover and compile a dummy mode whose source uses the .yaml extension.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "success", "modes": ["dummy"]}
+}

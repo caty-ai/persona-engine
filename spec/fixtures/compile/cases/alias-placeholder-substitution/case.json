@@ -1,0 +1,16 @@
+{
+  "id": "alias-placeholder-substitution",
+  "description": "Substitute and normalize multiple configured dummy placeholders in one alias before compiling triggers.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {
+    "status": "success",
+    "modes": ["dummy"],
+    "triggers": {
+      "normalization": 1,
+      "reserved_prefix": "/persona",
+      "aliases": {
+        "agent dummy primary mode": "dummy"
+      }
+    }
+  }
+}

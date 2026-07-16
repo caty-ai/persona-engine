@@ -1,0 +1,5 @@
+schema_version: 2
+pack: .
+placeholders:
+  present-key: present dummy value
+runtime: generic

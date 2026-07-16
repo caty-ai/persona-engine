@@ -1,0 +1,635 @@
+{
+  "generatedAt": "2026-07-12T10:18:21.617Z",
+  "openclaw": {
+    "version": "2026.4.5",
+    "binary": "<openclaw-install>/openclaw.mjs"
+  },
+  "isolation": {
+    "openclawHome": "<temp-root>/home",
+    "stateDir": "<temp-root>/home/.openclaw",
+    "configPath": "<temp-root>/home/.openclaw/openclaw.json",
+    "tempRoot": "<temp-root>"
+  },
+  "expected": {
+    "blockBytes": 100,
+    "blockSha256": "c52740327bff0d9a59179e6bbe4eb6472cd7220ea1399cd927973456feb7473f",
+    "emptySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "assertions": {
+    "sameTurnTransition": true,
+    "byteStable": true,
+    "publicZeroBytes": true,
+    "toolRouteGated": true,
+    "invalidKeysDefault": true,
+    "reservedRestDefault": true,
+    "secondTriggerFresh": true
+  },
+  "evidence": {
+    "modeTransitionAudit": {
+      "ts": "2026-07-12T10:17:12.166Z",
+      "event": "mode_transition",
+      "route_id": "voice-private",
+      "domain": "private",
+      "from": "public",
+      "to": "test-mode-a",
+      "set_by": "owner"
+    },
+    "modeTransitionAudits": [
+      {
+        "ts": "2026-07-12T10:17:12.166Z",
+        "event": "mode_transition",
+        "route_id": "voice-private",
+        "domain": "private",
+        "from": "public",
+        "to": "test-mode-a",
+        "set_by": "owner"
+      },
+      {
+        "ts": "2026-07-12T10:17:18.116Z",
+        "event": "mode_transition",
+        "route_id": "voice-private",
+        "domain": "private",
+        "from": "test-mode-a",
+        "to": "test-mode-b",
+        "set_by": "owner"
+      }
+    ],
+    "secondTriggerFresh": {
+      "passed": true,
+      "audit": {
+        "ts": "2026-07-12T10:17:18.116Z",
+        "event": "mode_transition",
+        "route_id": "voice-private",
+        "domain": "private",
+        "from": "test-mode-a",
+        "to": "test-mode-b",
+        "set_by": "owner"
+      },
+      "state": {
+        "v": 1,
+        "revision": 2,
+        "mode": "test-mode-b",
+        "set_by": "owner",
+        "set_at": "2026-07-12T10:17:18.125Z",
+        "route_id": "voice-private"
+      },
+      "status": {
+        "ts": "2026-07-12T10:17:18.115Z",
+        "route_id": "voice-private",
+        "mode": "test-mode-b",
+        "block_sha256": "c52740327bff0d9a59179e6bbe4eb6472cd7220ea1399cd927973456feb7473f",
+        "block_bytes": 100,
+        "engine": "ts@0.0.0",
+        "turn_key": "d16f75f1-ed9c-4595-b4df-70add664f94e"
+      }
+    },
+    "routeUnresolvedAudit": [
+      {
+        "ts": "2026-07-12T10:17:38.683Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "2026-07-12T10:17:46.803Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "2026-07-12T10:17:52.882Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "2026-07-12T10:17:58.937Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "2026-07-12T10:18:05.092Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "2026-07-12T10:18:13.270Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "2026-07-12T10:18:21.552Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      }
+    ],
+    "privateState": {
+      "v": 1,
+      "revision": 1,
+      "mode": "test-mode-a",
+      "set_by": "owner",
+      "set_at": "2026-07-12T10:17:12.171Z",
+      "route_id": "voice-private"
+    },
+    "statusSnapshots": [
+      {
+        "label": "explicit-trigger",
+        "ts": "2026-07-12T10:17:12.165Z",
+        "route_id": "voice-private",
+        "mode": "test-mode-a",
+        "block_sha256": "9f068d039573aaf3285f49ed2300e129347e963f93b111d8d8ba56b3e46749fd",
+        "block_bytes": 100,
+        "engine": "ts@0.0.0",
+        "turn_key": "d16f75f1-ed9c-4595-b4df-70add664f94e"
+      },
+      {
+        "label": "second-explicit-trigger",
+        "ts": "2026-07-12T10:17:18.115Z",
+        "route_id": "voice-private",
+        "mode": "test-mode-b",
+        "block_sha256": "c52740327bff0d9a59179e6bbe4eb6472cd7220ea1399cd927973456feb7473f",
+        "block_bytes": 100,
+        "engine": "ts@0.0.0",
+        "turn_key": "d16f75f1-ed9c-4595-b4df-70add664f94e"
+      },
+      {
+        "label": "stable-one",
+        "ts": "2026-07-12T10:17:24.097Z",
+        "route_id": "voice-private",
+        "mode": "test-mode-b",
+        "block_sha256": "c52740327bff0d9a59179e6bbe4eb6472cd7220ea1399cd927973456feb7473f",
+        "block_bytes": 100,
+        "engine": "ts@0.0.0",
+        "turn_key": "d16f75f1-ed9c-4595-b4df-70add664f94e"
+      },
+      {
+        "label": "stable-two",
+        "ts": "2026-07-12T10:17:30.356Z",
+        "route_id": "voice-private",
+        "mode": "test-mode-b",
+        "block_sha256": "c52740327bff0d9a59179e6bbe4eb6472cd7220ea1399cd927973456feb7473f",
+        "block_bytes": 100,
+        "engine": "ts@0.0.0",
+        "turn_key": "d16f75f1-ed9c-4595-b4df-70add664f94e"
+      },
+      {
+        "label": "public",
+        "ts": "2026-07-12T10:17:38.683Z",
+        "route_id": "__default__",
+        "mode": "public",
+        "block_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "block_bytes": 0,
+        "engine": "ts@0.0.0",
+        "turn_key": "9278af73-34d1-4ea8-8f7a-5352402b7961"
+      },
+      {
+        "label": "subagent",
+        "ts": "2026-07-12T10:17:46.803Z",
+        "route_id": "__default__",
+        "mode": "public",
+        "block_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "block_bytes": 0,
+        "engine": "ts@0.0.0",
+        "turn_key": "8dad57bf-a91d-4145-8145-d76f5c137348"
+      },
+      {
+        "label": "cron",
+        "ts": "2026-07-12T10:17:52.882Z",
+        "route_id": "__default__",
+        "mode": "public",
+        "block_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "block_bytes": 0,
+        "engine": "ts@0.0.0",
+        "turn_key": "aeafc1ae-f5bd-4cb5-b458-038d9539b587"
+      },
+      {
+        "label": "explicit",
+        "ts": "2026-07-12T10:17:58.937Z",
+        "route_id": "__default__",
+        "mode": "public",
+        "block_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "block_bytes": 0,
+        "engine": "ts@0.0.0",
+        "turn_key": "12b11267-188d-412d-b7b9-f6c04b351317"
+      },
+      {
+        "label": "reserved-subagent",
+        "ts": "2026-07-12T10:18:05.092Z",
+        "route_id": "__default__",
+        "mode": "public",
+        "block_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "block_bytes": 0,
+        "engine": "ts@0.0.0",
+        "turn_key": "d8493c1f-834c-4d00-bb42-5fe8ca14cd4f"
+      },
+      {
+        "label": "reserved-cron",
+        "ts": "2026-07-12T10:18:13.270Z",
+        "route_id": "__default__",
+        "mode": "public",
+        "block_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "block_bytes": 0,
+        "engine": "ts@0.0.0",
+        "turn_key": "5c6a1666-8df8-481d-aa84-f6e71517534e"
+      },
+      {
+        "label": "reserved-explicit",
+        "ts": "2026-07-12T10:18:21.552Z",
+        "route_id": "__default__",
+        "mode": "public",
+        "block_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "block_bytes": 0,
+        "engine": "ts@0.0.0",
+        "turn_key": "d4b78856-753f-4dfd-9fec-02c67d36027d"
+      }
+    ],
+    "providerRequests": [
+      {
+        "userPrompt": "/persona test-mode-a",
+        "toolNames": [
+          "read",
+          "edit",
+          "write",
+          "exec",
+          "process",
+          "canvas",
+          "nodes",
+          "cron",
+          "message",
+          "tts",
+          "gateway",
+          "agents_list",
+          "sessions_list",
+          "sessions_history",
+          "sessions_send",
+          "sessions_yield",
+          "sessions_spawn",
+          "subagents",
+          "session_status",
+          "web_search",
+          "web_fetch",
+          "persona_set",
+          "memory_search",
+          "memory_get"
+        ],
+        "personaBlockBytes": 0,
+        "personaBlockSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "userPrompt": "/persona test-mode-b",
+        "toolNames": [
+          "read",
+          "edit",
+          "write",
+          "exec",
+          "process",
+          "canvas",
+          "nodes",
+          "cron",
+          "message",
+          "tts",
+          "gateway",
+          "agents_list",
+          "sessions_list",
+          "sessions_history",
+          "sessions_send",
+          "sessions_yield",
+          "sessions_spawn",
+          "subagents",
+          "session_status",
+          "web_search",
+          "web_fetch",
+          "persona_set",
+          "memory_search",
+          "memory_get"
+        ],
+        "personaBlockBytes": 100,
+        "personaBlockSha256": "c52740327bff0d9a59179e6bbe4eb6472cd7220ea1399cd927973456feb7473f"
+      },
+      {
+        "userPrompt": "stable turn one",
+        "toolNames": [
+          "read",
+          "edit",
+          "write",
+          "exec",
+          "process",
+          "canvas",
+          "nodes",
+          "cron",
+          "message",
+          "tts",
+          "gateway",
+          "agents_list",
+          "sessions_list",
+          "sessions_history",
+          "sessions_send",
+          "sessions_yield",
+          "sessions_spawn",
+          "subagents",
+          "session_status",
+          "web_search",
+          "web_fetch",
+          "persona_set",
+          "memory_search",
+          "memory_get"
+        ],
+        "personaBlockBytes": 100,
+        "personaBlockSha256": "c52740327bff0d9a59179e6bbe4eb6472cd7220ea1399cd927973456feb7473f"
+      },
+      {
+        "userPrompt": "stable turn two",
+        "toolNames": [
+          "read",
+          "edit",
+          "write",
+          "exec",
+          "process",
+          "canvas",
+          "nodes",
+          "cron",
+          "message",
+          "tts",
+          "gateway",
+          "agents_list",
+          "sessions_list",
+          "sessions_history",
+          "sessions_send",
+          "sessions_yield",
+          "sessions_spawn",
+          "subagents",
+          "session_status",
+          "web_search",
+          "web_fetch",
+          "persona_set",
+          "memory_search",
+          "memory_get"
+        ],
+        "personaBlockBytes": 100,
+        "personaBlockSha256": "c52740327bff0d9a59179e6bbe4eb6472cd7220ea1399cd927973456feb7473f"
+      },
+      {
+        "userPrompt": "public route turn",
+        "toolNames": [
+          "read",
+          "edit",
+          "write",
+          "exec",
+          "process",
+          "canvas",
+          "nodes",
+          "cron",
+          "message",
+          "tts",
+          "gateway",
+          "agents_list",
+          "sessions_list",
+          "sessions_history",
+          "sessions_send",
+          "sessions_yield",
+          "sessions_spawn",
+          "subagents",
+          "session_status",
+          "web_search",
+          "web_fetch",
+          "memory_search",
+          "memory_get"
+        ],
+        "personaBlockBytes": 0,
+        "personaBlockSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "userPrompt": "invalid route subagent",
+        "toolNames": [
+          "read",
+          "edit",
+          "write",
+          "exec",
+          "process",
+          "canvas",
+          "nodes",
+          "message",
+          "tts",
+          "sessions_list",
+          "sessions_history",
+          "sessions_yield",
+          "sessions_spawn",
+          "subagents",
+          "web_search",
+          "web_fetch",
+          "memory_search",
+          "memory_get"
+        ],
+        "personaBlockBytes": 0,
+        "personaBlockSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "userPrompt": "invalid route cron",
+        "toolNames": [
+          "read",
+          "edit",
+          "write",
+          "exec",
+          "process",
+          "canvas",
+          "nodes",
+          "cron",
+          "message",
+          "tts",
+          "gateway",
+          "agents_list",
+          "sessions_list",
+          "sessions_history",
+          "sessions_send",
+          "sessions_yield",
+          "sessions_spawn",
+          "subagents",
+          "session_status",
+          "web_search",
+          "web_fetch",
+          "memory_search",
+          "memory_get"
+        ],
+        "personaBlockBytes": 0,
+        "personaBlockSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "userPrompt": "invalid route explicit",
+        "toolNames": [
+          "read",
+          "edit",
+          "write",
+          "exec",
+          "process",
+          "canvas",
+          "nodes",
+          "cron",
+          "message",
+          "tts",
+          "gateway",
+          "agents_list",
+          "sessions_list",
+          "sessions_history",
+          "sessions_send",
+          "sessions_yield",
+          "sessions_spawn",
+          "subagents",
+          "session_status",
+          "web_search",
+          "web_fetch",
+          "memory_search",
+          "memory_get"
+        ],
+        "personaBlockBytes": 0,
+        "personaBlockSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "userPrompt": "reserved rest subagent",
+        "toolNames": [
+          "read",
+          "edit",
+          "write",
+          "exec",
+          "process",
+          "canvas",
+          "nodes",
+          "message",
+          "tts",
+          "sessions_yield",
+          "web_search",
+          "web_fetch",
+          "memory_search",
+          "memory_get"
+        ],
+        "personaBlockBytes": 0,
+        "personaBlockSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "userPrompt": "reserved rest cron",
+        "toolNames": [
+          "read",
+          "edit",
+          "write",
+          "exec",
+          "process",
+          "canvas",
+          "nodes",
+          "cron",
+          "message",
+          "tts",
+          "gateway",
+          "agents_list",
+          "sessions_list",
+          "sessions_history",
+          "sessions_send",
+          "sessions_yield",
+          "sessions_spawn",
+          "subagents",
+          "session_status",
+          "web_search",
+          "web_fetch",
+          "memory_search",
+          "memory_get"
+        ],
+        "personaBlockBytes": 0,
+        "personaBlockSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "userPrompt": "reserved rest explicit",
+        "toolNames": [
+          "read",
+          "edit",
+          "write",
+          "exec",
+          "process",
+          "canvas",
+          "nodes",
+          "cron",
+          "message",
+          "tts",
+          "gateway",
+          "agents_list",
+          "sessions_list",
+          "sessions_history",
+          "sessions_send",
+          "sessions_yield",
+          "sessions_spawn",
+          "subagents",
+          "session_status",
+          "web_search",
+          "web_fetch",
+          "memory_search",
+          "memory_get"
+        ],
+        "personaBlockBytes": 0,
+        "personaBlockSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "auditJsonl": [
+      {
+        "ts": "2026-07-12T10:17:12.166Z",
+        "event": "mode_transition",
+        "route_id": "voice-private",
+        "domain": "private",
+        "from": "public",
+        "to": "test-mode-a",
+        "set_by": "owner"
+      },
+      {
+        "ts": "2026-07-12T10:17:18.116Z",
+        "event": "mode_transition",
+        "route_id": "voice-private",
+        "domain": "private",
+        "from": "test-mode-a",
+        "to": "test-mode-b",
+        "set_by": "owner"
+      },
+      {
+        "ts": "2026-07-12T10:17:38.683Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "2026-07-12T10:17:46.803Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "2026-07-12T10:17:52.882Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "2026-07-12T10:17:58.937Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "2026-07-12T10:18:05.092Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "2026-07-12T10:18:13.270Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "2026-07-12T10:18:21.552Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      }
+    ]
+  }
+}

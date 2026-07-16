@@ -1,0 +1,19 @@
+{
+  "id": "alias-normalization",
+  "description": "Normalize dummy aliases with NFKC, whitespace collapse, and ASCII-only lowercase into trigger entries.",
+  "input": {
+    "pack_dir": "."
+  },
+  "expected": {
+    "status": "success",
+    "modes": ["dummy"],
+    "triggers": {
+      "normalization": 1,
+      "reserved_prefix": "/persona",
+      "aliases": {
+        "switch dummy": "dummy",
+        "ダミー mode": "dummy"
+      }
+    }
+  }
+}

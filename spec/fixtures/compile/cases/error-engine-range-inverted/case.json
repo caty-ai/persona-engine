@@ -1,0 +1,6 @@
+{
+  "id": "error-engine-range-inverted",
+  "description": "Reject a pack whose declared engine range is inverted.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_SCHEMA_VERSION"}
+}

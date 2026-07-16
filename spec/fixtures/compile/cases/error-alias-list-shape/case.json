@@ -1,0 +1,6 @@
+{
+  "id": "error-alias-list-shape",
+  "description": "Classify a malformed per-mode alias list as a parse error.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_PARSE"}
+}

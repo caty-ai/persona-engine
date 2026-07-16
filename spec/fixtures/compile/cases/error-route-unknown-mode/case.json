@@ -1,0 +1,6 @@
+{
+  "id": "error-route-unknown-mode",
+  "description": "Reject a dummy route whose allowed_modes references an undefined mode.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_ROUTE_UNKNOWN_MODE"}
+}

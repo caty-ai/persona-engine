@@ -1,0 +1,15 @@
+{
+  "routes": [
+    {
+      "id": "dummy-route",
+      "match": { "platform": "dummy" },
+      "allowed_modes": ["public"],
+      "switching": "deny",
+      "state_domain": "shared"
+    }
+  ],
+  "domains": ["shared", "quarantine"],
+  "modes": ["public"],
+  "default_route": { "state_domain": "quarantine" },
+  "audit_dir": "audit/"
+}

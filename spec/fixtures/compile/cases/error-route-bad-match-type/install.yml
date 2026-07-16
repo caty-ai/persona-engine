@@ -1,0 +1,9 @@
+schema_version: 2
+pack: .
+runtime: hermes
+routes:
+  - id: bad-type
+    match: {platform: 42}
+    allowed_modes: [public]
+    switching: deny
+    state_domain: dummy

@@ -1,0 +1,6 @@
+schema_version: 2
+pack: .
+placeholders:
+  agent-name: "Agent DUMMY"
+  agent-role: "Primary"
+runtime: generic

@@ -1,0 +1,28 @@
+{
+  "id": "normalized-alias-owner-switch",
+  "description": "NFKC, whitespace collapse, and ASCII lowercase make a dummy owner alias match exactly.",
+  "operation": "turn",
+  "input": {
+    "ctx": { "platform": "dummy" },
+    "actor": "owner",
+    "utterance": "  ＳＷＩＴＣＨ　ＴＯ\tＰＵＢＬＩＣ  "
+  },
+  "expected": {
+    "mode": "public",
+    "block": "",
+    "route_id": "owner-route",
+    "state_domain": "shared",
+    "transitioned": true,
+    "audit": [
+      {
+        "ts": "1970-01-01T00:00:00.000Z",
+        "event": "mode_transition",
+        "route_id": "owner-route",
+        "domain": "shared",
+        "from": "focus",
+        "to": "public",
+        "set_by": "owner"
+      }
+    ]
+  }
+}

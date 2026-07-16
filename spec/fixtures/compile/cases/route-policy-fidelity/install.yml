@@ -1,0 +1,16 @@
+schema_version: 2
+pack: .
+runtime: hermes
+routes:
+  - id: dummy-owner-route
+    match:
+      platform: dummy-platform
+      session_key: {prefix: "dummy-"}
+    allowed_modes: [public, dummy]
+    switching: explicit-and-agent
+    owner_verified: true
+    state_domain: dummy-private
+default_route:
+  state_domain: dummy-quarantine
+audit:
+  dir: dummy-audit/

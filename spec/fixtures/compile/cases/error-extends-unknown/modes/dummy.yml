@@ -1,0 +1,4 @@
+extends: absent-parent
+sections:
+  - id: dummy
+    text: child dummy text

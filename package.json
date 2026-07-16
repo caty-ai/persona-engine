@@ -1,0 +1,26 @@
+{
+  "name": "persona-engine",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "adapters/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/caty-ai/persona-engine"
+  },
+  "license": "MIT",
+  "scripts": {
+    "typecheck": "tsc --project packages/core/tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

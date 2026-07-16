@@ -1,0 +1,6 @@
+{
+  "id": "error-section-conflict",
+  "description": "Reject a child section that combines remove with dummy replacement text.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_SECTION_CONFLICT"}
+}

@@ -1,0 +1,25 @@
+{
+  "id": "route-policy-fidelity",
+  "description": "Preserve every field of a non-trivial dummy route in policy output.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {
+    "status": "success",
+    "modes": ["dummy"],
+    "policy": {
+      "routes": [
+        {
+          "id": "dummy-owner-route",
+          "match": {"platform": "dummy-platform", "session_key": {"prefix": "dummy-"}},
+          "allowed_modes": ["public", "dummy"],
+          "switching": "explicit-and-agent",
+          "owner_verified": true,
+          "state_domain": "dummy-private"
+        }
+      ],
+      "domains": ["dummy-private", "dummy-quarantine"],
+      "modes": ["public", "dummy"],
+      "default_route": {"state_domain": "dummy-quarantine"},
+      "audit_dir": "dummy-audit/"
+    }
+  }
+}

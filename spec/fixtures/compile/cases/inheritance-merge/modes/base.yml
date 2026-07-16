@@ -1,0 +1,18 @@
+voice_hint: base-dummy
+metadata:
+  nested:
+    left: base dummy value
+sections:
+  - id: base-one
+    text: base dummy text
+  - id: replace-me
+    text: original dummy text
+  - id: remove-me
+    text: removable dummy text
+catalog_refs:
+  - id: cat-base
+    path: catalogs/z.txt
+    priority: 20
+  - id: cat-replace
+    path: catalogs/b.txt
+    priority: 30

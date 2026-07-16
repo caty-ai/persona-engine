@@ -1,0 +1,7 @@
+{
+  "routes": [],
+  "domains": ["quarantine"],
+  "modes": ["public"],
+  "default_route": { "state_domain": "quarantine" },
+  "audit_dir": "audit/"
+}

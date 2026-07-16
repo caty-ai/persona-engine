@@ -1,0 +1,5 @@
+schema_version: 2
+pack: .
+placeholders:
+  empty-alias: ""
+runtime: generic

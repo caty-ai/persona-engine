@@ -1,0 +1,3 @@
+sections:
+  - id: dummy
+    text: "{{some_key}}"

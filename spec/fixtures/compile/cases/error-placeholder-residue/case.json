@@ -1,0 +1,6 @@
+{
+  "id": "error-placeholder-residue",
+  "description": "Reject unresolved template syntax introduced by a placeholder value.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_PLACEHOLDER_UNRESOLVED"}
+}

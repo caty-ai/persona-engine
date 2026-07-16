@@ -1,0 +1,6 @@
+schema_version: 2
+pack_version: "0.0.0"
+name: fixture-pack
+engine:
+  min: "2.0.0"
+  max: "1.0.0"

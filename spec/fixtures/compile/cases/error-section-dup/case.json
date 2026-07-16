@@ -1,0 +1,6 @@
+{
+  "id": "error-section-dup",
+  "description": "Reject duplicate dummy section ids in one mode file.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_SECTION_DUP"}
+}

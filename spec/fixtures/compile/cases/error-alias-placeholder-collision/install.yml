@@ -1,0 +1,6 @@
+schema_version: 2
+pack: .
+placeholders:
+  first-alias: "Switch　Dummy"
+  second-alias: " switch dummy "
+runtime: generic

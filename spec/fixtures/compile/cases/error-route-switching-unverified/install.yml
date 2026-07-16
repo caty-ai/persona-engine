@@ -1,0 +1,10 @@
+schema_version: 2
+pack: .
+runtime: hermes
+routes:
+  - id: unverified-switching
+    match: {platform: dummy-platform}
+    allowed_modes: [public, dummy]
+    switching: explicit
+    owner_verified: false
+    state_domain: dummy

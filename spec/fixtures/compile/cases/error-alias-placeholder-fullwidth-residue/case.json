@@ -1,0 +1,13 @@
+{
+  "id": "error-alias-placeholder-fullwidth-residue",
+  "description": "Reject fullwidth unresolved placeholder syntax after alias normalization.",
+  "input": {"pack_dir": "."},
+  "expected": {
+    "status": "error",
+    "error": "E_PLACEHOLDER_UNRESOLVED",
+    "message_includes": [
+      "Alias '",
+      "still contains unresolved placeholder syntax"
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+extends: base
+sections:
+  - id: dummy
+    remove: true
+    text: conflicting dummy text

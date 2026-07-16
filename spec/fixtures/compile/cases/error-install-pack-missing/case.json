@@ -1,0 +1,6 @@
+{
+  "id": "error-install-pack-missing",
+  "description": "Reject an install configuration that omits the required pack field.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_SCHEMA_VERSION"}
+}

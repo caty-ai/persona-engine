@@ -1,0 +1,46 @@
+#!/usr/bin/env node
+
+import { spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
+import { register } from "node:module";
+import { fileURLToPath } from "node:url";
+
+const stripFlag = "--experimental-strip-types";
+const distEntry = new URL("../dist/cli/index.js", import.meta.url);
+const sourceEntry = new URL("../src/cli/index.ts", import.meta.url);
+
+// Prefer the compiled distribution. Source checkouts fall back to Node 22 type
+// stripping and a resolver for the repository's `.js` source specifiers.
+if (existsSync(fileURLToPath(distEntry))) {
+  const { runCli } = await import(distEntry.href);
+  await runCli();
+} else if (!existsSync(fileURLToPath(sourceEntry))) {
+  process.stderr.write("persona: neither compiled dist/ nor TypeScript source is present; reinstall the package\n");
+  process.exit(3);
+} else if (!process.execArgv.includes(stripFlag)) {
+  const child = spawnSync(
+    process.execPath,
+    [stripFlag, "--no-warnings", import.meta.filename, ...process.argv.slice(2)],
+    { stdio: "inherit" },
+  );
+  process.exit(child.status ?? 3);
+} else {
+  register(
+    `data:text/javascript,${encodeURIComponent(`
+    export async function resolve(specifier, context, nextResolve) {
+      try {
+        return await nextResolve(specifier, context);
+      } catch (error) {
+        if (specifier.endsWith('.js')) {
+          return nextResolve(specifier.slice(0, -3) + '.ts', context);
+        }
+        throw error;
+      }
+    }
+    `)}`,
+    import.meta.url,
+  );
+
+  const { runCli } = await import("../src/cli/index.ts");
+  await runCli();
+}

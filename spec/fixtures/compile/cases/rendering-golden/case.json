@@ -1,0 +1,21 @@
+{
+  "id": "rendering-golden",
+  "description": "Compile deterministic dummy text and assert the complete canonical block and byte hashes.",
+  "input": {
+    "pack_dir": "."
+  },
+  "expected": {
+    "status": "success",
+    "modes": ["dummy"],
+    "blocks": {
+      "dummy": "<persona-mode id=\"dummy\" pack=\"golden-pack@1.2.3\">\nfirst dummy line\nsecond dummy line\n\nfinal dummy line\n</persona-mode>"
+    },
+    "content_hash": "b65d0256b1f42751919d6a595e969df06d8e9fd30f1c7ef60911b532cd03ec50",
+    "mode_hashes": {
+      "dummy": "0389adb655632af3220deef669bf7ff47768ef6432403d259d1d86d7b7c15de0"
+    },
+    "mode_bytes": {
+      "dummy": 119
+    }
+  }
+}

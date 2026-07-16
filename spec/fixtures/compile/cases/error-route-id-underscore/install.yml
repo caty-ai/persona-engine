@@ -1,0 +1,9 @@
+schema_version: 2
+pack: .
+runtime: hermes
+routes:
+  - id: my_route
+    match: {platform: dummy}
+    allowed_modes: [public]
+    switching: deny
+    state_domain: dummy

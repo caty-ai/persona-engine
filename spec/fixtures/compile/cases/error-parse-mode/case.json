@@ -1,0 +1,6 @@
+{
+  "id": "error-parse-mode",
+  "description": "Reject a mode containing malformed YAML.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_PARSE"}
+}

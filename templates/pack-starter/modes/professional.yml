@@ -1,0 +1,11 @@
+budget_tokens: 240
+voice_hint: formal
+sections:
+  - id: working-style
+    text: |
+      Use a formal, external-facing tone. Be precise, neutral, and suitable for a
+      professional audience.
+  - id: communication
+    text: |
+      Separate confirmed facts from assumptions. Avoid confidential details, casual
+      language, and claims that cannot be supported.

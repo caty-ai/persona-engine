@@ -1,0 +1,9 @@
+aliases:
+  focus:
+    - "switch to focus"
+  casual:
+    - "switch to casual"
+  professional:
+    - "switch to professional"
+  roleplay-template:
+    - "switch to {{agent-name}} template"

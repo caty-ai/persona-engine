@@ -1,0 +1,27 @@
+{
+  "id": "admin-domain-union-accept",
+  "description": "An admin sets a dummy mode allowed by one sibling route from implicit revision zero.",
+  "operation": "set",
+  "input": {
+    "actor": "admin",
+    "ctx": null,
+    "requested_mode": "quiet",
+    "domain": "shared"
+  },
+  "expected": {
+    "ok": true,
+    "mode": "quiet",
+    "transitioned": true,
+    "audit": [
+      {
+        "ts": "1970-01-01T00:00:00.000Z",
+        "event": "mode_transition",
+        "route_id": "__admin__",
+        "domain": "shared",
+        "from": "public",
+        "to": "quiet",
+        "set_by": "admin"
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "id": "error-route-switching-unverified",
+  "description": "Reject a switchable dummy route without an explicit owner-verified declaration.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_ROUTE_SWITCHING_UNVERIFIED"}
+}

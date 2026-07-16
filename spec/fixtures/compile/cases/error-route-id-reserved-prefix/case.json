@@ -1,0 +1,13 @@
+{
+  "id": "error-route-id-reserved-prefix",
+  "description": "Reject a future engine-internal reserved namespace route id.",
+  "input": {
+    "pack_dir": ".",
+    "install_file": "install.yml"
+  },
+  "expected": {
+    "status": "error",
+    "error": "E_ROUTE_ID_INVALID",
+    "message_includes": "uses the reserved '__' namespace"
+  }
+}

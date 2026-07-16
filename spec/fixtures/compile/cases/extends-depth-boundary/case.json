@@ -1,0 +1,9 @@
+{
+  "id": "extends-depth-boundary",
+  "description": "Accept a dummy inheritance chain at the maximum depth of eight edges.",
+  "input": {"pack_dir": "."},
+  "expected": {
+    "status": "success",
+    "modes": ["level0", "level1", "level2", "level3", "level4", "level5", "level6", "level7", "level8"]
+  }
+}

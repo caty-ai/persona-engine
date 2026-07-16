@@ -1,0 +1,31 @@
+{
+  "id": "incompatible-manifest",
+  "description": "An incompatible dummy build manifest fails closed with no injection.",
+  "operation": "turn",
+  "input": {
+    "ctx": {},
+    "actor": "unknown"
+  },
+  "expected": {
+    "mode": "public",
+    "block": "",
+    "route_id": "__default__",
+    "state_domain": "quarantine",
+    "transitioned": false,
+    "audit": [
+      {
+        "ts": "1970-01-01T00:00:00.000Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      },
+      {
+        "ts": "1970-01-01T00:00:00.000Z",
+        "event": "build_invalid",
+        "route_id": "__default__",
+        "domain": "quarantine",
+        "reason": "manifest-incompatible"
+      }
+    ]
+  }
+}

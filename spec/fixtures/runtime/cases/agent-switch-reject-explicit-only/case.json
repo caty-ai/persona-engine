@@ -1,0 +1,29 @@
+{
+  "id": "agent-switch-reject-explicit-only",
+  "description": "An agent is rejected on a dummy route that permits owner-explicit switching only.",
+  "operation": "set",
+  "input": {
+    "actor": "agent",
+    "ctx": { "platform": "dummy" },
+    "requested_mode": "focus"
+  },
+  "expected": {
+    "ok": false,
+    "mode": "public",
+    "transitioned": false,
+    "rejected": {
+      "requested_mode": "focus",
+      "reason": "resolved route does not allow agent switching"
+    },
+    "audit": [
+      {
+        "ts": "1970-01-01T00:00:00.000Z",
+        "event": "switch_rejected",
+        "route_id": "explicit-route",
+        "domain": "shared",
+        "from": "public",
+        "reason": "resolved route does not allow agent switching"
+      }
+    ]
+  }
+}

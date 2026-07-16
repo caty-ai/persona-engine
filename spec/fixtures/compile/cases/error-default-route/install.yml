@@ -1,0 +1,6 @@
+schema_version: 2
+pack: .
+runtime: hermes
+default_route:
+  state_domain: quarantine
+  allowed_modes: [public, dummy]

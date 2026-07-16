@@ -1,0 +1,26 @@
+{
+  "id": "agent-switch-accept",
+  "description": "An agent switches on an owner-verified explicit-and-agent dummy route.",
+  "operation": "set",
+  "input": {
+    "actor": "agent",
+    "ctx": { "platform": "dummy" },
+    "requested_mode": "focus"
+  },
+  "expected": {
+    "ok": true,
+    "mode": "focus",
+    "transitioned": true,
+    "audit": [
+      {
+        "ts": "1970-01-01T00:00:00.000Z",
+        "event": "mode_transition",
+        "route_id": "agent-route",
+        "domain": "shared",
+        "from": "public",
+        "to": "focus",
+        "set_by": "agent"
+      }
+    ]
+  }
+}

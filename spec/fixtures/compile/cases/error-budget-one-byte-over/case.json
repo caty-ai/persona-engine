@@ -1,0 +1,12 @@
+{
+  "id": "error-budget-one-byte-over",
+  "description": "Reject a 91-byte dummy block that is one byte over the 30-token boundary.",
+  "input": {
+    "pack_dir": ".",
+    "install_file": "install.yml"
+  },
+  "expected": {
+    "status": "error",
+    "error": "E_BUDGET_EXCEEDED"
+  }
+}

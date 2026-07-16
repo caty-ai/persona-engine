@@ -1,0 +1,6 @@
+{
+  "id": "error-extends-cycle",
+  "description": "Reject a dummy two-mode inheritance cycle.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_EXTENDS_CYCLE"}
+}

@@ -1,0 +1,11 @@
+{
+  "id": "error-alias-empty-literal",
+  "description": "Reject a literal empty-string dummy alias before placeholder substitution.",
+  "input": {"pack_dir": "."},
+  "expected": {
+    "status": "error",
+    "error": "E_PARSE",
+    "error_count": 1,
+    "message_includes": "must be non-empty after placeholder substitution and normalization"
+  }
+}

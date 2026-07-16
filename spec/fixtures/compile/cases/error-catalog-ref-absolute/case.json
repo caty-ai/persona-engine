@@ -1,0 +1,6 @@
+{
+  "id": "error-catalog-ref-absolute",
+  "description": "Reject an absolute dummy catalog reference before filesystem lookup.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_CATALOG_REF"}
+}

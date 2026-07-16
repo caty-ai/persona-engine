@@ -1,0 +1,6 @@
+{
+  "id": "error-schema-version",
+  "description": "Reject a dummy pack with an unsupported future schema version.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_SCHEMA_VERSION"}
+}

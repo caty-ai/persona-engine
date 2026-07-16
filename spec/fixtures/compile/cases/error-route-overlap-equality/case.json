@@ -1,0 +1,6 @@
+{
+  "id": "error-route-overlap-equality",
+  "description": "Reject dummy routes whose equality constraints use the same value.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_ROUTE_OVERLAP"}
+}

@@ -1,0 +1,18 @@
+extends: base
+metadata:
+  nested:
+    middle: mid dummy value
+sections:
+  - id: replace-me
+    text: replacement dummy text
+  - id: new-mid
+    text: mid dummy text
+  - id: remove-me
+    remove: true
+catalog_refs:
+  - id: cat-replace
+    path: catalogs/a.txt
+    priority: 5
+  - id: cat-mid
+    path: catalogs/c.txt
+    priority: 5

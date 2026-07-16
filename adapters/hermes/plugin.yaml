@@ -1,0 +1,8 @@
+name: persona-engine
+version: 0.0.0
+description: "persona-engine v2 adapter — per-turn persona block injection with route policy"
+author: caty
+kind: standalone
+platforms: [linux, macos]
+provides_tools: [persona_set]
+hooks: [pre_tool_call]

@@ -1,0 +1,18 @@
+schema_version: 2
+pack: .
+placeholders:
+  agent-name: "Sample Agent"
+  owner-name: "Pack Owner"
+budget_tokens: 400
+runtime: hermes
+routes:
+  - id: local-workspace
+    match: { platform: slack, session_key: { prefix: "owner-" } }
+    allowed_modes: [public, focus, casual, professional, roleplay-template]
+    switching: explicit-and-agent
+    owner_verified: true
+    state_domain: workspace
+default_route:
+  state_domain: quarantine
+audit:
+  dir: audit/

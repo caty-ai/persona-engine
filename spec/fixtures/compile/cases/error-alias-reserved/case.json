@@ -1,0 +1,6 @@
+{
+  "id": "error-alias-reserved",
+  "description": "Reject a dummy alias that begins with the reserved persona command prefix.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_ALIAS_RESERVED"}
+}

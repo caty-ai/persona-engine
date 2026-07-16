@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build core package
+        run: npm run build --workspace @persona-engine/core
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+  hermes-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Use Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pytest
+        run: python -m pip install pytest
+
+      - name: Test Hermes adapter
+        run: python -m pytest adapters/hermes/tests -v
+
+  claude-code-adapter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Use Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build core package
+        run: npm run build --workspace @persona-engine/core
+
+      - name: Install pytest
+        run: python -m pip install pytest
+
+      - name: Test Claude Code adapter
+        run: python -m pytest adapters/claude-code/tests -v
+
+  openclaw-adapter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build core package
+        run: npm run build --workspace @persona-engine/core
+
+      - name: Build OpenClaw adapter
+        run: npm run build --workspace @persona-engine/openclaw-adapter
+
+      - name: Test OpenClaw adapter
+        run: npm run test --workspace @persona-engine/openclaw-adapter

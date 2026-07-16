@@ -1,0 +1,3 @@
+aliases:
+  dummy:
+    - "  {{agent-name}}　{{agent-role}} MODE  "

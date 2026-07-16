@@ -1,0 +1,6 @@
+{
+  "id": "error-placeholder-unresolved",
+  "description": "Reject dummy block text containing a placeholder absent from install configuration.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_PLACEHOLDER_UNRESOLVED", "error_count": 1}
+}

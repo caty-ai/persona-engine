@@ -1,0 +1,6 @@
+{
+  "id": "error-parse-aliases",
+  "description": "Reject an aliases file containing malformed YAML.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_PARSE"}
+}

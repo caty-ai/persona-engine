@@ -1,0 +1,33 @@
+{
+  "id": "minimal-pack",
+  "description": "Compile one dummy mode from a minimal pack.",
+  "input": {
+    "pack_dir": "."
+  },
+  "expected": {
+    "status": "success",
+    "manifest": {
+      "required_fields": [
+        "schema_version",
+        "pack_name",
+        "pack_version",
+        "engine_version",
+        "built_at",
+        "content_hash",
+        "counter",
+        "modes"
+      ],
+      "counter": "pe-count-v1"
+    },
+    "modes": [
+      "dummy"
+    ],
+    "policy": {
+      "routes": [],
+      "domains": ["quarantine"],
+      "modes": ["public", "dummy"],
+      "default_route": {"state_domain": "quarantine"},
+      "audit_dir": "audit/"
+    }
+  }
+}

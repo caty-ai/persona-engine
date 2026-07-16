@@ -1,0 +1,6 @@
+{
+  "id": "error-route-bad-domain",
+  "description": "Reject a dummy route state domain outside the lowercase filesystem-safe grammar.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_ROUTE_BAD_DOMAIN"}
+}

@@ -1,0 +1,4 @@
+schema_version: 2
+pack: .
+budget_tokens: 30
+runtime: generic

@@ -1,0 +1,6 @@
+{
+  "id": "error-section-unknown",
+  "description": "Reject removal of a dummy section id absent from the parent.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_SECTION_UNKNOWN"}
+}

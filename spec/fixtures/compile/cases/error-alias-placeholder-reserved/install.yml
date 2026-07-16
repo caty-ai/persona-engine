@@ -1,0 +1,5 @@
+schema_version: 2
+pack: .
+placeholders:
+  reserved-command: /PERSONA
+runtime: generic

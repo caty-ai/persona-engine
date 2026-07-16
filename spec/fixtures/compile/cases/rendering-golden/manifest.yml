@@ -1,0 +1,7 @@
+schema_version: 2
+pack_version: "1.2.3"
+name: golden-pack
+engine:
+  min: "0.1.0"
+  max: null
+default_budget_tokens: 600

@@ -1,0 +1,7 @@
+sections:
+  - id: first
+    text: |
+      first dummy line
+      second dummy line
+  - id: final
+    text: final dummy line

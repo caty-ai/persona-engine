@@ -1,0 +1,4 @@
+extends: base
+sections:
+  - id: absent
+    remove: true

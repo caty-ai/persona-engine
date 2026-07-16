@@ -1,0 +1,22 @@
+{
+  "routes": [
+    {
+      "id": "route-alpha",
+      "match": { "platform": "alpha" },
+      "allowed_modes": ["focus"],
+      "switching": "deny",
+      "state_domain": "shared"
+    },
+    {
+      "id": "route-beta",
+      "match": { "platform": "beta" },
+      "allowed_modes": ["quiet"],
+      "switching": "deny",
+      "state_domain": "shared"
+    }
+  ],
+  "domains": ["shared", "quarantine"],
+  "modes": ["public", "focus", "quiet", "sealed"],
+  "default_route": { "state_domain": "quarantine" },
+  "audit_dir": "audit/"
+}

@@ -1,0 +1,6 @@
+{
+  "id": "error-alias-collision-cross",
+  "description": "Reject normalized dummy aliases shared by two distinct modes.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_ALIAS_COLLISION"}
+}

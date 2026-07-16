@@ -1,0 +1,6 @@
+{
+  "id": "error-parse-manifest",
+  "description": "Reject a manifest containing malformed YAML.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_PARSE"}
+}

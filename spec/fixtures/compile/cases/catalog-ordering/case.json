@@ -1,0 +1,14 @@
+{
+  "id": "catalog-ordering",
+  "description": "Place dummy catalog files after ordinary sections in priority-then-path order.",
+  "input": {
+    "pack_dir": "."
+  },
+  "expected": {
+    "status": "success",
+    "modes": ["dummy"],
+    "blocks": {
+      "dummy": "<persona-mode id=\"dummy\" pack=\"fixture-pack@0.0.0\">\nordinary dummy text\n\npriority zero a dummy\n\npriority zero b dummy\n\npriority ten dummy\n</persona-mode>"
+    }
+  }
+}

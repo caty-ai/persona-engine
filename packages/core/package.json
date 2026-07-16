@@ -1,0 +1,49 @@
+{
+  "name": "@persona-engine/core",
+  "version": "0.1.0",
+  "description": "Persona mode-switching engine with build-time compiled packs and fail-closed route policy.",
+  "keywords": [
+    "persona",
+    "mode-switching",
+    "policy",
+    "cli"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/caty-ai/persona-engine.git"
+  },
+  "homepage": "https://github.com/caty-ai/persona-engine",
+  "bugs": {
+    "url": "https://github.com/caty-ai/persona-engine/issues"
+  },
+  "type": "module",
+  "bin": {
+    "persona": "bin/persona"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "bin",
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "yaml": "^2.8.0"
+  }
+}

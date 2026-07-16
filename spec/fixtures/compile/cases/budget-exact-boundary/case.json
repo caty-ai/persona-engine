@@ -1,0 +1,14 @@
+{
+  "id": "budget-exact-boundary",
+  "description": "Accept a 90-byte dummy block exactly at the 30-token pe-count-v1 budget boundary.",
+  "input": {
+    "pack_dir": ".",
+    "install_file": "install.yml"
+  },
+  "expected": {
+    "status": "success",
+    "modes": ["dummy"],
+    "mode_bytes": {"dummy": 90},
+    "mode_tokens": {"dummy": 30}
+  }
+}

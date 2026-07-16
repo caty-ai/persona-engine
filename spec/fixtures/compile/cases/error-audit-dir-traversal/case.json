@@ -1,0 +1,6 @@
+{
+  "id": "error-audit-dir-traversal",
+  "description": "Reject a dummy audit directory containing parent traversal.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_AUDIT_DIR"}
+}

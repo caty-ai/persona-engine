@@ -1,0 +1,13 @@
+{
+  "id": "placeholder-substitution",
+  "description": "Substitute a configured dummy placeholder verbatim into a rendered block.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {
+    "status": "success",
+    "manifest": {"counter": "pe-count-v1"},
+    "modes": ["dummy"],
+    "blocks": {
+      "dummy": "<persona-mode id=\"dummy\" pack=\"fixture-pack@0.0.0\">\nsome dummy value\n</persona-mode>"
+    }
+  }
+}

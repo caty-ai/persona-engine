@@ -1,0 +1,6 @@
+{
+  "id": "error-alias-collision-within",
+  "description": "Reject duplicate normalized dummy aliases within one mode.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_ALIAS_COLLISION"}
+}

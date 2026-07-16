@@ -1,0 +1,6 @@
+{
+  "id": "error-audit-dir-absolute",
+  "description": "Reject an absolute dummy audit directory before filesystem resolution.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_AUDIT_DIR"}
+}

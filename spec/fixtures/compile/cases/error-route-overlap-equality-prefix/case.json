@@ -1,0 +1,6 @@
+{
+  "id": "error-route-overlap-equality-prefix",
+  "description": "Reject dummy routes where a prefix is a leading substring of an equality value.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_ROUTE_OVERLAP"}
+}

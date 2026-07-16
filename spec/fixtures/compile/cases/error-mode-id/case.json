@@ -1,0 +1,6 @@
+{
+  "id": "error-mode-id",
+  "description": "Reject a mode filename whose stem is outside the lowercase mode-id grammar.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_MODE_ID"}
+}

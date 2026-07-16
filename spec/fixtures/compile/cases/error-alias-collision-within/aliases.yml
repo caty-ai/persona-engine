@@ -1,0 +1,4 @@
+aliases:
+  dummy:
+    - "switch dummy"
+    - "  SWITCH\tdummy  "

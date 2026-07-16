@@ -1,0 +1,6 @@
+{
+  "id": "error-extends-depth",
+  "description": "Reject a dummy inheritance chain whose depth exceeds eight.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_EXTENDS_DEPTH"}
+}

@@ -1,0 +1,26 @@
+{
+  "id": "resolve-downgrade-shared-domain",
+  "description": "A dummy mode left by a sibling route is downgraded at resolution without rewriting shared state.",
+  "operation": "turn",
+  "input": {
+    "ctx": { "platform": "alpha" },
+    "actor": "unknown"
+  },
+  "expected": {
+    "mode": "public",
+    "block": "",
+    "route_id": "route-alpha",
+    "state_domain": "shared",
+    "transitioned": false,
+    "audit": [
+      {
+        "ts": "1970-01-01T00:00:00.000Z",
+        "event": "resolve_downgrade",
+        "route_id": "route-alpha",
+        "domain": "shared",
+        "from": "sealed",
+        "to": "public"
+      }
+    ]
+  }
+}

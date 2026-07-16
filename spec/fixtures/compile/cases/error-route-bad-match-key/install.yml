@@ -1,0 +1,9 @@
+schema_version: 2
+pack: .
+runtime: hermes
+routes:
+  - id: bad-key
+    match: {unknown_dummy_key: dummy-value}
+    allowed_modes: [public]
+    switching: deny
+    state_domain: dummy

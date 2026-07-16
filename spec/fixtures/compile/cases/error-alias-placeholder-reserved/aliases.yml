@@ -1,0 +1,3 @@
+aliases:
+  dummy:
+    - "{{reserved-command}} dummy"

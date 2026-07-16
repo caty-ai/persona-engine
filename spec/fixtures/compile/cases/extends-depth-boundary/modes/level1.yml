@@ -1,0 +1,4 @@
+extends: level0
+sections:
+  - id: level1
+    text: level one dummy text

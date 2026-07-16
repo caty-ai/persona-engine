@@ -1,0 +1,25 @@
+{
+  "id": "minimal-turn",
+  "description": "Resolve the default route and implicit public state without a state file.",
+  "operation": "turn",
+  "input": {
+    "ctx": {},
+    "actor": "unknown",
+    "utterance": "dummy utterance"
+  },
+  "expected": {
+    "mode": "public",
+    "block": "",
+    "route_id": "__default__",
+    "state_domain": "quarantine",
+    "transitioned": false,
+    "audit": [
+      {
+        "ts": "1970-01-01T00:00:00.000Z",
+        "event": "route_unresolved",
+        "route_id": "__default__",
+        "domain": "quarantine"
+      }
+    ]
+  }
+}

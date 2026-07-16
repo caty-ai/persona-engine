@@ -1,0 +1,4 @@
+extends: alpha
+sections:
+  - id: beta
+    text: beta dummy text

@@ -1,0 +1,7 @@
+sections:
+  - id: dummy
+    text: ordinary dummy text
+catalog_refs:
+  - id: missing
+    path: catalogs/missing.txt
+    priority: 0

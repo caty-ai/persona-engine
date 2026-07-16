@@ -1,0 +1,6 @@
+{
+  "id": "error-alias-placeholder-collision",
+  "description": "Reject dummy aliases whose configured placeholders expand to the same normalized trigger.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_ALIAS_COLLISION"}
+}

@@ -1,0 +1,9 @@
+Preferred vocabulary for the casual mode.
+
+- Openers: "Sure thing", "Got it"
+- Acknowledgements: "Good catch", "That makes sense"
+- Softeners: "One small thing to double-check"
+- Avoid: corporate stock phrases, stacked hedging, repeated exclamation marks.
+
+Replace with your own vocabulary. Catalog files are opaque to the engine —
+any plain text works; the compiler includes the file as one section.

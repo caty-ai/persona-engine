@@ -1,0 +1,3 @@
+sections:
+  - id: dummy
+    text: "hello {{missing_dummy_key}}"

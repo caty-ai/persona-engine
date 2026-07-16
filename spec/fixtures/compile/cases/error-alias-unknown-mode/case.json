@@ -1,0 +1,6 @@
+{
+  "id": "error-alias-unknown-mode",
+  "description": "Reject a dummy alias map entry targeting an undefined mode.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_ALIAS_UNKNOWN_MODE"}
+}

@@ -1,0 +1,6 @@
+{
+  "id": "error-alias-placeholder-reserved",
+  "description": "Reject a dummy alias whose configured placeholder expands to the reserved persona prefix.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_ALIAS_RESERVED"}
+}

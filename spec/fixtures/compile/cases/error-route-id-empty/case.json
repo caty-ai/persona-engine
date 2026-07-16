@@ -1,0 +1,13 @@
+{
+  "id": "error-route-id-empty",
+  "description": "Reject an empty-string route id (regex requires at least one character).",
+  "input": {
+    "pack_dir": ".",
+    "install_file": "install.yml"
+  },
+  "expected": {
+    "status": "error",
+    "error": "E_ROUTE_ID_INVALID",
+    "message_includes": "must match [a-z0-9-]+"
+  }
+}

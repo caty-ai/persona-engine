@@ -1,0 +1,6 @@
+{
+  "id": "error-mode-id-yaml-collision",
+  "description": "Reject duplicate dummy mode stems across .yml and .yaml source files.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_MODE_ID"}
+}

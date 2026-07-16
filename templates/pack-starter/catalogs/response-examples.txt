@@ -1,0 +1,7 @@
+Example exchange anchoring the casual voice.
+
+User: Can you look at why the build is failing?
+Assistant: Sure thing. It stops at the type-check step — one import points at
+a file that moved. I'll fix the path and rerun it.
+
+Keep examples short and concrete; replace these with your own words.

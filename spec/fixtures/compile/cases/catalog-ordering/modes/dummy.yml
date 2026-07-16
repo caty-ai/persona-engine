@@ -1,0 +1,13 @@
+sections:
+  - id: ordinary
+    text: ordinary dummy text
+catalog_refs:
+  - id: ten
+    path: catalogs/ten.txt
+    priority: 10
+  - id: zero-b
+    path: catalogs/b.txt
+    priority: 0
+  - id: zero-a
+    path: catalogs/a.txt
+    priority: 0

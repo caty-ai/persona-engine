@@ -1,0 +1,13 @@
+{
+  "id": "error-route-id-reserved-default",
+  "description": "Reject the engine-internal default route sentinel as an install route id.",
+  "input": {
+    "pack_dir": ".",
+    "install_file": "install.yml"
+  },
+  "expected": {
+    "status": "error",
+    "error": "E_ROUTE_ID_INVALID",
+    "message_includes": "uses the reserved '__' namespace"
+  }
+}

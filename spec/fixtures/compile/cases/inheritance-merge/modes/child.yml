@@ -1,0 +1,7 @@
+extends: mid
+metadata:
+  nested:
+    right: child dummy value
+sections:
+  - id: new-child
+    text: child dummy text

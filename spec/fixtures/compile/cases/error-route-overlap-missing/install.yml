@@ -1,0 +1,14 @@
+schema_version: 2
+pack: .
+runtime: hermes
+routes:
+  - id: broad-dummy
+    match: {platform: dummy-platform}
+    allowed_modes: [public]
+    switching: deny
+    state_domain: dummy-a
+  - id: narrow-dummy
+    match: {platform: dummy-platform, session_id: dummy-session}
+    allowed_modes: [public]
+    switching: deny
+    state_domain: dummy-b

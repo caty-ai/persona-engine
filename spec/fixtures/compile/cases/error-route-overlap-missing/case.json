@@ -1,0 +1,6 @@
+{
+  "id": "error-route-overlap-missing",
+  "description": "Reject dummy routes that overlap because a match key missing on one side is unconstrained.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_ROUTE_OVERLAP"}
+}

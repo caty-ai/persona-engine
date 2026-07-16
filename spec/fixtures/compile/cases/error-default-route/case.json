@@ -1,0 +1,6 @@
+{
+  "id": "error-default-route",
+  "description": "Reject a dummy default route that attempts to configure allowed modes.",
+  "input": {"pack_dir": ".", "install_file": "install.yml"},
+  "expected": {"status": "error", "error": "E_DEFAULT_ROUTE"}
+}

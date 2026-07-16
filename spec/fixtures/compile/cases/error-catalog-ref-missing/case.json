@@ -1,0 +1,6 @@
+{
+  "id": "error-catalog-ref-missing",
+  "description": "Reject a contained dummy catalog reference whose target does not exist.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_CATALOG_REF"}
+}

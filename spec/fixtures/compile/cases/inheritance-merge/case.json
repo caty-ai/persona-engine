@@ -1,0 +1,15 @@
+{
+  "id": "inheritance-merge",
+  "description": "Resolve a three-level dummy inheritance chain with ordered replace, append, remove, deep-map merge, and catalog-ref merge operations.",
+  "input": {
+    "pack_dir": "."
+  },
+  "expected": {
+    "status": "success",
+    "modes": ["base", "mid", "child"],
+    "mode_voice_hints": {"child": "base-dummy"},
+    "blocks": {
+      "child": "<persona-mode id=\"child\" pack=\"fixture-pack@0.0.0\">\nbase dummy text\n\nreplacement dummy text\n\nmid dummy text\n\nchild dummy text\n\ncatalog a dummy text\n\ncatalog c dummy text\n\ncatalog z dummy text\n</persona-mode>"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "report-adapter-error-status-correction",
+  "description": "An adapter exception is audited by category and corrects a matching prior injection status.",
+  "operation": "report_adapter_error",
+  "input": {
+    "error": {
+      "name": "TypeError",
+      "message": "OPAQUE-ADAPTER-MESSAGE-MUST-NOT-BE-LOGGED"
+    },
+    "ctx": {
+      "domain": "quarantine",
+      "route_id": "__default__",
+      "turn_key": "dummy-turn-42"
+    }
+  },
+  "expected": {
+    "degraded": false,
+    "audit": [
+      {
+        "ts": "1970-01-01T00:00:00.000Z",
+        "event": "adapter_error",
+        "route_id": "__adapter__",
+        "domain": "quarantine",
+        "reason": "TypeError"
+      }
+    ]
+  },
+  "expected_status": {
+    "ts": "1970-01-01T00:00:00.000Z",
+    "route_id": "__default__",
+    "mode": "public",
+    "block_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "block_bytes": 0,
+    "engine": "ts@0.0.0",
+    "turn_key": "dummy-turn-42"
+  }
+}

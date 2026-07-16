@@ -1,0 +1,6 @@
+{
+  "id": "error-extends-unknown",
+  "description": "Reject a dummy mode that extends an undefined parent.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_EXTENDS_UNKNOWN"}
+}

@@ -1,0 +1,6 @@
+{
+  "id": "error-section-dup-catalog",
+  "description": "Reject a catalog expansion id that duplicates an ordinary dummy section id in the same file.",
+  "input": {"pack_dir": "."},
+  "expected": {"status": "error", "error": "E_SECTION_DUP"}
+}

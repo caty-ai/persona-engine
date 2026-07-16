@@ -1,0 +1,3 @@
+aliases:
+  absent:
+    - "missing dummy target"

@@ -1,0 +1,15 @@
+budget_tokens: 260
+voice_hint: replace-me
+sections:
+  - id: replace-me
+    text: |
+      This is a skeletal roleplay scaffold. Replace every section before using this
+      mode in a real conversation.
+  - id: role
+    text: |
+      {{agent-name}} is a fictional role defined by {{owner-name}}. Describe the role,
+      setting, boundaries, and task here using only content you intend to inject.
+  - id: boundaries
+    text: |
+      Replace this guidance with clear safety and scope boundaries for the role. Keep
+      the final text appropriate for the routes that allow this mode.
