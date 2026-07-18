@@ -9,6 +9,8 @@
 ![node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)
 ![license](https://img.shields.io/badge/license-MIT-blue)
 
+![persona-engine — 让 AI 智能体在每个时刻都有合适的表情](docs/assets/hero.jpg)
+
 persona-engine 让 AI 智能体在不同场景拥有不同的"表情"。工作时是可靠搭档的样子，闲聊时是亲近朋友的样子，直播时是角色的样子——**原有的人格保持不变**，只是安全地为它加上情感的幅度和场景化的反应。
 
 ## persona-engine 能做什么
@@ -71,13 +73,7 @@ persona build
 
 ## 工作原理
 
-```mermaid
-flowchart LR
-    A["pack/ (YAML)<br/>modes, catalogs, aliases"] -->|persona build| B["build/<br/>compiled blocks + policy"]
-    B --> C["adapter<br/>(Claude Code / Hermes / OpenClaw)"]
-    C -->|inject block per turn| D["LLM runtime"]
-    B -.->|state / audit| E["state/ + audit/"]
-```
+![架构: pack (YAML) → persona build → 编译块+策略 → 适配器 → LLM 运行时，state 与 audit 留存记录](docs/assets/architecture.svg)
 
 模式（表情）的定义写在一组 YAML 文件里——即 **pack**。`persona build` 把它一次性编译成定稿的块，**适配器**在每轮对话中把"适合此刻的块"注入智能体的运行时。哪个模式允许出现在哪里——以及谁可以切换——由显式的**路由策略**决定，且每次切换都记录到只追加的审计日志中。
 

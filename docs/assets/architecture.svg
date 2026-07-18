@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="85%">
+      <stop offset="0%" stop-color="#1c1048"/>
+      <stop offset="55%" stop-color="#120a33"/>
+      <stop offset="100%" stop-color="#0a0620"/>
+    </radialGradient>
+    <linearGradient id="edge" gradientUnits="userSpaceOnUse" x1="262" y1="0" x2="1042" y2="0">
+      <stop offset="0%" stop-color="#8b7bff"/>
+      <stop offset="100%" stop-color="#c99aff"/>
+    </linearGradient>
+    <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+    <linearGradient id="nodestroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9d8bff"/>
+      <stop offset="100%" stop-color="#6a4fd8"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#c99aff"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="420" fill="url(#bg)"/>
+
+  <!-- starfield -->
+  <g fill="#ffffff">
+    <circle cx="66" cy="52" r="1.6" opacity="0.75"/><circle cx="188" cy="330" r="1.1" opacity="0.5"/>
+    <circle cx="245" cy="84" r="1.3" opacity="0.6"/><circle cx="332" cy="368" r="1.7" opacity="0.7"/>
+    <circle cx="428" cy="46" r="1.2" opacity="0.55"/><circle cx="514" cy="382" r="1.1" opacity="0.45"/>
+    <circle cx="597" cy="66" r="1.8" opacity="0.8"/><circle cx="678" cy="352" r="1.2" opacity="0.5"/>
+    <circle cx="742" cy="40" r="1.2" opacity="0.6"/><circle cx="836" cy="378" r="1.5" opacity="0.65"/>
+    <circle cx="905" cy="58" r="1.2" opacity="0.5"/><circle cx="1004" cy="344" r="1.3" opacity="0.6"/>
+    <circle cx="1078" cy="76" r="1.7" opacity="0.75"/><circle cx="1146" cy="300" r="1.1" opacity="0.5"/>
+    <circle cx="120" cy="212" r="1.1" opacity="0.4"/><circle cx="1160" cy="160" r="1.2" opacity="0.55"/>
+    <circle cx="905" cy="248" r="1.0" opacity="0.35"/><circle cx="60" cy="386" r="1.3" opacity="0.6"/>
+    <circle cx="392" cy="146" r="1.0" opacity="0.4"/><circle cx="1035" cy="120" r="1.0" opacity="0.4"/>
+  </g>
+  <!-- nebula hints -->
+  <g filter="url(#soft)">
+    <ellipse cx="210" cy="360" rx="200" ry="60" fill="#6a4fd8" opacity="0.16"/>
+    <ellipse cx="1010" cy="70" rx="220" ry="70" fill="#8b5cf6" opacity="0.16"/>
+    <ellipse cx="620" cy="210" rx="380" ry="110" fill="#7c5cff" opacity="0.10"/>
+  </g>
+
+  <!-- edges -->
+  <g filter="url(#glow)">
+    <g stroke="#b18cff" stroke-width="2.5">
+      <line x1="262" y1="170" x2="348" y2="170"/>
+      <line x1="604" y1="170" x2="690" y2="170"/>
+      <line x1="946" y1="170" x2="1032" y2="170"/>
+    </g>
+    <g fill="#c99aff">
+      <polygon points="348,163 360,170 348,177"/>
+      <polygon points="690,163 702,170 690,177"/>
+      <polygon points="1032,163 1044,170 1032,177"/>
+    </g>
+  </g>
+  <g stroke="#8b7bff" stroke-width="2" stroke-dasharray="5 6" opacity="0.85">
+    <line x1="480" y1="222" x2="480" y2="288"/>
+  </g>
+
+  <!-- edge labels -->
+  <g text-anchor="middle" font-size="13" fill="#c9bcff">
+    <text x="310" y="152">persona build</text>
+    <text x="994" y="140">inject block</text>
+    <text x="994" y="156">per turn</text>
+  </g>
+
+  <!-- nodes: main row -->
+  <g filter="url(#glow)">
+    <rect x="42"   y="118" width="220" height="104" rx="16" fill="#191046" fill-opacity="0.92" stroke="url(#nodestroke)" stroke-width="1.8"/>
+    <rect x="360"  y="118" width="244" height="104" rx="16" fill="#191046" fill-opacity="0.92" stroke="url(#nodestroke)" stroke-width="1.8"/>
+    <rect x="702"  y="118" width="244" height="104" rx="16" fill="#191046" fill-opacity="0.92" stroke="url(#nodestroke)" stroke-width="1.8"/>
+    <rect x="1044" y="118" width="116" height="104" rx="16" fill="#241457" fill-opacity="0.95" stroke="#c99aff" stroke-width="2"/>
+  </g>
+
+  <!-- node text -->
+  <g text-anchor="middle">
+    <text x="152" y="160" font-size="17" font-weight="bold" fill="#efeaff">pack/ (YAML)</text>
+    <text x="152" y="186" font-size="12.5" fill="#b3a6e8">modes · catalogs · aliases</text>
+    <text x="152" y="204" font-size="12.5" fill="#b3a6e8">your persona, as files</text>
+
+    <text x="482" y="160" font-size="17" font-weight="bold" fill="#efeaff">build/</text>
+    <text x="482" y="186" font-size="12.5" fill="#b3a6e8">compiled blocks + policy</text>
+    <text x="482" y="204" font-size="12.5" fill="#b3a6e8">deterministic, byte-stable</text>
+
+    <text x="824" y="160" font-size="17" font-weight="bold" fill="#efeaff">adapter</text>
+    <text x="824" y="186" font-size="12.5" fill="#b3a6e8">Claude Code · Hermes ·</text>
+    <text x="824" y="204" font-size="12.5" fill="#b3a6e8">OpenClaw</text>
+
+    <text x="1102" y="164" font-size="16" font-weight="bold" fill="#f3edff">LLM</text>
+    <text x="1102" y="184" font-size="16" font-weight="bold" fill="#f3edff">runtime</text>
+  </g>
+
+  <!-- state/audit node -->
+  <g filter="url(#glow)">
+    <rect x="368" y="290" width="228" height="72" rx="14" fill="#150d3a" fill-opacity="0.9" stroke="#6a4fd8" stroke-width="1.5" stroke-dasharray="6 5"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="482" y="320" font-size="15" font-weight="bold" fill="#d9d0ff">state/ + audit/</text>
+    <text x="482" y="342" font-size="12" fill="#a294dd">every switch, on the record</text>
+  </g>
+</svg>

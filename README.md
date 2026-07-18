@@ -9,6 +9,8 @@
 ![node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)
 ![license](https://img.shields.io/badge/license-MIT-blue)
 
+![persona-engine — give your AI agent a face for every moment](docs/assets/hero.jpg)
+
 persona-engine gives an AI agent a different face for each situation. A reliable-partner face while you work, a close-friend face in casual chat, a character face on stream — **the original personality stays untouched**; only the emotional range and situational reactions are added, safely.
 
 ## What persona-engine gives you
@@ -71,13 +73,7 @@ Everything below is the technical layer, for people wiring persona-engine into a
 
 ## How it works
 
-```mermaid
-flowchart LR
-    A["pack/ (YAML)<br/>modes, catalogs, aliases"] -->|persona build| B["build/<br/>compiled blocks + policy"]
-    B --> C["adapter<br/>(Claude Code / Hermes / OpenClaw)"]
-    C -->|inject block per turn| D["LLM runtime"]
-    B -.->|state / audit| E["state/ + audit/"]
-```
+![architecture: pack (YAML) → persona build → compiled blocks + policy → adapter → LLM runtime, with state and audit on the record](docs/assets/architecture.svg)
 
 Mode (face) definitions live in a bundle of YAML files — the **pack**. `persona build` compiles it once into finalized blocks, and an **adapter** injects "the block that fits this moment" into the agent's runtime on every conversation turn. Which mode is allowed where — and who may switch it — is decided by an explicit **route policy**, and every transition is recorded in an append-only audit log.
 
