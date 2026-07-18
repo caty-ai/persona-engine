@@ -4,12 +4,13 @@
 
 > English is the canonical version of this document. Translations follow it and may lag slightly behind.
 
-![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore)
-![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)
-![node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)
-![license](https://img.shields.io/badge/license-MIT-blue)
+<div align="center">
 
 ![persona-engine — give your AI agent a face for every moment](docs/assets/hero.jpg)
+
+![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-brightgreen) ![license](https://img.shields.io/badge/license-MIT-blue)
+
+</div>
 
 persona-engine gives an AI agent a different face for each situation. A reliable-partner face while you work, a close-friend face in casual chat, a character face on stream — **the original personality stays untouched**; only the emotional range and situational reactions are added, safely.
 
@@ -30,7 +31,8 @@ How to add a mode, and the rules for writing vocabulary catalogs, are collected 
 
 ## What we hold most important — the persona is never rewritten
 
-persona-engine is not a tool for building a personality from scratch. It exists to **respect the agent that is already there, and layer emotion on top**.
+> [!IMPORTANT]
+> persona-engine is not a tool for building a personality from scratch. It exists to **respect the agent that is already there, and layer emotion on top**.
 
 - The agent's own persona definition — name, character, default way of speaking — is never touched.
 - A mode adds only a **difference**: how this face reacts when focused, the vocabulary of a casual moment, how much the voice brightens.
@@ -48,6 +50,8 @@ We believe AI can carry expression the way people do. The more an agent becomes 
 But the moment you give an agent this range, new worries appear. What if the casual voice shows up in public? What if nobody can tell who switched it, or when? persona-engine exists to hold both — the range and the safety — at once. The detailed comparison is in [Why persona-engine? (the technical case)](#why-persona-engine-the-technical-case).
 
 ## Getting started
+
+![demo: one agent, four faces — resolving a turn, switching by utterance, fail-closed public mode, and the audit trail](docs/assets/demo.gif)
 
 All you need is [Node.js](https://nodejs.org/) (version 22 or later). Run these four lines in a terminal:
 
@@ -309,35 +313,75 @@ See [SECURITY.md](SECURITY.md) for the threat model and how to report vulnerabil
 
 ## FAQ
 
-**Will it rewrite my agent's original personality?**
+<details>
+<summary><b>Will it rewrite my agent's original personality?</b></summary>
+
 No. The engine only appends per turn; it never touches the agent's own persona definition (system prompt and the like). The intended shape of a mode is a difference — feeling, reactions, vocabulary — not an identity. Drop the mode (fall to `public`) and the agent is completely its plain self again.
 
-**How does the engine handle feeling and tone?**
+</details>
+
+<details>
+<summary><b>How does the engine handle feeling and tone?</b></summary>
+
 It doesn't interpret them. The emotional range and its gradations are made on the pack side — the voice, vocabulary, and example responses you write into sections and catalogs — and the engine's job is to deliver them safely, only to the right situations. `voice_hint` is passed through untouched as a hint to the runtime side (TTS, expression control).
 
-**Does persona-engine call an LLM or need an API key?**
+</details>
+
+<details>
+<summary><b>Does persona-engine call an LLM or need an API key?</b></summary>
+
 No. It compiles and serves persona blocks; your runtime talks to the model. The engine is provider-agnostic by construction.
 
-**What happens in a context I never configured?**
+</details>
+
+<details>
+<summary><b>What happens in a context I never configured?</b></summary>
+
 It matches no route, resolves to the empty `public` mode, and cannot switch. Fail-closed is the default, not an option you enable.
 
-**Can the agent decide to switch its own persona?**
+</details>
+
+<details>
+<summary><b>Can the agent decide to switch its own persona?</b></summary>
+
 Only on routes that declare `switching: explicit-and-agent` **and** `owner_verified: true`, and only among that route's `allowed_modes`. Everywhere else the `persona_set` tool is not even registered.
 
-**Where is state stored? Does it sync between machines?**
+</details>
+
+<details>
+<summary><b>Where is state stored? Does it sync between machines?</b></summary>
+
 In `state/<domain>.json` inside the installation, on the injecting host. Nothing is synchronized; each host resolves independently.
 
-**Can I put secrets in a pack or placeholder?**
+</details>
+
+<details>
+<summary><b>Can I put secrets in a pack or placeholder?</b></summary>
+
 No. Compiled artifacts are plaintext on disk. Treat pack content like any other committed source file.
 
-**How do I add or change a mode?**
+</details>
+
+<details>
+<summary><b>How do I add or change a mode?</b></summary>
+
 Add or edit `pack/modes/<id>.yml` and rerun `persona build`. Budgets, references, and placeholders are validated at build time; runtimes only ever see the compiled result. See the [customizing guide](docs/customizing.md).
 
-**How are token costs controlled?**
+</details>
+
+<details>
+<summary><b>How are token costs controlled?</b></summary>
+
 Each mode has an effective budget — the smaller of the install budget and the mode's own `budget_tokens`. Exceeding it is a build error, so oversized personas are caught before they reach a runtime.
 
-**Which runtimes are supported?**
+</details>
+
+<details>
+<summary><b>Which runtimes are supported?</b></summary>
+
 Claude Code, Hermes, and OpenClaw today. The adapter contract ([SPEC.md](SPEC.md) §10) is small — an adapter derives context, calls the core, and injects one block.
+
+</details>
 
 ## Documentation
 
