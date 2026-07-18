@@ -9,6 +9,8 @@
 ![node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)
 ![license](https://img.shields.io/badge/license-MIT-blue)
 
+![persona-engine — มอบสีหน้าที่เหมาะกับทุกช่วงเวลาให้ AI agent ของคุณ](docs/assets/hero.jpg)
+
 persona-engine มอบ "สีหน้า" ที่ต่างกันในแต่ละสถานการณ์ให้กับ AI agent ของคุณ — หน้าของคู่หูที่พึ่งพาได้ตอนทำงาน หน้าของเพื่อนสนิทตอนคุยเล่น หน้าของตัวละครตอนสตรีม — **บุคลิกดั้งเดิมไม่ถูกแตะต้อง** สิ่งที่เพิ่มเข้าไปอย่างปลอดภัยมีเพียงช่วงกว้างของอารมณ์และปฏิกิริยาตามสถานการณ์เท่านั้น
 
 ## persona-engine ทำอะไรให้คุณได้
@@ -71,13 +73,7 @@ persona build
 
 ## หลักการทำงาน
 
-```mermaid
-flowchart LR
-    A["pack/ (YAML)<br/>modes, catalogs, aliases"] -->|persona build| B["build/<br/>compiled blocks + policy"]
-    B --> C["adapter<br/>(Claude Code / Hermes / OpenClaw)"]
-    C -->|inject block per turn| D["LLM runtime"]
-    B -.->|state / audit| E["state/ + audit/"]
-```
+![สถาปัตยกรรม: pack (YAML) → persona build → บล็อกที่คอมไพล์แล้ว+นโยบาย → adapter → LLM runtime พร้อม state และ audit บันทึกทุกอย่าง](docs/assets/architecture.svg)
 
 นิยามของโหมด (สีหน้า) เขียนไว้ในชุดไฟล์ YAML ที่เรียกว่า **pack** — `persona build` คอมไพล์มันครั้งเดียวเป็นบล็อกฉบับสมบูรณ์ แล้ว **adapter** จะฉีด "บล็อกที่เหมาะกับช่วงเวลานี้" เข้า runtime ของ agent ในทุกเทิร์นของบทสนทนา โหมดใดได้รับอนุญาตที่ไหน — และใครมีสิทธิ์สลับ — ถูกกำหนดโดย **route policy** ที่ประกาศไว้ชัดเจน และทุกการเปลี่ยนโหมดถูกบันทึกลง audit log แบบ append-only
 

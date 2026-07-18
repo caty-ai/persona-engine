@@ -9,6 +9,8 @@
 ![node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)
 ![license](https://img.shields.io/badge/license-MIT-blue)
 
+![persona-engine — AI エージェントに、場面ごとの表情を](docs/assets/hero.jpg)
+
 persona-engine は、AI エージェントに「場面ごとの表情」を持たせるためのしくみです。作業中は頼れる相棒の顔、雑談ではくだけた友達の顔、配信ではキャラクターの顔 — **元の人格はそのままに**、感情の幅と場面ごとの反応だけを安全に足すことができます。
 
 ## persona-engine でできること
@@ -71,13 +73,7 @@ persona build
 
 ## しくみ
 
-```mermaid
-flowchart LR
-    A["pack/ (YAML)<br/>modes, catalogs, aliases"] -->|persona build| B["build/<br/>compiled blocks + policy"]
-    B --> C["adapter<br/>(Claude Code / Hermes / OpenClaw)"]
-    C -->|inject block per turn| D["LLM runtime"]
-    B -.->|state / audit| E["state/ + audit/"]
-```
+![アーキテクチャ: pack (YAML) → persona build → コンパイル済みブロック+ポリシー → アダプタ → LLM ランタイム、state と audit が記録を残す](docs/assets/architecture.svg)
 
 モード（表情）の定義は YAML ファイルの束 = **pack** に書きます。`persona build` がそれを一度だけコンパイルして確定版のブロックにし、**アダプタ**が会話のたびに「いまの場面に合ったブロック」をエージェントのランタイムに注入します。どのモードをどこで使えるか — そして誰が切り替えられるか — は明示的な**ルートポリシー**が決定し、すべての切替は追記専用の監査ログに記録されます。
 
