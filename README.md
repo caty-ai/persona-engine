@@ -9,28 +9,65 @@
 ![node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)
 ![license](https://img.shields.io/badge/license-MIT-blue)
 
-persona-engine is a safe, policy-driven engine for switching personality modes in LLM agents. You describe each mode in YAML, compile the pack once with `persona build`, and let a runtime adapter inject the right compiled block into every turn. Which mode is allowed where — and who is allowed to switch it — is decided by an explicit route policy, and every transition is recorded in an append-only audit log.
+persona-engine gives an AI agent a different face for each situation. A reliable-partner face while you work, a close-friend face in casual chat, a character face on stream — **the original personality stays untouched**; only the emotional range and situational reactions are added, safely.
 
-## Why persona-engine?
+## What persona-engine gives you
 
-Suppose you run one assistant across several surfaces: a private working session, a public channel, a group chat. You want it focused and terse while you work, relaxed in casual conversation, and strictly neutral anywhere public. The obvious approach — swapping system-prompt strings in application code — works until it doesn't:
+- **Expression and tone that change with the situation.** Brief and dependable at work, close and warm in private — like a good friend or a partner — relaxed in small talk. The same agent, with a face for each moment.
+- **Switching that feels human.** Three ways to change faces: ① automatically by place (the engine picks the right face every turn based on where the conversation is happening), ② by the agent's own judgment (only where you have allowed it, it reads the flow of the conversation and switches itself), ③ by a word from you ("switch to focus").
+- **A neutral face, guaranteed, anywhere it shouldn't show personality.** In a work meeting, a public channel, or any place you never configured, the agent automatically falls back to a neutral state. A private tone leaking into a public space is prevented by the machinery itself, not by convention.
+- **The original personality is never rewritten.** All persona-engine does is gently layer the right expression over each conversation turn. Remove the mode, and the agent is exactly itself again.
+- **A full record of every switch.** Who changed to which face, where, and when — "which mode was that conversation in yesterday?" always has an answer.
+- **Faces and vocabulary you can grow to your taste.** Expressions are **modes** and word choices are **vocabulary catalogs** — both plain text files. Copy, edit, add; that is all it takes.
 
-- A "casual" prompt intended for a private session leaks into a public channel because a code path forgot to check the context.
-- Nobody can answer "which persona was active in that conversation last Tuesday?" because nothing was recorded.
-- Prompts grow without bound, and the persona silently drifts mid-session as someone edits a string in place.
+## Simple at its core — modes and vocabulary catalogs
 
-persona-engine turns persona management from scattered strings into a compiled, policy-checked artifact:
+Under the automatic switching there are only two kinds of parts. Each face is a **mode** — one small definition file. The words, verbal tics, and example responses live in **vocabulary catalogs** — plain text files a mode refers to. Add files and the agent gains expressions; edit them and the voice adjusts to your taste. Which face may appear where, and who may switch it, is decided separately as rules (the route policy) — so adding expressions never weakens safety.
 
-| | Hand-rolled prompt switching | persona-engine |
-| --- | --- | --- |
-| Persona text lives in | strings scattered through app code | a versioned YAML pack, compiled once |
-| Who may switch | any code path that can edit the prompt | route policy: per-surface allow-lists and switching levels |
-| Unknown / unmatched context | whatever happened to be active | fail-closed: empty `public` mode, switching disabled |
-| Prompt size | unbounded, grows silently | per-mode token budgets — exceeding one is a build error, not a truncation |
-| Traceability | none | append-only audit log of every transition and policy decision |
-| Stability | mutable at any moment | a compiled block stays byte-identical while its mode is active |
+How to add a mode, and the rules for writing vocabulary catalogs, are collected in the [customizing guide](docs/customizing.md).
 
-The engine never calls an LLM and never interprets your persona text. It handles structure, references, budgets, ordering, and policy — the content stays yours and stays opaque.
+## What we hold most important — the persona is never rewritten
+
+persona-engine is not a tool for building a personality from scratch. It exists to **respect the agent that is already there, and layer emotion on top**.
+
+- The agent's own persona definition — name, character, default way of speaking — is never touched.
+- A mode adds only a **difference**: how this face reacts when focused, the vocabulary of a casual moment, how much the voice brightens.
+- The layer is applied per conversation turn and vanishes without trace when removed. The agent can always return to its plain self.
+- Defining a full character (a stage persona for a VTuber, say) is also supported — and even then it is a costume, not surgery.
+
+## Why we built this
+
+The starting point is not a technical problem but a wish: **to be with an AI agent the way you are with family, with friends — the way you are with people.**
+
+Human conversation has small gradations of feeling. A voice brightens with good news; words get shorter under concentration; the way we speak shifts, slightly, with the person and the moment. Working together, celebrating together when something lands, laughing over nothing — relationships deepen exactly in that exchange of small movements of feeling.
+
+We believe AI can carry expression the way people do. The more an agent becomes someone who is beside you every day, the less this range is decoration and the more it is the core. You cannot build a deep relationship with something that answers in the same flat tone forever. For an agent to have human warmth — to stay close to a person — it needs a vessel that lets feeling and its movement come out naturally. persona-engine is that vessel.
+
+But the moment you give an agent this range, new worries appear. What if the casual voice shows up in public? What if nobody can tell who switched it, or when? persona-engine exists to hold both — the range and the safety — at once. The detailed comparison is in [Why persona-engine? (the technical case)](#why-persona-engine-the-technical-case).
+
+## Getting started
+
+All you need is [Node.js](https://nodejs.org/) (version 22 or later). Run these four lines in a terminal:
+
+```sh
+npm install -g @persona-engine/core
+
+persona init ./my-persona
+cd my-persona
+persona build
+```
+
+This creates a minimal folder with one mode in it. Open `pack/modes/default.yml`, write the words you want to add to your agent, and run `persona build` again to apply them.
+
+Where to go next:
+
+- **See something working first** → [A complete example](#a-complete-example) — run the bundled four-mode pack end to end: define, build, switch, audit.
+- **Connect it to your agent** → [Adapters](#adapters) — how to hook into Claude Code and other runtimes.
+- **Understand the machinery** → continue to the next section.
+
+---
+
+Everything below is the technical layer, for people wiring persona-engine into an agent.
 
 ## How it works
 
@@ -42,7 +79,7 @@ flowchart LR
     B -.->|state / audit| E["state/ + audit/"]
 ```
 
-An adapter derives route context from trusted runtime metadata (platform, session key), asks the core to resolve a block for that context, and injects the block at the runtime's request-scoped extension point. Runtime paths read compiled artifacts only — never YAML.
+Mode (face) definitions live in a bundle of YAML files — the **pack**. `persona build` compiles it once into finalized blocks, and an **adapter** injects "the block that fits this moment" into the agent's runtime on every conversation turn. Which mode is allowed where — and who may switch it — is decided by an explicit **route policy**, and every transition is recorded in an append-only audit log.
 
 | Component | Role |
 | --- | --- |
@@ -55,14 +92,27 @@ An adapter derives route context from trusted runtime metadata (platform, sessio
 
 Three design principles run through everything:
 
-- **Compiled, not interpreted.** Runtimes read deterministic build artifacts; a block stays byte-identical while its mode is active.
+- **Compiled, not interpreted.** Runtimes read deterministic build artifacts only; a block stays byte-identical while its mode is active.
 - **Fail-closed.** A context that matches no route resolves to the empty `public` mode and cannot switch. Errors degrade to no injection, never to the wrong persona.
-- **Opaque payload.** The engine manages structure, references, budgets, and order. It never parses or rewrites your persona text.
+- **Opaque payload.** The engine manages structure, references, budgets, and order. It never parses or rewrites your persona text — which is why "the persona is never rewritten" holds structurally.
+
+## Why persona-engine? (the technical case)
+
+Compared with implementing persona switching by hand — swapping system-prompt strings in application code:
+
+| | Hand-rolled prompt switching | persona-engine |
+| --- | --- | --- |
+| Persona text lives in | strings scattered through app code | a versioned YAML pack, compiled once |
+| Who may switch | any code path that can edit the prompt | route policy: per-surface allow-lists and switching levels |
+| Unknown / unmatched context | whatever happened to be active | fail-closed: empty `public` mode, switching disabled |
+| Prompt size | unbounded, grows silently | per-mode token budgets — exceeding one is a build error, not a truncation |
+| Traceability | none | append-only audit log of every transition and policy decision |
+| Stability | mutable at any moment | a compiled block stays byte-identical while its mode is active |
+
+The engine never calls an LLM and never interprets your persona text. It handles structure, references, budgets, ordering, and policy — the content stays yours and stays opaque.
 
 ## Table of contents
 
-- [Features](#features)
-- [Quick start](#quick-start)
 - [A complete example](#a-complete-example)
 - [Use cases](#use-cases)
 - [Switching model](#switching-model)
@@ -74,42 +124,6 @@ Three design principles run through everything:
 - [Documentation](#documentation)
 - [Development](#development)
 - [Roadmap](#roadmap)
-
-## Features
-
-- **Declarative packs** — each mode is a small YAML envelope: ordered sections, optional token budget and voice hint, reusable catalog files for vocabulary and examples.
-- **One-shot compilation** — `persona build` resolves placeholders, enforces budgets, and emits hashed, deterministic artifacts. Broken references and unresolved placeholders stop the build.
-- **Route policy** — per-surface allow-lists decide which modes may appear where, which switching paths are enabled, and which state domain a surface shares.
-- **Three switching paths, one policy gate** — explicit user aliases, an agent-initiated tool, and admin CLI all pass through the same core policy evaluation.
-- **Audit built in** — every transition and every policy denial is an event in an append-only JSONL log, inspectable with `persona audit`.
-- **Runtime-agnostic** — the core never talks to a model API. Adapters exist for three runtimes today, and the adapter contract in [SPEC.md](SPEC.md) is small.
-
-## Quick start
-
-Requires Node.js 22 or later.
-
-```sh
-npm install -g @persona-engine/core
-
-persona init ./my-persona
-cd my-persona
-persona build
-persona list
-```
-
-`persona init` scaffolds a minimal installation: a pack with one `default` mode, an `install.yml` with a single conservative route, and empty `state/` and `audit/` directories. After `persona build`, `persona list` shows what the runtime will see:
-
-```text
-Modes:
-  default: bytes=117 tokens=39 voice_hint=no data_error=false
-
-Routes:
-  cli-admin: allowed_modes=[public, default] switching=deny owner_verified=no data_error=false
-
-Note: public is implicitly allowed on every route, whether or not allowed_modes lists it.
-```
-
-Edit `pack/modes/default.yml`, rerun `persona build`, and you have a working single-mode installation. The next section grows this into something real.
 
 ## A complete example
 
@@ -138,7 +152,7 @@ sections:
       unrelated context or optional discussion.
 ```
 
-Sections are ordered and opaque — the compiler never interprets the text. Larger material (vocabulary lists, example exchanges) lives in `catalogs/*.txt` files that modes reference; the `casual` mode in the starter shows the wiring.
+Notice what it contains: only how the focused face reacts — never who the agent is. The personality stays on the base side; the mode layers a difference. Sections are ordered and opaque — the compiler never interprets the text. Larger material (vocabulary lists, example exchanges) lives in `catalogs/*.txt` files that modes reference; the `casual` mode in the starter shows the wiring.
 
 **2. Routes and placeholders live in `install.yml`,** not in the pack. The pack says what a mode contains; the install says where it may appear:
 
@@ -234,8 +248,9 @@ Audit events (newest first):
 
 ## Use cases
 
+- **A long-term companion you talk with like family or a close friend.** Give the agent you speak with every day a different face and a different movement of feeling for work, chat, and play. Its voice and emotional nuance grow gradually through catalogs (vocabulary, example responses), and the pack deepens in version control alongside the relationship itself.
+- **VTuber and voice-agent character operation.** In character, with warmth, on stream and in conversation; in a plain operator mode for maintenance work. `voice_hint` flows to the runtime as a hint for TTS and expression control, and streaming surfaces are separated from admin surfaces by routes.
 - **One assistant, many surfaces.** Focused and terse in your private working sessions, relaxed in casual chat, strictly neutral (`public`) everywhere unrecognized — enforced by route policy rather than by convention.
-- **Task-shaped tone presets.** Keep `focus` / `casual` / `professional` variants of the same assistant and switch per task with a single utterance, without redeploying or editing config.
 - **Safe roleplay and character modes.** Confine heavier persona content to routes with `owner_verified: true` and explicit switching. Surfaces that don't match the route can never see or activate it.
 - **Reviewable persona changes.** Packs are files: persona changes arrive as diffs in version control, budgets are enforced at build time, and the audit log answers "what was active, where, when, and who switched it."
 
@@ -247,7 +262,7 @@ There are three switching paths; every transition is recorded in the audit log.
 2. **Agent-initiated** — the `persona_set` tool. Registered only on routes with `switching: explicit-and-agent` and `owner_verified: true`.
 3. **Admin** — `persona set <mode> --domain <domain>` from the CLI.
 
-To add modes, drop new `pack/modes/*.yml` files and rerun `persona build`. Placeholders such as `{{agent-name}}` / `{{owner-name}}` resolve from the `install.yml` declarations; an unresolved placeholder stops the build with `E_PLACEHOLDER_UNRESOLVED`.
+To add modes, drop new `pack/modes/*.yml` files and rerun `persona build`. Placeholders such as `{{agent-name}}` / `{{owner-name}}` resolve from the `install.yml` declarations; an unresolved placeholder stops the build with `E_PLACEHOLDER_UNRESOLVED`. You can also define one base persona mode and let emotional variants inherit just their differences via `extends` ([SPEC.md](SPEC.md) §2.3).
 
 ## Route policy
 
@@ -298,6 +313,12 @@ See [SECURITY.md](SECURITY.md) for the threat model and how to report vulnerabil
 
 ## FAQ
 
+**Will it rewrite my agent's original personality?**
+No. The engine only appends per turn; it never touches the agent's own persona definition (system prompt and the like). The intended shape of a mode is a difference — feeling, reactions, vocabulary — not an identity. Drop the mode (fall to `public`) and the agent is completely its plain self again.
+
+**How does the engine handle feeling and tone?**
+It doesn't interpret them. The emotional range and its gradations are made on the pack side — the voice, vocabulary, and example responses you write into sections and catalogs — and the engine's job is to deliver them safely, only to the right situations. `voice_hint` is passed through untouched as a hint to the runtime side (TTS, expression control).
+
 **Does persona-engine call an LLM or need an API key?**
 No. It compiles and serves persona blocks; your runtime talks to the model. The engine is provider-agnostic by construction.
 
@@ -314,7 +335,7 @@ In `state/<domain>.json` inside the installation, on the injecting host. Nothing
 No. Compiled artifacts are plaintext on disk. Treat pack content like any other committed source file.
 
 **How do I add or change a mode?**
-Add or edit `pack/modes/<id>.yml` and rerun `persona build`. Budgets, references, and placeholders are validated at build time; runtimes only ever see the compiled result.
+Add or edit `pack/modes/<id>.yml` and rerun `persona build`. Budgets, references, and placeholders are validated at build time; runtimes only ever see the compiled result. See the [customizing guide](docs/customizing.md).
 
 **How are token costs controlled?**
 Each mode has an effective budget — the smaller of the install budget and the mode's own `budget_tokens`. Exceeding it is a build error, so oversized personas are caught before they reach a runtime.
@@ -328,6 +349,7 @@ Claude Code, Hermes, and OpenClaw today. The adapter contract ([SPEC.md](SPEC.md
 | --- | --- |
 | [SPEC.md](SPEC.md) | Frozen format and policy contract: pack schema, route policy, turn/set, fail-closed rules |
 | [docs/INSTALL.md](docs/INSTALL.md) | Installation guide |
+| [docs/customizing.md](docs/customizing.md) | Customizing guide: adding modes, and the rules for writing vocabulary catalogs |
 | [templates/pack-starter/README.md](templates/pack-starter/README.md) | Starter pack anatomy: envelopes, catalogs, budgets, routes |
 | [adapters/*/README.md](adapters/) | Per-runtime setup and configuration |
 | [SECURITY.md](SECURITY.md) | Threat model and vulnerability reporting |
