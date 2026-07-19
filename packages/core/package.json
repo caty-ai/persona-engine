@@ -1,7 +1,7 @@
 {
   "name": "@persona-engine/core",
   "version": "0.1.0",
-  "description": "Persona mode-switching engine with build-time compiled packs and fail-closed route policy.",
+  "description": "Give your agent's persona a relationship layer and an emotion gradient — policy-driven modes, build-time compiled packs, fail-closed route policy.",
   "keywords": [
     "persona",
     "mode-switching",

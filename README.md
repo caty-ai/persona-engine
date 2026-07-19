@@ -6,35 +6,36 @@
 
 <div align="center">
 
-![persona-engine — give your AI agent a face for every moment](docs/assets/hero.jpg)
+![persona-engine — a relationship layer and an emotion gradient for your agent's persona](docs/assets/hero.jpg)
 
 ![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-brightgreen) ![license](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
 
-persona-engine gives an AI agent a different face for each situation. A reliable-partner face while you work, a close-friend face in casual chat, a character face on stream — **the original personality stays untouched**; only the emotional range and situational reactions are added, safely.
+persona-engine is a device that gives your agent's existing persona a **layer of relationship** and a **gradient of emotion**. Who your agent is — and the important axes of your relationship — are decided by the persona it already has, wherever your runtime keeps it (a system prompt, an `AGENTS.md`, a `SOUL.md`). persona-engine never touches that. What it layers on top are the faces of a relationship — a dependable secretary at work, a close friend in casual chat, a partner in the quiet hours — and the small movements of feeling between them: a voice that brightens with good news, words that grow shorter under focus. Only that range is added, and it is added safely.
 
-## What persona-engine gives you
+## What persona-engine adds — two things
 
-- **Expression and tone that change with the situation.** Brief and dependable at work, close and warm in private — like a good friend or a partner — relaxed in small talk. The same agent, with a face for each moment.
-- **Switching that feels human.** Three ways to change faces: ① automatically by place (the engine picks the right face every turn based on where the conversation is happening), ② by the agent's own judgment (only where you have allowed it, it reads the flow of the conversation and switches itself), ③ by a word from you ("switch to focus").
+### A layer of relationship
+
+Even with one agent, the relationship is a little different in every place. At work, the dependable secretary; in casual chat, the close friend; on stream, the character; anywhere public, a properly neutral face. persona-engine keeps an explicit rule for **which relational face may appear where**, and on every conversation turn it gently lays exactly one matching layer over the conversation.
+
+- **Switching feels human.** Three ways to change faces: ① automatically by place (the engine picks the right face every turn based on where the conversation is happening), ② by the agent's own judgment (only where you have allowed it, it reads the flow of the conversation and switches itself), ③ by a word from you ("switch to friend mode").
 - **A neutral face, guaranteed, anywhere it shouldn't show personality.** In a work meeting, a public channel, or any place you never configured, the agent automatically falls back to a neutral state. A private tone leaking into a public space is prevented by the machinery itself, not by convention.
-- **The original personality is never rewritten.** All persona-engine does is gently layer the right expression over each conversation turn. Remove the mode, and the agent is exactly itself again.
 - **A full record of every switch.** Who changed to which face, where, and when — "which mode was that conversation in yesterday?" always has an answer.
-- **Faces and vocabulary you can grow to your taste.** Expressions are **modes** and word choices are **vocabulary catalogs** — both plain text files. Copy, edit, add; that is all it takes.
 
-## Simple at its core — modes and vocabulary catalogs
+### A gradient of emotion
 
-Under the automatic switching there are only two kinds of parts. Each face is a **mode** — one small definition file. The words, verbal tics, and example responses live in **vocabulary catalogs** — plain text files a mode refers to. Add files and the agent gains expressions; edit them and the voice adjusts to your taste. Which face may appear where, and who may switch it, is decided separately as rules (the route policy) — so adding expressions never weakens safety.
+Human feeling is not a work/private toggle; it is a gradient. A voice brightens at good news; words get shorter in deep concentration. In persona-engine, each point on that gradient is a **mode** — one small text file — and the texture of its voice lives in **vocabulary catalogs**: preferred phrases, verbal tics, example exchanges. Emotional variants can inherit from a base face and carry only their difference (`extends`). The gradient grows with your life together: copy a file, edit it, rebuild — that is all it takes.
 
-How to add a mode, and the rules for writing vocabulary catalogs, are collected in the [customizing guide](docs/customizing.md).
+## The device's promise — the persona is never rewritten
 
-## What we hold most important — the persona is never rewritten
+A layer is something placed on top; it never repaints what is underneath.
 
 > [!IMPORTANT]
-> persona-engine is not a tool for building a personality from scratch. It exists to **respect the agent that is already there, and layer emotion on top**.
+> persona-engine is not a tool for building a personality from scratch. It exists to **respect the agent that is already there, and layer relationship and emotion on top**.
 
-- The agent's own persona definition — name, character, default way of speaking — is never touched.
+- The agent's own persona definition — name, character, default way of speaking, wherever your runtime keeps it (system prompt, `AGENTS.md`, `SOUL.md`) — is never touched. It remains the foundation everything else is layered onto.
 - A mode adds only a **difference**: how this face reacts when focused, the vocabulary of a casual moment, how much the voice brightens.
 - The layer is applied per conversation turn and vanishes without trace when removed. The agent can always return to its plain self.
 - Defining a full character (a stage persona for a VTuber, say) is also supported — and even then it is a costume, not surgery.
@@ -47,7 +48,15 @@ Human conversation has small gradations of feeling. A voice brightens with good 
 
 We believe AI can carry expression the way people do. The more an agent becomes someone who is beside you every day, the less this range is decoration and the more it is the core. You cannot build a deep relationship with something that answers in the same flat tone forever. For an agent to have human warmth — to stay close to a person — it needs a vessel that lets feeling and its movement come out naturally. persona-engine is that vessel.
 
+Japanese has a word for this: *kotodama* (言霊) — the sense that words carry a spirit of their own. Choosing, one file at a time, the words your agent may speak is exactly that: putting soul into your agent through language. And whether what comes back is mechanical output or a word with real feeling behind it — we don't think a definition can settle that. No one can point to where a human heart is defined, either; we believe in it all the same. It is something to feel for yourself as the relationship grows. persona-engine is a device built to help that happen.
+
 But the moment you give an agent this range, new worries appear. What if the casual voice shows up in public? What if nobody can tell who switched it, or when? persona-engine exists to hold both — the range and the safety — at once. The detailed comparison is in [Why persona-engine? (the technical case)](#why-persona-engine-the-technical-case).
+
+## Simple at its core — modes and vocabulary catalogs
+
+Two kinds of parts make the gradient of emotion: each face is a **mode** — one small definition file — and its words, verbal tics, and example responses live in **vocabulary catalogs** — plain text files a mode refers to. One kind of rule makes the layer of relationship: the **route policy**, which decides which face may appear where and who may switch it. That is all. Add files and the agent gains expressions; because the rules live separately, adding expressions never weakens safety.
+
+How to add a mode, and the rules for writing vocabulary catalogs, are collected in the [customizing guide](docs/customizing.md).
 
 ## Getting started
 
