@@ -404,6 +404,26 @@ Audit events (newest first):
 | [SECURITY.md](SECURITY.md) | 威胁模型与漏洞报告 |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | 贡献指南 |
 
+<!-- family:generated:family-footer:start -->
+
+---
+
+本仓库属于 **Caty AI 家族** — 用于运营 AI 智能体家族的开源工具集。完整地图（包括仍在准备公开的模块）见 [Family OS](https://github.com/caty-ai/family-os)。
+
+| 轴 | 模块 | 做什么 | 状态 |
+| --- | --- | --- | --- |
+| 地图 | [Family OS](https://github.com/caty-ai/family-os) | 整个家族的地图 — 模块、状态与结构 | 已公开・MIT |
+| 规则 | [Family Dev Handbook](https://github.com/caty-ai/family-dev-handbook) | 开发的交通规则 — Issue、PR、worktree、交接与并行开发 | 已公开・MIT |
+| 纵轴・基座 | [Caty Agent Harness](https://github.com/caty-ai/caty-agent-harness) | AI 智能体的任务基座 — 重试、检查点与完成判定 | 已公开・MIT |
+| 纵轴 | **Persona Engine** | 为智能体赋予人格 — 分层人格与情感渐变 | 已公开・MIT |
+| 纵轴 | **Persona Growth Loop** | 让人格本身成长 — 以最小且幂等的提案 | 准备公开中 |
+| 纵轴 | [X Collector](https://github.com/caty-ai/x-collector) | 把 X 与网络素材汇成每日一份摘要 — 给人也给智能体 | 已公开・MIT |
+| 纵轴 | **Self Growth Loop** | 让智能体自我成长的循环 — 提案、治理与采用记录 | 准备公开中 |
+| 横轴・基座 | **Family Memory Architecture** | 记忆总线 — 家族共享所知的一层 | 准备公开中 |
+| 横轴 | [Sitter](https://github.com/caty-ai/sitter) | 替你盯着委派出去的智能体 — 监视、留证、重启 | 已公开・MIT |
+
+<!-- family:generated:family-footer:end -->
+
 ## 开发
 
 ```sh
@@ -434,23 +454,3 @@ v0.1.0 是首个公开版本。欢迎提交 Issue 与建议——见[贡献](#�
 ## 许可证
 
 MIT © Caty. 见 [LICENSE](LICENSE)。
-
-<!-- family:generated:family-footer:start -->
-
----
-
-本仓库属于 **Caty AI 家族** — 用于运营 AI 智能体家族的开源工具集。完整地图（包括仍在准备公开的模块）见 [Family OS](https://github.com/caty-ai/family-os)。
-
-| 轴 | 模块 | 做什么 | 状态 |
-| --- | --- | --- | --- |
-| 地图 | [Family OS](https://github.com/caty-ai/family-os) | 整个家族的地图 — 模块、状态与结构 | 已公开・MIT |
-| 规则 | [Family Dev Handbook](https://github.com/caty-ai/family-dev-handbook) | 开发的交通规则 — Issue、PR、worktree、交接与并行开发 | 已公开・MIT |
-| 纵轴・基座 | [Caty Agent Harness](https://github.com/caty-ai/caty-agent-harness) | AI 智能体的任务基座 — 重试、检查点与完成判定 | 已公开・MIT |
-| 纵轴 | **Persona Engine** | 为智能体赋予人格 — 分层人格与情感渐变 | 已公开・MIT |
-| 纵轴 | **Persona Growth Loop** | 让人格本身成长 — 以最小且幂等的提案 | 准备公开中 |
-| 纵轴 | [X Collector](https://github.com/caty-ai/x-collector) | 把 X 与网络素材汇成每日一份摘要 — 给人也给智能体 | 已公开・MIT |
-| 纵轴 | **Self Growth Loop** | 让智能体自我成长的循环 — 提案、治理与采用记录 | 准备公开中 |
-| 横轴・基座 | **Family Memory Architecture** | 记忆总线 — 家族共享所知的一层 | 准备公开中 |
-| 横轴 | [Sitter](https://github.com/caty-ai/sitter) | 替你盯着委派出去的智能体 — 监视、留证、重启 | 已公开・MIT |
-
-<!-- family:generated:family-footer:end -->
