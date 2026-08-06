@@ -434,3 +434,13 @@ v0.1.0 是首个公开版本。欢迎提交 Issue 与建议——见[贡献](#�
 ## 许可证
 
 MIT © Caty. 见 [LICENSE](LICENSE)。
+
+<!-- family:generated:family-footer:start -->
+
+---
+
+本仓库属于 **Caty AI 家族** — 用于运营 AI 智能体家族的开源工具集。完整地图（包括仍在准备公开的模块）见 [Family OS](https://github.com/caty-ai/family-os)。
+
+同家族模块: [Caty Agent Harness](https://github.com/caty-ai/caty-agent-harness) · [Sitter](https://github.com/caty-ai/sitter) · [X Collector](https://github.com/caty-ai/x-collector) · [Family Dev Handbook](https://github.com/caty-ai/family-dev-handbook)
+
+<!-- family:generated:family-footer:end -->
