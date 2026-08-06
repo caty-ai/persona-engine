@@ -434,3 +434,13 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Report security vulnerabilities privatel
 ## License
 
 MIT © Caty. See [LICENSE](LICENSE).
+
+<!-- family:generated:family-footer:start -->
+
+---
+
+Part of the **Caty AI family** — open tools for running a family of AI agents. The full map, including modules still being prepared for release, lives in [Family OS](https://github.com/caty-ai/family-os).
+
+Siblings: [Caty Agent Harness](https://github.com/caty-ai/caty-agent-harness) · [Sitter](https://github.com/caty-ai/sitter) · [X Collector](https://github.com/caty-ai/x-collector) · [Family Dev Handbook](https://github.com/caty-ai/family-dev-handbook)
+
+<!-- family:generated:family-footer:end -->

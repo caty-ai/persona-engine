@@ -434,3 +434,13 @@ v0.1.0 が最初の公開リリースです。Issue や提案を歓迎します 
 ## ライセンス
 
 MIT © Caty. [LICENSE](LICENSE) を参照。
+
+<!-- family:generated:family-footer:start -->
+
+---
+
+このリポジトリは **Caty AI ファミリー** の一員です — AI エージェントの家族を運用するためのオープンなツール群。公開準備中のモジュールを含む全体の地図は [Family OS](https://github.com/caty-ai/family-os) にあります。
+
+兄弟モジュール: [Caty Agent Harness](https://github.com/caty-ai/caty-agent-harness) · [Sitter](https://github.com/caty-ai/sitter) · [X Collector](https://github.com/caty-ai/x-collector) · [Family Dev Handbook](https://github.com/caty-ai/family-dev-handbook)
+
+<!-- family:generated:family-footer:end -->

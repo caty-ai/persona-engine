@@ -434,3 +434,13 @@ v0.1.0 คือรุ่นสาธารณะรุ่นแรก ยิน
 ## ไลเซนส์
 
 MIT © Caty ดู [LICENSE](LICENSE)
+
+<!-- family:generated:family-footer:start -->
+
+---
+
+รีโพนี้เป็นส่วนหนึ่งของ **ครอบครัว Caty AI** — ชุดเครื่องมือโอเพนซอร์สสำหรับดูแลครอบครัวเอเจนต์ AI แผนที่ฉบับเต็ม (รวมโมดูลที่กำลังเตรียมเปิด) อยู่ที่ [Family OS](https://github.com/caty-ai/family-os)
+
+โมดูลพี่น้อง: [Caty Agent Harness](https://github.com/caty-ai/caty-agent-harness) · [Sitter](https://github.com/caty-ai/sitter) · [X Collector](https://github.com/caty-ai/x-collector) · [Family Dev Handbook](https://github.com/caty-ai/family-dev-handbook)
+
+<!-- family:generated:family-footer:end -->
