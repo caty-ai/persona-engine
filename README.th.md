@@ -62,7 +62,7 @@ persona-engine คือ "อุปกรณ์" (โอเพนซอร์ส
 
 ![เดโม: agent หนึ่งตัว สี่สีหน้า — แก้เทิร์น สลับด้วยประโยคเดียว โหมด public แบบ fail-closed และ audit log](docs/assets/demo.gif)
 
-สิ่งเดียวที่ต้องมีคือ [Node.js](https://nodejs.org/) (เวอร์ชัน 22 ขึ้นไป) รัน 4 บรรทัดนี้ในเทอร์มินัล:
+สิ่งเดียวที่ต้องมีคือ [Node.js](https://nodejs.org/) (เวอร์ชัน 22 ขึ้นไป) ใช้ได้ทั้งบน Linux และ macOS — ชุดทดสอบหลักรันบนทั้งสองระบบใน CI รัน 4 บรรทัดนี้ในเทอร์มินัล:
 
 ```sh
 npm install -g @persona-engine/core

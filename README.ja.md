@@ -62,7 +62,7 @@ AI にも、人間と同じような表現はできると私たちは考えて�
 
 ![デモ: 1つのエージェントに4つの表情 — ターン解決・一言での切替・fail-closed の public モード・監査ログ](docs/assets/demo.gif)
 
-必要なのは [Node.js](https://nodejs.org/)（バージョン 22 以上）だけです。ターミナルで次の 4 行を実行します:
+必要なのは [Node.js](https://nodejs.org/)（バージョン 22 以上）だけです。Linux と macOS で動きます（コアのテストスイートを両OSのCIで実走）。ターミナルで次の 4 行を実行します:
 
 ```sh
 npm install -g @persona-engine/core

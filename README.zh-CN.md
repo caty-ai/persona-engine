@@ -62,7 +62,7 @@ persona-engine 是一个装置（开源），为你的智能体已有的人格�
 
 ![演示: 一个智能体，四张面孔——解析轮次、一句话切换、fail-closed 的 public 模式、审计日志](docs/assets/demo.gif)
 
-你只需要 [Node.js](https://nodejs.org/)（22 或更高版本）。在终端运行这四行：
+你只需要 [Node.js](https://nodejs.org/)（22 或更高版本）。支持 Linux 和 macOS——核心测试套件在两个系统的 CI 上运行。在终端运行这四行：
 
 ```sh
 npm install -g @persona-engine/core
