@@ -62,7 +62,7 @@ How to add a mode, and the rules for writing vocabulary catalogs, are collected 
 
 ![demo: one agent, four faces — resolving a turn, switching by utterance, fail-closed public mode, and the audit trail](docs/assets/demo.gif)
 
-All you need is [Node.js](https://nodejs.org/) (version 22 or later). Run these four lines in a terminal:
+All you need is [Node.js](https://nodejs.org/) (version 22 or later). Works on Linux and macOS — the core test suite runs on both in CI. Run these four lines in a terminal:
 
 ```sh
 npm install -g @persona-engine/core
