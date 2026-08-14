@@ -8,7 +8,7 @@
 
 ![persona-engine — 为你的智能体人格加上关系的层次与情感的渐变](docs/assets/hero.jpg)
 
-![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-brightgreen) ![license](https://img.shields.io/badge/license-MIT-blue)
+![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-brightgreen) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
 
