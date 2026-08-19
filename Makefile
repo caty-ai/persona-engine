@@ -1,7 +1,11 @@
 .PHONY: test lint
 
-test:
+node_modules: package-lock.json
+	npm ci
+
+test: node_modules
+	npm run build --workspace @persona-engine/core
 	npm test
 
-lint:
+lint: node_modules
 	npm run typecheck
