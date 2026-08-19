@@ -12,10 +12,11 @@ jobs:
       risk_paths_billing: 'none'
       risk_paths_outbound: 'none'
       risk_paths_gates: |
-        vitest.config.ts
+        **/vitest.config.*
         vitest.global-setup.ts
-        conftest.py
-        package.json
-        packages/core/package.json
-        adapters/openclaw/package.json
-      risk_paths_auth: 'none'
+        **/conftest.py
+        **/package.json
+        **/tsconfig*.json
+        **/pytest.ini
+      risk_paths_auth: |
+        packages/core/src/policy/**
