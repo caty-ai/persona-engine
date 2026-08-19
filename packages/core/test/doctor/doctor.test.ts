@@ -31,6 +31,11 @@ const BIN = resolve(import.meta.dirname, "../../bin/persona");
 const execFileAsync = promisify(execFile);
 const temporaryRoots: string[] = [];
 
+// chmod 000 doesn't deny reads to root (some CI/containers run as root), so
+// the permission-denial premise behind these two tests breaks there — skip
+// honestly instead of failing dishonestly.
+const runningAsRoot = process.getuid?.() === 0;
+
 type FixtureOptions = {
   runtime?: "generic" | "hermes" | "openclaw";
   routes?: readonly RouteDecl[];
@@ -185,7 +190,7 @@ describe("runDoctor", () => {
     expect(JSON.stringify(report)).not.toContain(fakeSecret);
   });
 
-  it("treats an unreadable policy.json as an issue", async () => {
+  it.skipIf(runningAsRoot)("treats an unreadable policy.json as an issue", async () => {
     const root = createFixture();
     const path = resolve(root, "build", "policy.json");
     chmodSync(path, 0o000);
@@ -290,7 +295,7 @@ describe("runDoctor", () => {
     ]));
   });
 
-  it("reports only one manifest issue when manifest.json cannot be read", async () => {
+  it.skipIf(runningAsRoot)("reports only one manifest issue when manifest.json cannot be read", async () => {
     const root = createFixture();
     const manifestPath = resolve(root, "build", "manifest.json");
     chmodSync(manifestPath, 0o000);
