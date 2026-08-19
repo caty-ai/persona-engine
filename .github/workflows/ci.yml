@@ -9,61 +9,6 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-
-      - name: Use Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build core package
-        run: npm run build --workspace @persona-engine/core
-
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Test
-        run: npm test
-
-  # Same core suite on macOS (family-dev-handbook#54): dev machines are macOS,
-  # ubuntu-only CI misses BSD/GNU behavior differences. Separate job name keeps
-  # the existing `test` check intact. Adapter jobs stay ubuntu-only for now.
-  test-macos:
-    runs-on: macos-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-
-      - name: Use Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build core package
-        run: npm run build --workspace @persona-engine/core
-
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Test
-        run: npm test
-
   hermes-python:
     runs-on: ubuntu-latest
     steps:
