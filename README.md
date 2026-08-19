@@ -404,6 +404,15 @@ Claude Code, Hermes, and OpenClaw today. The adapter contract ([SPEC.md](SPEC.md
 | [SECURITY.md](SECURITY.md) | Threat model and vulnerability reporting |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guide |
 
+<a id="project-status"></a>
+
+## Project status
+
+**Maturity:** `product` — persona-engine is a runtime in production use inside the caty-ai family, using the family registry maturity vocabulary.
+**CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
+**Verified environments:** the core suite runs on Ubuntu and macOS on every pull request (`make test`, Node 22); the adapter suites (Python and Node workspaces) run on Ubuntu.
+**Known constraints:** a known test flake ([#16](https://github.com/caty-ai/persona-engine/issues/16): a dist artifact rewritten mid-suite) can intermittently redden CI and passes on rerun; the secret/size/risk gates were wired in 2026-08 and their scheduled-run history is still short.
+
 <!-- family:generated:family-footer:start -->
 
 ---
@@ -430,10 +439,9 @@ Part of the **Caty AI family** — open tools for running a family of AI agents.
 ```sh
 git clone https://github.com/caty-ai/persona-engine.git
 cd persona-engine
-npm install
-npm test
-npm run typecheck
-python3 -m pytest adapters
+make test   # npm ci + build core + core suite (same entry CI runs)
+make lint   # typecheck
+python3 -m pytest adapters   # adapter suites (Python 3.11+, pytest)
 ```
 
 For a source checkout, the CLI is `packages/core/bin/persona` (alias it, or set `PERSONA_BIN` for adapters). Shared fixtures under `spec/fixtures/` verify the TypeScript core and the Python adapters against the same runtime contract.

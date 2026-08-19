@@ -404,6 +404,15 @@ Audit events (newest first):
 | [SECURITY.md](SECURITY.md) | 威胁模型与漏洞报告 |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | 贡献指南 |
 
+<a id="project-status"></a>
+
+## 项目状态
+
+**成熟度:** `product` — persona-engine 是在 Caty AI 家族内部投入生产使用的运行时，并采用家族注册表的成熟度词汇。
+**CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
+**已验证环境:** 核心套件会在每个拉取请求中分别于 Ubuntu 和 macOS 上运行（`make test`、Node 22）；适配器套件（Python 和 Node 工作区）在 Ubuntu 上运行。
+**已知限制:** 已知的测试偶发失败（[#16](https://github.com/caty-ai/persona-engine/issues/16)：在套件运行过程中重写 dist 构件）可能会间歇性地使 CI 变红，重新运行即可通过；secret/size/risk 闸门于 2026-08 接入，定时运行的历史记录仍然较短。
+
 <!-- family:generated:family-footer:start -->
 
 ---
@@ -430,10 +439,9 @@ Audit events (newest first):
 ```sh
 git clone https://github.com/caty-ai/persona-engine.git
 cd persona-engine
-npm install
-npm test
-npm run typecheck
-python3 -m pytest adapters
+make test   # npm ci + build core + core suite (same entry CI runs)
+make lint   # typecheck
+python3 -m pytest adapters   # adapter suites (Python 3.11+, pytest)
 ```
 
 对源码检出而言，CLI 位于 `packages/core/bin/persona`（可以设置别名，或为适配器设置 `PERSONA_BIN`）。`spec/fixtures/` 下的共享夹具用同一份运行时契约同时验证 TypeScript 核心与 Python 适配器。
