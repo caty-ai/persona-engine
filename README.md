@@ -410,8 +410,8 @@ Claude Code, Hermes, and OpenClaw today. The adapter contract ([SPEC.md](SPEC.md
 
 **Maturity:** `product` — persona-engine is a runtime in production use inside the caty-ai family, using the family registry maturity vocabulary.
 **CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
-**Verified environments:** the core suite runs on Ubuntu and macOS on every pull request (`make test`, Node 22); the adapter suites (Python and Node workspaces) run on Ubuntu.
-**Known constraints:** a known test flake ([#16](https://github.com/caty-ai/persona-engine/issues/16): a dist artifact rewritten mid-suite) can intermittently redden CI and passes on rerun; the secret/size/risk gates were wired in 2026-08 and their scheduled-run history is still short.
+**Verified environments:** the core suite runs on Ubuntu and macOS on every pull request (`make test`, Node 22+); the adapter suites (Python and Node workspaces) run on Ubuntu.
+**Known constraints:** a known test flake ([#16](https://github.com/caty-ai/persona-engine/issues/16): a dist artifact rewritten mid-suite) can intermittently redden CI and passes on rerun; the newly wired CI gates (secret scan and history check, 2026-08) have a short run history so far.
 
 <!-- family:generated:family-footer:start -->
 

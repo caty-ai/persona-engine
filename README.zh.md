@@ -410,8 +410,8 @@ Audit events (newest first):
 
 **成熟度:** `product` — persona-engine 是在 Caty AI 家族内部投入生产使用的运行时，并采用家族注册表的成熟度词汇。
 **CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
-**已验证环境:** 核心套件会在每个拉取请求中分别于 Ubuntu 和 macOS 上运行（`make test`、Node 22）；适配器套件（Python 和 Node 工作区）在 Ubuntu 上运行。
-**已知限制:** 已知的测试偶发失败（[#16](https://github.com/caty-ai/persona-engine/issues/16)：在套件运行过程中重写 dist 构件）可能会间歇性地使 CI 变红，重新运行即可通过；secret/size/risk 闸门于 2026-08 接入，定时运行的历史记录仍然较短。
+**已验证环境:** 核心套件会在每个拉取请求中分别于 Ubuntu 和 macOS 上运行（`make test`、Node 22+）；适配器套件（Python 和 Node 工作区）在 Ubuntu 上运行。
+**已知限制:** 已知的测试偶发失败（[#16](https://github.com/caty-ai/persona-engine/issues/16)：在套件运行过程中重写 dist 构件）可能会间歇性地使 CI 变红，重新运行即可通过；新接入的 CI 闸门（secret 扫描与 history 检查，2026-08）目前运行历史仍然较短。
 
 <!-- family:generated:family-footer:start -->
 
