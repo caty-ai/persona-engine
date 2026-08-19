@@ -8,15 +8,20 @@ Thanks for contributing.
 - Open an issue for substantial changes so design and compatibility impact can be discussed first.
 - Do not include credentials, private prompts, personal data, or proprietary pack content in issues, commits, tests, or examples.
 
+## Prerequisites
+
+- Node.js 22 or later (npm included) — the core runtime and tests
+- GNU `make` or BSD `make` — the repository entry points are `make test` and `make lint`
+- Python 3.11+ with `pytest` — only for the adapter suites (`adapters/hermes`, `adapters/claude-code`); the core suite does not need Python
+
 ## Development
 
-Node.js 22 or later is required.
+The repository entry point is `make test`. It installs dependencies with `npm ci` when needed, builds the core package, and runs the core suite — the same command CI runs. `make lint` runs the typecheck.
 
 ```sh
-npm install
-npm test
-npm run typecheck
-python3 -m pytest adapters/hermes
+make test
+make lint
+python3 -m pytest adapters   # adapter suites (Python; CI runs them as separate jobs)
 ```
 
 Keep changes focused, add or update tests for behavioral changes, and preserve the fail-closed policy contract. Shared runtime fixtures belong in `spec/fixtures/` when TypeScript and Python implementations must agree.

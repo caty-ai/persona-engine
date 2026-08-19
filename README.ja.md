@@ -404,6 +404,15 @@ Audit events (newest first):
 | [SECURITY.md](SECURITY.md) | 脅威モデルと脆弱性報告 |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | コントリビュートガイド |
 
+<a id="project-status"></a>
+
+## プロジェクトの状況
+
+**成熟度:** `product` — persona-engine は Caty AI ファミリー内で本番運用されているランタイムで、ファミリーレジストリの成熟度語彙を使用しています。
+**CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
+**検証済み環境:** コアスイートはすべてのプルリクエストで Ubuntu と macOS 上で実行されます（`make test`、Node 22+）。アダプタスイート（Python および Node ワークスペース）は Ubuntu 上で実行されます。
+**既知の制約:** 既知のテストフレーク（[#16](https://github.com/caty-ai/persona-engine/issues/16)：スイート実行中に dist アーティファクトが書き換えられる）により CI が断続的に赤くなることがありますが、再実行すると通ります。新しく組み込まれた CI ゲート（secret スキャンと history チェック・2026-08）は、実行履歴がまだ短いです。
+
 <!-- family:generated:family-footer:start -->
 
 ---
@@ -430,10 +439,9 @@ Audit events (newest first):
 ```sh
 git clone https://github.com/caty-ai/persona-engine.git
 cd persona-engine
-npm install
-npm test
-npm run typecheck
-python3 -m pytest adapters
+make test   # npm ci + build core + core suite (same entry CI runs)
+make lint   # typecheck
+python3 -m pytest adapters   # adapter suites (Python 3.11+, pytest)
 ```
 
 ソースチェックアウトでは CLI は `packages/core/bin/persona` です（alias を張るか、アダプタには `PERSONA_BIN` を設定）。`spec/fixtures/` 配下の共有フィクスチャが、TypeScript コアと Python アダプタを同一のランタイム契約に対して検証します。

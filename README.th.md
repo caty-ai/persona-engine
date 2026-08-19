@@ -404,6 +404,15 @@ Adapter ถูกออกแบบให้บางโดยตั้งใจ
 | [SECURITY.md](SECURITY.md) | Threat model และการรายงานช่องโหว่ |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | คู่มือการมีส่วนร่วม |
 
+<a id="project-status"></a>
+
+## สถานะโปรเจกต์
+
+**ระดับความพร้อม:** `product` — persona-engine เป็น runtime ที่ใช้งานจริงภายในครอบครัว Caty AI โดยยึดคำเรียกระดับความพร้อมตามทะเบียนกลางของครอบครัว
+**CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
+**สภาพแวดล้อมที่ตรวจสอบแล้ว:** ชุดทดสอบ core ทำงานบน Ubuntu และ macOS ใน pull request ทุกครั้ง (`make test`, Node 22+) ส่วนชุดทดสอบ adapter (workspace ทั้งแบบ Python และ Node) ทำงานบน Ubuntu
+**ข้อจำกัดที่ทราบ:** มี test flake ที่ทราบแล้ว ([#16](https://github.com/caty-ai/persona-engine/issues/16): อาร์ติแฟกต์ใน dist ถูกเขียนทับระหว่างการรันชุดทดสอบ) ซึ่งอาจทำให้ CI ขึ้นสถานะไม่ผ่านเป็นครั้งคราว แต่จะผ่านเมื่อรันใหม่ เกต CI ที่เพิ่งรวมเข้าระบบ (สแกน secret และตรวจ history, 2026-08) ยังมีประวัติการรันเพียงช่วงสั้น ๆ
+
 <!-- family:generated:family-footer:start -->
 
 ---
@@ -430,10 +439,9 @@ Adapter ถูกออกแบบให้บางโดยตั้งใจ
 ```sh
 git clone https://github.com/caty-ai/persona-engine.git
 cd persona-engine
-npm install
-npm test
-npm run typecheck
-python3 -m pytest adapters
+make test   # npm ci + build core + core suite (same entry CI runs)
+make lint   # typecheck
+python3 -m pytest adapters   # adapter suites (Python 3.11+, pytest)
 ```
 
 สำหรับ source checkout ตัว CLI อยู่ที่ `packages/core/bin/persona` (ตั้ง alias หรือกำหนด `PERSONA_BIN` ให้ adapter) fixture ที่แชร์กันใต้ `spec/fixtures/` ใช้ตรวจ TypeScript core และ Python adapter กับสัญญา runtime ชุดเดียวกัน
