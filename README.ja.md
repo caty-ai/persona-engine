@@ -1,6 +1,6 @@
 # persona-engine
 
-[English](README.md) | **日本語** | [简体中文](README.zh-CN.md) | [ไทย](README.th.md)
+[English](README.md) | **日本語** | [简体中文](README.zh.md) | [ไทย](README.th.md)
 
 > 本ドキュメントの正本は英語版（README.md）です。翻訳は英語版に追随するため、内容が一部遅れる場合があります。
 

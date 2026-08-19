@@ -1,6 +1,6 @@
 # persona-engine
 
-**English** | [日本語](README.ja.md) | [简体中文](README.zh-CN.md) | [ไทย](README.th.md)
+**English** | [日本語](README.ja.md) | [简体中文](README.zh.md) | [ไทย](README.th.md)
 
 > English is the canonical version of this document. Translations follow it and may lag slightly behind.
 
