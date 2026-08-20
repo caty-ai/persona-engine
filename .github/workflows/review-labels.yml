@@ -1,0 +1,30 @@
+name: Risk Review Gate
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled, edited]
+permissions: {contents: read}
+concurrency: {group: 'risk-review-${{ github.event.pull_request.number }}', cancel-in-progress: true}
+jobs:
+  risk-review-gate:
+    uses: caty-ai/family-dev-handbook/.github/workflows/reusable-review-labels.yml@ci-v1
+    permissions: {contents: read, issues: read, pull-requests: write}
+    with:
+      risk_paths_billing: 'none'
+      risk_paths_outbound: 'none'
+      risk_paths_gates: |
+        **/vitest.config.*
+        vitest.global-setup.ts
+        **/conftest.py
+        **/package.json
+        **/tsconfig*.json
+        **/pytest.ini
+        package-lock.json
+        spec/fixtures/**
+        packages/core/src/migrate/**
+      risk_paths_auth: |
+        packages/core/src/policy/**
+        packages/core/src/turn/**
+        packages/core/src/state/**
+        packages/core/src/compile/compiler.ts
+        adapters/openclaw/src/route-resolution.ts
+        adapters/hermes/runtime.py
