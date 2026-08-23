@@ -1,0 +1,50 @@
+name: Publish to npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact version to publish; must equal packages/core/package.json version
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 26
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build --workspace packages/core
+      - name: Verify package version
+        working-directory: packages/core
+        env:
+          REQUESTED_VERSION: ${{ github.event.inputs.version }}
+        run: |
+          # npm pkg get returns a workspace-keyed object inside a workspace child,
+          # so read the manifest directly.
+          package_version="$(node -p "require('./package.json').version")"
+          if [[ "$REQUESTED_VERSION" != "$package_version" ]]; then
+            echo "Requested version '$REQUESTED_VERSION' does not match packages/core version '$package_version'." >&2
+            exit 1
+          fi
+      # Auth = npm trusted publisher (OIDC) wired to this workflow + the npm-publish
+      # environment. No token secret exists or is needed.
+      - run: npm publish --provenance --access public --tag latest
+        working-directory: packages/core
