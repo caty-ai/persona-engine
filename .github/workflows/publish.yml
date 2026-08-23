@@ -37,7 +37,9 @@ jobs:
         env:
           REQUESTED_VERSION: ${{ github.event.inputs.version }}
         run: |
-          package_version="$(npm pkg get version | tr -d '"')"
+          # npm pkg get returns a workspace-keyed object inside a workspace child,
+          # so read the manifest directly.
+          package_version="$(node -p "require('./package.json').version")"
           if [[ "$REQUESTED_VERSION" != "$package_version" ]]; then
             echo "Requested version '$REQUESTED_VERSION' does not match packages/core version '$package_version'." >&2
             exit 1
