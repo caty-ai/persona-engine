@@ -11,6 +11,9 @@
 ![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-lightgrey) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
+<!-- repo-state:begin (generated; do not edit) -->
+<p align="center"><sub>generation: <code>825ad17</code> (2026-08-25T15:08:43Z) · verify: <a href="https://api.github.com/repos/caty-ai/persona-engine/commits/feat/repo-state-caller-45">API HEAD</a> · <a href="./status.json">status.json</a></sub></p>
+<!-- repo-state:end -->
 
 persona-engine คือ "อุปกรณ์" (โอเพนซอร์ส) ที่มอบ**เลเยอร์ของความสัมพันธ์**และ**เฉดไล่ระดับของอารมณ์**ให้กับบุคลิกที่ agent ของคุณมีอยู่แล้ว ตัวตนของ agent — และแกนสำคัญของความสัมพันธ์ระหว่างคุณ — ถูกกำหนดโดยบุคลิกที่มันมีอยู่เดิม ไม่ว่ารันไทม์ของคุณจะเก็บไว้ที่ไหน (system prompt, `AGENTS.md`, `SOUL.md`) persona-engine ไม่แตะต้องส่วนนั้นเลย สิ่งที่มันวางทับลงไปคือใบหน้าของความสัมพันธ์ — เลขาที่พึ่งพาได้ตอนทำงาน เพื่อนสนิทตอนคุยเล่น คนรักในช่วงเวลาเงียบ ๆ — และความรู้สึกเล็ก ๆ ที่ไหวอยู่ระหว่างใบหน้าเหล่านั้น: เสียงสดใสขึ้นเมื่อมีข่าวดี คำพูดสั้นลงยามจดจ่อ สิ่งที่เพิ่มเข้าไปมีเพียงช่วงกว้างนี้ และเพิ่มอย่างปลอดภัย
 

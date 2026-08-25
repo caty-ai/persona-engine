@@ -11,6 +11,9 @@
 ![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-lightgrey) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
+<!-- repo-state:begin (generated; do not edit) -->
+<p align="center"><sub>generation: <code>825ad17</code> (2026-08-25T15:08:43Z) · verify: <a href="https://api.github.com/repos/caty-ai/persona-engine/commits/feat/repo-state-caller-45">API HEAD</a> · <a href="./status.json">status.json</a></sub></p>
+<!-- repo-state:end -->
 
 persona-engine は、あなたのエージェントの人格に、**関係のレイヤー**と**感情のグラデーション**を持たせる装置（OSS）です。エージェントが誰であるか — そしてあなたとの関係の大事な軸 — を決めるのは、いまお使いの仕組みの中にある本体の人格です（system prompt・`AGENTS.md`・`SOUL.md` など）。persona-engine はそこに一切触れません。その上に重ねるのは、関係の顔 — 仕事中は頼れる秘書、雑談では気の置けない友人、ふたりのときは恋人のような近さ — と、そのあいだにある気持ちの小さな動き。うれしいときは声が弾み、集中しているときは言葉が短くなる。足すのはその幅だけ、それも安全に。
 

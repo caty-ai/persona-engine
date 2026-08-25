@@ -11,6 +11,9 @@
 ![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-lightgrey) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
+<!-- repo-state:begin (generated; do not edit) -->
+<p align="center"><sub>generation: <code>825ad17</code> (2026-08-25T15:08:43Z) · verify: <a href="https://api.github.com/repos/caty-ai/persona-engine/commits/feat/repo-state-caller-45">API HEAD</a> · <a href="./status.json">status.json</a></sub></p>
+<!-- repo-state:end -->
 
 persona-engine is a device that gives your agent's existing persona a **layer of relationship** and a **gradient of emotion**. Who your agent is — and the important axes of your relationship — are decided by the persona it already has, wherever your runtime keeps it (a system prompt, an `AGENTS.md`, a `SOUL.md`). persona-engine never touches that. What it layers on top are the faces of a relationship — a dependable secretary at work, a close friend in casual chat, a partner in the quiet hours — and the small movements of feeling between them: a voice that brightens with good news, words that grow shorter under focus. Only that range is added, and it is added safely.
 
