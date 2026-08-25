@@ -11,6 +11,9 @@
 ![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-lightgrey) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
+<!-- repo-state:begin (generated; do not edit) -->
+<p align="center"><sub>generation: <code>825ad17</code> (2026-08-25T15:08:43Z) · verify: <a href="https://api.github.com/repos/caty-ai/persona-engine/commits/feat/repo-state-caller-45">API HEAD</a> · <a href="./status.json">status.json</a></sub></p>
+<!-- repo-state:end -->
 
 persona-engine 是一个装置（开源），为你的智能体已有的人格加上**关系的层次**与**情感的渐变**。智能体是谁——以及你们关系的重要轴线——由它本来就有的人格决定，无论那份人格放在哪里（system prompt、`AGENTS.md`、`SOUL.md`）。persona-engine 绝不触碰它。叠加在其上的，是关系的面孔——工作时可靠的秘书、闲聊时亲近的朋友、独处时恋人般的距离——以及面孔之间细小的情感流动：有好消息时声音亮起来，专注时话变短。加上的只有这份幅度，而且加得安全。
 
