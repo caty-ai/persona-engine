@@ -463,4 +463,4 @@ v0.1.0 是首个公开版本。欢迎提交 Issue 与建议——见[贡献](#�
 
 ## 许可证
 
-MIT © Caty. 见 [LICENSE](LICENSE)。
+MIT © Sho Jikumaru. 见 [LICENSE](LICENSE)。

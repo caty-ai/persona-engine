@@ -463,4 +463,4 @@ v0.1.0 คือรุ่นสาธารณะรุ่นแรก ยิน
 
 ## ไลเซนส์
 
-MIT © Caty ดู [LICENSE](LICENSE)
+MIT © Sho Jikumaru ดู [LICENSE](LICENSE)

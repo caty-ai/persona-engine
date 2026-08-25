@@ -463,4 +463,4 @@ v0.1.0 が最初の公開リリースです。Issue や提案を歓迎します 
 
 ## ライセンス
 
-MIT © Caty. [LICENSE](LICENSE) を参照。
+MIT © Sho Jikumaru. [LICENSE](LICENSE) を参照。
