@@ -463,4 +463,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Report security vulnerabilities privatel
 
 ## License
 
-MIT © Caty. See [LICENSE](LICENSE).
+MIT © Sho Jikumaru. See [LICENSE](LICENSE).
