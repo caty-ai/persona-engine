@@ -4,6 +4,7 @@ import errno
 import json
 import os
 import shutil
+import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
@@ -18,6 +19,76 @@ from adapters.hermes.runtime import report_adapter_error, set as persona_set, tu
 
 CASES = Path(__file__).resolve().parents[3] / "spec" / "fixtures" / "runtime" / "cases"
 CASE_NAMES = sorted(path.name for path in CASES.iterdir() if path.is_dir())
+
+
+def _issue47_reason(detail: str) -> str:
+    return f"{detail} This commonly happens on WSL2 DrvFs mounts such as /mnt/c; see issue #47."
+
+
+def _probe_symlinks() -> tuple[bool, str]:
+    if os.environ.get("PERSONA_TEST_FORCE_FSCAPS") == "none":
+        return (
+            False,
+            "PERSONA_TEST_FORCE_FSCAPS=none disabled symlink probes "
+            "to simulate WSL2 DrvFs /mnt/c behavior from issue #47.",
+        )
+
+    try:
+        with tempfile.TemporaryDirectory(prefix="persona-hermes-symlink-") as raw_dir:
+            root = Path(raw_dir)
+            file_target = root / "target.txt"
+            file_link = root / "file-link"
+            directory_target = root / "target-directory"
+            directory_link = root / "directory-link"
+            file_target.write_text("symlink target\n", encoding="utf-8")
+            directory_target.mkdir()
+            file_link.symlink_to(file_target)
+            directory_link.symlink_to(directory_target, target_is_directory=True)
+            if file_link.is_file() and directory_link.is_dir():
+                return True, "File and directory symlink probes both resolved successfully."
+            return False, _issue47_reason(
+                "Symlink creation completed, but the links did not resolve as a file and directory pair."
+            )
+    except OSError as exc:
+        return False, _issue47_reason(
+            f"Symlink creation failed during the filesystem capability probe "
+            f"({exc.__class__.__name__}: {exc})."
+        )
+
+
+def _probe_mkfifo() -> tuple[bool, str]:
+    if os.environ.get("PERSONA_TEST_FORCE_FSCAPS") == "none":
+        return (
+            False,
+            "mkfifo unavailable/failed on this filesystem: "
+            "PERSONA_TEST_FORCE_FSCAPS=none disabled mkfifo probes "
+            "to simulate WSL2 DrvFs /mnt/c behavior from issue #47.",
+        )
+
+    mkfifo = getattr(os, "mkfifo", None)
+    if mkfifo is None:
+        return False, "mkfifo unavailable/failed on this filesystem: " + _issue47_reason(
+            "os.mkfifo is unavailable for this filesystem capability probe."
+        )
+    try:
+        with tempfile.TemporaryDirectory(prefix="persona-hermes-mkfifo-") as raw_dir:
+            fifo_path = Path(raw_dir) / "probe.fifo"
+            mkfifo(fifo_path)
+            if fifo_path.is_fifo():
+                return True, "mkfifo succeeded on the probe path."
+            return False, "mkfifo unavailable/failed on this filesystem: " + _issue47_reason(
+                "mkfifo completed, but the probe path is not a FIFO."
+            )
+    except OSError as exc:
+        return False, "mkfifo unavailable/failed on this filesystem: " + _issue47_reason(
+            f"mkfifo failed during the filesystem capability probe ({exc.__class__.__name__}: {exc})."
+        )
+
+
+SUPPORTS_SYMLINKS, SYMLINK_REASON = _probe_symlinks()
+MKFIFO_OK, MKFIFO_REASON = _probe_mkfifo()
+requires_symlinks = pytest.mark.skipif(not SUPPORTS_SYMLINKS, reason=SYMLINK_REASON)
+requires_mkfifo = pytest.mark.skipif(not MKFIFO_OK, reason=MKFIFO_REASON)
 
 
 def _assert_iso(value: str) -> None:
@@ -290,6 +361,7 @@ def test_bom_prefixed_manifest_is_rejected_as_build_invalid(tmp_path: Path) -> N
     assert result["audit"][-1]["reason"] == "build-artifact-unavailable"
 
 
+@requires_symlinks
 def test_build_json_symlink_is_rejected_fail_closed_and_audited(tmp_path: Path) -> None:
     install_root = tmp_path / "case"
     shutil.copytree(CASES / "agent-switch-accept", install_root)
@@ -320,6 +392,7 @@ def test_build_json_symlink_is_rejected_fail_closed_and_audited(tmp_path: Path) 
     assert '"reason":"build-artifact-unavailable"' in audit
 
 
+@requires_symlinks
 def test_manifest_json_symlink_is_rejected_fail_closed(tmp_path: Path) -> None:
     install_root = tmp_path / "case"
     shutil.copytree(CASES / "agent-switch-accept", install_root)
@@ -341,6 +414,7 @@ def test_manifest_json_symlink_is_rejected_fail_closed(tmp_path: Path) -> None:
     assert result["audit"][-1]["reason"] == "build-artifact-unavailable"
 
 
+@requires_symlinks
 def test_policy_json_symlink_rejection_uses_default_audit_root(tmp_path: Path) -> None:
     install_root = tmp_path / "case"
     shutil.copytree(CASES / "agent-switch-accept", install_root)
@@ -371,6 +445,7 @@ def test_policy_json_symlink_rejection_uses_default_audit_root(tmp_path: Path) -
     assert '"reason":"policy-unavailable"' in audit
 
 
+@requires_symlinks
 def test_report_adapter_error_rejects_symlinked_policy_fail_closed(tmp_path: Path) -> None:
     install_root = tmp_path / "case"
     shutil.copytree(CASES / "agent-switch-accept", install_root)
@@ -395,6 +470,7 @@ def test_report_adapter_error_rejects_symlinked_policy_fail_closed(tmp_path: Pat
     assert not (install_root / "audit").exists()
 
 
+@requires_symlinks
 def test_symlinked_build_directory_is_rejected_fail_closed(tmp_path: Path) -> None:
     install_root = tmp_path / "case"
     shutil.copytree(CASES / "agent-switch-accept", install_root)
@@ -562,6 +638,7 @@ def test_verification_stat_enoent_uses_default_policy_fallback(
     assert '"reason":"policy-unavailable"' in audit
 
 
+@requires_mkfifo
 def test_fifo_json_trust_root_is_rejected_without_opening(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -569,7 +646,13 @@ def test_fifo_json_trust_root_is_rejected_without_opening(
     shutil.copytree(CASES / "agent-switch-accept", install_root)
     triggers_path = install_root / "build" / "triggers.json"
     triggers_path.unlink()
-    os.mkfifo(triggers_path)
+    try:
+        os.mkfifo(triggers_path)
+    except OSError as exc:
+        pytest.skip(
+            "mkfifo unavailable/failed on this filesystem: "
+            + _issue47_reason(f"mkfifo failed at the test path ({exc.__class__.__name__}: {exc}).")
+        )
     original_open = runtime.os.open
     opened_fifo = False
 
@@ -600,6 +683,7 @@ def test_fifo_json_trust_root_is_rejected_without_opening(
     assert opened_fifo is False
 
 
+@requires_symlinks
 def test_symlinked_mode_block_is_rejected_fail_closed(tmp_path: Path) -> None:
     install_root = tmp_path / "case"
     shutil.copytree(CASES / "agent-switch-accept", install_root)
@@ -621,6 +705,7 @@ def test_symlinked_mode_block_is_rejected_fail_closed(tmp_path: Path) -> None:
     assert result["audit"][-1]["reason"] == "block-unavailable"
 
 
+@requires_symlinks
 def test_symlinked_modes_directory_is_rejected_fail_closed(tmp_path: Path) -> None:
     install_root = tmp_path / "case"
     shutil.copytree(CASES / "agent-switch-accept", install_root)

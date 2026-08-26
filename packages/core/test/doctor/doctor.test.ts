@@ -13,7 +13,7 @@ import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { promisify } from "node:util";
 
-import { afterEach, describe, expect, it, type TestContext } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 
 import { buildPack } from "../../src/compile/index.js";
 import { sha256 } from "../../src/compile/hash.js";
@@ -21,9 +21,9 @@ import { readAuditTail, runDoctor, type DoctorReport } from "../../src/doctor/in
 import {
   chmodDenialReason,
   mkfifoProbe,
+  mkfifoSpawnSkipDetail,
+  skipWithoutSymlinks,
   supportsChmodDenial,
-  supportsSymlinks,
-  symlinkReason,
 } from "../helpers/fs-caps.js";
 import type { PolicyJson, RouteDecl, TriggersJson } from "../../src/types.js";
 
@@ -50,23 +50,6 @@ const unreadablePolicyTestName = runningAsRoot || !supportsChmodDenial
 const unreadableManifestTestName = runningAsRoot || !supportsChmodDenial
   ? `reports only one manifest issue when manifest.json cannot be read — ${runningAsRoot ? rootSkipsChmodDenialReason : chmodDenialReason}`
   : "reports only one manifest issue when manifest.json cannot be read";
-
-function skipWithoutSymlinks(context: TestContext): boolean {
-  if (supportsSymlinks) return false;
-  context.skip(symlinkReason);
-  return true;
-}
-
-function mkfifoSpawnSkipDetail(result: ReturnType<typeof spawnSync>): string {
-  if (result.error !== undefined) {
-    const code = (result.error as NodeJS.ErrnoException).code ?? result.error.name;
-    return `spawn error ${code}. This commonly happens on WSL2 DrvFs mounts such as /mnt/c; see issue #47.`;
-  }
-  const stderr = typeof result.stderr === "string" ? result.stderr.trim() : result.stderr.toString("utf8").trim();
-  return stderr === ""
-    ? `exit status ${result.status ?? "unknown"}. This commonly happens on WSL2 DrvFs mounts such as /mnt/c; see issue #47.`
-    : `exit status ${result.status ?? "unknown"}: ${stderr}. This commonly happens on WSL2 DrvFs mounts such as /mnt/c; see issue #47.`;
-}
 
 type FixtureOptions = {
   runtime?: "generic" | "hermes" | "openclaw";

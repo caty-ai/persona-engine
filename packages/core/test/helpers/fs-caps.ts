@@ -3,6 +3,8 @@ import { chmodSync, mkdtempSync, mkdirSync, rmSync, statSync, symlinkSync, write
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 
+import type { TestContext } from "vitest";
+
 type MkfifoProbe = {
   ok: boolean;
   reason: string;
@@ -33,6 +35,16 @@ function spawnFailureDetail(result: ReturnType<typeof spawnSync>): string {
   }
   const stderr = typeof result.stderr === "string" ? result.stderr.trim() : result.stderr.toString("utf8").trim();
   return stderr === "" ? `exit status ${result.status ?? "unknown"}` : `exit status ${result.status ?? "unknown"}: ${stderr}`;
+}
+
+export function skipWithoutSymlinks(context: TestContext): boolean {
+  if (supportsSymlinks) return false;
+  context.skip(symlinkReason);
+  return true;
+}
+
+export function mkfifoSpawnSkipDetail(result: ReturnType<typeof spawnSync>): string {
+  return `${spawnFailureDetail(result)}. This commonly happens on WSL2 DrvFs mounts such as /mnt/c; see issue #47.`;
 }
 
 // Simulation-only override for issue #47 regression coverage; `none` force-disables
