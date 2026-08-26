@@ -8,7 +8,7 @@
 
 ![persona-engine — a relationship layer and an emotion gradient for your agent's persona](docs/assets/hero.jpg)
 
-![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-lightgrey) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
+![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-lightgrey) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20WSL2-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
 <!-- repo-state:begin (generated; do not edit) -->
@@ -65,7 +65,7 @@ How to add a mode, and the rules for writing vocabulary catalogs, are collected 
 
 ![demo: one agent, four faces — resolving a turn, switching by utterance, fail-closed public mode, and the audit trail](docs/assets/demo.gif)
 
-All you need is [Node.js](https://nodejs.org/) (version 22 or later). Works on Linux and macOS — the core test suite runs on both in CI. Run these four lines in a terminal:
+All you need is [Node.js](https://nodejs.org/) (version 22 or later). Works on Linux, macOS, and Windows via WSL2 — the core test suite runs on Linux and macOS in CI. On WSL2, clone into the Linux filesystem (for example `~/persona-engine`), not a Windows-mounted drive like `/mnt/c` — Windows mounts (DrvFs) cannot express POSIX file permissions. Run these four lines in a terminal:
 
 ```sh
 npm install -g @persona-engine/core
@@ -413,7 +413,7 @@ Claude Code, Hermes, and OpenClaw today. The adapter contract ([SPEC.md](SPEC.md
 
 **Maturity:** `product` — persona-engine is a runtime in production use inside the caty-ai family, using the family registry maturity vocabulary.
 **CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
-**Verified environments:** the core suite runs on Ubuntu and macOS on every pull request (`make test`, Node 22+); the adapter suites (Python and Node workspaces) run on Ubuntu.
+**Verified environments:** the core suite runs on Ubuntu and macOS on every pull request (`make test`, Node 22+); the adapter suites (Python and Node workspaces) run on Ubuntu. WSL2 works with a checkout in the Linux filesystem (`~/…`); on a Windows mount (`/mnt/c`, DrvFs) the suite probes the filesystem's actual capabilities at runtime and skips permission/FIFO/symlink cases with an explicit reason instead of failing (the probes run where the test fixtures live — the temp directory).
 **Known constraints:** a known test flake ([#16](https://github.com/caty-ai/persona-engine/issues/16): a dist artifact rewritten mid-suite) can intermittently redden CI and passes on rerun; the newly wired CI gates (secret scan and history check, 2026-08) have a short run history so far.
 
 <!-- family:generated:family-footer:start -->

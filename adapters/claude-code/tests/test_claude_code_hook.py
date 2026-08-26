@@ -3,6 +3,7 @@ import os
 import stat
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -11,6 +12,49 @@ import pytest
 ROOT = Path(__file__).resolve().parents[3]
 HOOK = ROOT / "adapters" / "claude-code" / "claude_code_hook.py"
 PERSONA = ROOT / "packages" / "core" / "bin" / "persona"
+
+
+def _issue47_reason(detail: str) -> str:
+    return f"{detail} This commonly happens on WSL2 DrvFs mounts such as /mnt/c; see issue #47."
+
+
+def _probe_fake_executable_persona_bin() -> tuple[bool, str]:
+    if os.environ.get("PERSONA_TEST_FORCE_FSCAPS") == "none":
+        return (
+            False,
+            "PERSONA_TEST_FORCE_FSCAPS=none disabled executable PERSONA_BIN probes "
+            "to simulate WSL2 DrvFs /mnt/c behavior from issue #47.",
+        )
+
+    try:
+        with tempfile.TemporaryDirectory(prefix="persona-claude-code-hook-exec-") as raw_dir:
+            probe = Path(raw_dir) / "probe-bin"
+            probe.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+            probe.chmod(0o700)
+            mode = stat.S_IMODE(probe.stat().st_mode)
+            if mode != 0o700:
+                return (
+                    False,
+                    _issue47_reason(
+                        f"Exact chmod(0700) did not round-trip on the executable probe file "
+                        f"(observed {mode:03o})."
+                    ),
+                )
+            if not os.access(probe, os.X_OK):
+                return (
+                    False,
+                    _issue47_reason("os.access(X_OK) did not treat the executable probe file as runnable."),
+                )
+            return True, "Executable PERSONA_BIN probes are supported."
+    except OSError as exc:
+        return False, _issue47_reason(f"Executable PERSONA_BIN probe failed ({exc.__class__.__name__}: {exc}).")
+
+
+SUPPORTS_FAKE_EXECUTABLE_PERSONA_BIN, FAKE_EXECUTABLE_PERSONA_BIN_REASON = _probe_fake_executable_persona_bin()
+fake_executable_persona_bin = pytest.mark.skipif(
+    not SUPPORTS_FAKE_EXECUTABLE_PERSONA_BIN,
+    reason=FAKE_EXECUTABLE_PERSONA_BIN_REASON,
+)
 
 
 def persona(*args: str, cwd: Path) -> subprocess.CompletedProcess[str]:
@@ -136,6 +180,7 @@ def test_malformed_stdin_is_safe(install: Path) -> None:
     assert "continuing without persona context" in result.stderr
 
 
+@fake_executable_persona_bin
 def test_timeout_is_safe(tmp_path: Path) -> None:
     slow = tmp_path / "slow-persona"
     slow.write_text("#!/usr/bin/env python3\nimport time\ntime.sleep(2)\n", encoding="utf-8")

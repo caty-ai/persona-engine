@@ -55,7 +55,6 @@ performs the authoritative policy evaluation for every `turn()` and `set()`.
 ## Build and test
 
 ```sh
-export PATH=/usr/local/bin:$PATH
 npm run build --workspace @persona-engine/openclaw-adapter
 npm run test --workspace @persona-engine/openclaw-adapter
 ```

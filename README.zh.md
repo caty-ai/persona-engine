@@ -8,7 +8,7 @@
 
 ![persona-engine — 为你的智能体人格加上关系的层次与情感的渐变](docs/assets/hero.jpg)
 
-![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-lightgrey) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
+![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-lightgrey) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20WSL2-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
 <!-- repo-state:begin (generated; do not edit) -->
@@ -65,7 +65,7 @@ persona-engine 是一个装置（开源），为你的智能体已有的人格�
 
 ![演示: 一个智能体，四张面孔——解析轮次、一句话切换、fail-closed 的 public 模式、审计日志](docs/assets/demo.gif)
 
-你只需要 [Node.js](https://nodejs.org/)（22 或更高版本）。支持 Linux 和 macOS——核心测试套件在两个系统的 CI 上运行。在终端运行这四行：
+你只需要 [Node.js](https://nodejs.org/)（22 或更高版本）。支持 Linux、macOS 和 Windows（通过 WSL2）——核心测试套件在 Linux 和 macOS 的 CI 上运行。在 WSL2 上请将仓库克隆到 Linux 文件系统（例如 `~/persona-engine`），不要放在 `/mnt/c` 这样的 Windows 挂载盘上——Windows 挂载（DrvFs）无法表达 POSIX 文件权限。在终端运行这四行：
 
 ```sh
 npm install -g @persona-engine/core
@@ -413,7 +413,7 @@ Audit events (newest first):
 
 **成熟度:** `product` — persona-engine 是在 Caty AI 家族内部投入生产使用的运行时，并采用家族注册表的成熟度词汇。
 **CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
-**已验证环境:** 核心套件会在每个拉取请求中分别于 Ubuntu 和 macOS 上运行（`make test`、Node 22+）；适配器套件（Python 和 Node 工作区）在 Ubuntu 上运行。
+**已验证环境:** 核心套件会在每个拉取请求中分别于 Ubuntu 和 macOS 上运行（`make test`、Node 22+）；适配器套件（Python 和 Node 工作区）在 Ubuntu 上运行。WSL2 需要将检出放在 Linux 文件系统（`~/…`）中；在 Windows 挂载盘（`/mnt/c`，DrvFs）上，测试套件会在运行时探测文件系统的实际能力，并对权限/FIFO/符号链接用例给出明确原因并跳过，而不是失败（探测在测试夹具所在的临时目录一侧进行）。
 **已知限制:** 已知的测试偶发失败（[#16](https://github.com/caty-ai/persona-engine/issues/16)：在套件运行过程中重写 dist 构件）可能会间歇性地使 CI 变红，重新运行即可通过；新接入的 CI 闸门（secret 扫描与 history 检查，2026-08）目前运行历史仍然较短。
 
 <!-- family:generated:family-footer:start -->

@@ -19,6 +19,7 @@ import {
   migrate,
   type MigrateReport,
 } from "../../src/migrate/index.js";
+import { skipWithoutSymlinks } from "../helpers/fs-caps.js";
 
 // migrate stamps engine.min with the current engine version; derive it like
 // the CLI does instead of hard-coding (broke on the 0.0.0 -> 0.1.0 bump)
@@ -206,11 +207,6 @@ describe("migrate", () => {
     // Deliberately invalid YAML proves the reserved v1 mode is skipped before parsing.
     writeFileSync(resolve(v1Root, "modes/public.yml"), "[\n", "utf8");
     writeFileSync(resolve(v1Root, "catalogs/common/greetings.yml"), catalogBytes);
-    writeFileSync(resolve(v1Root, "not-a-catalog.yml"), "outside: true\n", "utf8");
-    symlinkSync(
-      "../../not-a-catalog.yml",
-      resolve(v1Root, "catalogs/common/link.yml"),
-    );
 
     report = await migrate(v1Root, outputRoot);
   });
@@ -290,7 +286,32 @@ describe("migrate", () => {
       filesCopied: 1,
       bytesCopied: catalogBytes.byteLength,
     });
-    expect(() => readFileSync(resolve(outputRoot, "catalogs/common/link.yml"))).toThrow();
+  });
+
+  it("skips symlinked catalog entries instead of copying them", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+    const fixture = createSafetyFixture(temporaryRoot, "symlinked-catalog-");
+    writeFixtureIndex(fixture.v1Root, [
+      { id: "symlinked-catalog", file: "modes/symlinked-catalog.yml" },
+    ]);
+    writeFileSync(
+      resolve(fixture.v1Root, "modes/symlinked-catalog.yml"),
+      YAML.stringify({
+        id: "symlinked-catalog",
+        vocabulary: { catalog_refs: [{ catalog: "link.yml" }] },
+      }),
+      "utf8",
+    );
+    writeFileSync(resolve(fixture.root, "outside.yml"), "outside: true\n", "utf8");
+    symlinkSync(resolve(fixture.root, "outside.yml"), resolve(fixture.v1Root, "catalogs/link.yml"));
+
+    const fixtureReport = await migrate(fixture.v1Root, fixture.outputRoot);
+
+    expect(fixtureReport.warnings).toEqual(expect.arrayContaining([
+      expect.objectContaining({ kind: "unsupported-catalog-entry" }),
+      expect.objectContaining({ kind: "E_CATALOG_REF", modeId: "symlinked-catalog" }),
+    ]));
+    expect(() => readFileSync(resolve(fixture.outputRoot, "catalogs/link.yml"))).toThrow();
   });
 
   it("preserves catalog bytes exactly", () => {
@@ -490,9 +511,6 @@ describe("migrate", () => {
         kind: "E_CATALOG_REF",
         modeId: "formal-mode",
       }),
-      expect.objectContaining({
-        kind: "unsupported-catalog-entry",
-      }),
     ]));
 
     const warningJson = JSON.stringify(report.warnings);
@@ -502,13 +520,17 @@ describe("migrate", () => {
     expect(() => readFileSync(resolve(outputRoot, "modes/public.yml"))).toThrow();
   });
 
-  it("rejects input/output overlap through canonical paths", async () => {
+  it("rejects input/output overlap through canonical symlink paths", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
     const sourceAlias = resolve(temporaryRoot, "v1-source-alias");
     symlinkSync(v1Root, sourceAlias, "dir");
 
     await expect(
       migrate(sourceAlias, resolve(v1Root, "nested-output")),
     ).rejects.toThrow("output directory must not be the v1 directory or a descendant");
+  });
+
+  it("rejects output directories that contain the v1 directory", async () => {
     await expect(migrate(v1Root, temporaryRoot)).rejects.toThrow(
       "output directory must not be an ancestor of the v1 directory",
     );

@@ -6,6 +6,8 @@ import { promisify } from "node:util";
 
 import { afterEach, describe, expect, it } from "vitest";
 
+import { skipWithoutSymlinks } from "./helpers/fs-caps.js";
+
 const execFileAsync = promisify(execFile);
 const CORE_ROOT = resolve(import.meta.dirname, "..");
 const REPO_ROOT = resolve(CORE_ROOT, "../..");
@@ -83,7 +85,8 @@ describe("npm package contents", () => {
     expect(privateLeakage, `npm pack leaked private or YAML source files: ${privateLeakage.join(", ")}`).toEqual([]);
   }, 60_000);
 
-  it("runs the compiled tarball CLI without experimental warnings", async () => {
+  it("runs the compiled tarball CLI without experimental warnings", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
     const temporary = await mkdtemp(resolve(tmpdir(), "persona-pack-e2e-"));
     temporaryRoots.push(temporary);
     const tarballs = resolve(temporary, "tarballs");

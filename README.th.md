@@ -8,7 +8,7 @@
 
 ![persona-engine — เลเยอร์ของความสัมพันธ์และเฉดไล่ระดับของอารมณ์ ให้บุคลิกของ agent ของคุณ](docs/assets/hero.jpg)
 
-![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-lightgrey) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
+![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-lightgrey) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20WSL2-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
 <!-- repo-state:begin (generated; do not edit) -->
@@ -65,7 +65,7 @@ persona-engine คือ "อุปกรณ์" (โอเพนซอร์ส
 
 ![เดโม: agent หนึ่งตัว สี่สีหน้า — แก้เทิร์น สลับด้วยประโยคเดียว โหมด public แบบ fail-closed และ audit log](docs/assets/demo.gif)
 
-สิ่งเดียวที่ต้องมีคือ [Node.js](https://nodejs.org/) (เวอร์ชัน 22 ขึ้นไป) ใช้ได้ทั้งบน Linux และ macOS — ชุดทดสอบหลักรันบนทั้งสองระบบใน CI รัน 4 บรรทัดนี้ในเทอร์มินัล:
+สิ่งเดียวที่ต้องมีคือ [Node.js](https://nodejs.org/) (เวอร์ชัน 22 ขึ้นไป) ใช้ได้บน Linux, macOS และ Windows ผ่าน WSL2 — ชุดทดสอบหลักรันบน Linux และ macOS ใน CI สำหรับ WSL2 ให้ clone ลงในระบบไฟล์ฝั่ง Linux (เช่น `~/persona-engine`) ไม่ใช่ไดรฟ์ที่เมานต์จาก Windows อย่าง `/mnt/c` — เมานต์ของ Windows (DrvFs) ไม่สามารถแสดงสิทธิ์ไฟล์แบบ POSIX ได้ รัน 4 บรรทัดนี้ในเทอร์มินัล:
 
 ```sh
 npm install -g @persona-engine/core
@@ -413,7 +413,7 @@ Adapter ถูกออกแบบให้บางโดยตั้งใจ
 
 **ระดับความพร้อม:** `product` — persona-engine เป็น runtime ที่ใช้งานจริงภายในครอบครัว Caty AI โดยยึดคำเรียกระดับความพร้อมตามทะเบียนกลางของครอบครัว
 **CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
-**สภาพแวดล้อมที่ตรวจสอบแล้ว:** ชุดทดสอบ core ทำงานบน Ubuntu และ macOS ใน pull request ทุกครั้ง (`make test`, Node 22+) ส่วนชุดทดสอบ adapter (workspace ทั้งแบบ Python และ Node) ทำงานบน Ubuntu
+**สภาพแวดล้อมที่ตรวจสอบแล้ว:** ชุดทดสอบ core ทำงานบน Ubuntu และ macOS ใน pull request ทุกครั้ง (`make test`, Node 22+) ส่วนชุดทดสอบ adapter (workspace ทั้งแบบ Python และ Node) ทำงานบน Ubuntu สำหรับ WSL2 ใช้งานได้เมื่อ checkout อยู่ในระบบไฟล์ฝั่ง Linux (`~/…`) ส่วนบนไดรฟ์ที่เมานต์จาก Windows (`/mnt/c`, DrvFs) ชุดทดสอบจะตรวจสอบความสามารถจริงของระบบไฟล์ขณะรัน แล้วข้ามเคสสิทธิ์ไฟล์/FIFO/symlink พร้อมเหตุผลชัดเจนแทนที่จะล้มเหลว (การตรวจสอบทำในไดเรกทอรีชั่วคราวซึ่งเป็นที่อยู่ของ test fixtures)
 **ข้อจำกัดที่ทราบ:** มี test flake ที่ทราบแล้ว ([#16](https://github.com/caty-ai/persona-engine/issues/16): อาร์ติแฟกต์ใน dist ถูกเขียนทับระหว่างการรันชุดทดสอบ) ซึ่งอาจทำให้ CI ขึ้นสถานะไม่ผ่านเป็นครั้งคราว แต่จะผ่านเมื่อรันใหม่ เกต CI ที่เพิ่งรวมเข้าระบบ (สแกน secret และตรวจ history, 2026-08) ยังมีประวัติการรันเพียงช่วงสั้น ๆ
 
 <!-- family:generated:family-footer:start -->

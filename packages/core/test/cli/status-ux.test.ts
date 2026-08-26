@@ -6,6 +6,8 @@ import { promisify } from "node:util";
 
 import { afterEach, describe, expect, it } from "vitest";
 
+import { skipWithoutSymlinks } from "../helpers/fs-caps.js";
+
 const execFileAsync = promisify(execFile);
 const BIN = resolve(import.meta.dirname, "../../bin/persona");
 const MARKER = "DO-NOT-LEAK-THIS-SECTION-TEXT";
@@ -337,7 +339,8 @@ describe("persona status UX CLI", () => {
     expect(await runText(root, "audit", "--limit", "1")).toMatch(/skipped 4 malformed lines\n$/u);
   });
 
-  it("rejects a symlinked audit.jsonl without following it", async () => {
+  it("rejects a symlinked audit.jsonl without following it", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
     const root = await scaffold();
     await runJson(root, "build");
     const externalMarker = "SYMLINK-TARGET-MUST-NOT-BE-READ";
@@ -538,7 +541,8 @@ describe("persona status UX CLI", () => {
     expect(human.trim().split("\n")).toHaveLength(3);
   });
 
-  it("does not follow a symlinked status.json", async () => {
+  it("does not follow a symlinked status.json", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
     const root = await scaffold({ customMode: true });
     await runJson(root, "build");
     await runJson(root, "turn", "--domain", "default");

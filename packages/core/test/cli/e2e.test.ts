@@ -6,6 +6,8 @@ import { promisify } from "node:util";
 
 import { afterEach, describe, expect, it } from "vitest";
 
+import { posixPermissionsReason, supportsPosixPermissions } from "../helpers/fs-caps.js";
+
 const execFileAsync = promisify(execFile);
 const BIN = resolve(import.meta.dirname, "../../bin/persona");
 const temporaryRoots: string[] = [];
@@ -37,8 +39,6 @@ describe("persona CLI E2E", () => {
     const root = resolve(parent, "install");
 
     await expect(run(parent, "init", root)).resolves.toMatchObject({ ok: true, install_dir: root });
-    expect((await stat(resolve(root, "state"))).mode & 0o777).toBe(0o700);
-    expect((await stat(resolve(root, "audit"))).mode & 0o777).toBe(0o700);
     await expect(run(root, "build")).resolves.toMatchObject({ ok: true });
     await expect(run(root, "set", "default", "--domain", "default")).resolves.toMatchObject({
       ok: true,
@@ -67,6 +67,21 @@ describe("persona CLI E2E", () => {
       issues: [],
       status: { present: true, age_seconds: expect.any(Number) },
     });
+  });
+
+  it("creates state and audit directories with exact 0700 permissions on capable filesystems", async (context) => {
+    if (!supportsPosixPermissions) {
+      context.skip(posixPermissionsReason);
+      return;
+    }
+
+    const parent = await mkdtemp(resolve(tmpdir(), "persona-cli-e2e-permissions-"));
+    temporaryRoots.push(parent);
+    const root = resolve(parent, "install");
+
+    await expect(run(parent, "init", root)).resolves.toMatchObject({ ok: true, install_dir: root });
+    expect((await stat(resolve(root, "state"))).mode & 0o777).toBe(0o700);
+    expect((await stat(resolve(root, "audit"))).mode & 0o777).toBe(0o700);
   });
 
   it("maps build, policy, and usage failures to exit codes 1, 2, and 3", async () => {

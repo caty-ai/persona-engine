@@ -8,7 +8,7 @@
 
 ![persona-engine — あなたのエージェントの人格に、関係のレイヤーと感情のグラデーションを](docs/assets/hero.jpg)
 
-![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-lightgrey) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
+![npm](https://img.shields.io/npm/v/%40persona-engine%2Fcore) ![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg) ![node](https://img.shields.io/badge/node-%3E%3D22-lightgrey) ![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20WSL2-lightgrey) ![license](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
 <!-- repo-state:begin (generated; do not edit) -->
@@ -65,7 +65,7 @@ AI にも、人間と同じような表現はできると私たちは考えて�
 
 ![デモ: 1つのエージェントに4つの表情 — ターン解決・一言での切替・fail-closed の public モード・監査ログ](docs/assets/demo.gif)
 
-必要なのは [Node.js](https://nodejs.org/)（バージョン 22 以上）だけです。Linux と macOS で動きます（コアのテストスイートを両OSのCIで実走）。ターミナルで次の 4 行を実行します:
+必要なのは [Node.js](https://nodejs.org/)（バージョン 22 以上）だけです。Linux・macOS・Windows（WSL2 経由）で動きます（コアのテストスイートは Linux と macOS の CI で実走）。WSL2 では Linux ファイルシステム側（例: `~/persona-engine`）に clone してください — `/mnt/c` のような Windows マウント（DrvFs）は POSIX のファイル権限を表現できません。ターミナルで次の 4 行を実行します:
 
 ```sh
 npm install -g @persona-engine/core
@@ -413,7 +413,7 @@ Audit events (newest first):
 
 **成熟度:** `product` — persona-engine は Caty AI ファミリー内で本番運用されているランタイムで、ファミリーレジストリの成熟度語彙を使用しています。
 **CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
-**検証済み環境:** コアスイートはすべてのプルリクエストで Ubuntu と macOS 上で実行されます（`make test`、Node 22+）。アダプタスイート（Python および Node ワークスペース）は Ubuntu 上で実行されます。
+**検証済み環境:** コアスイートはすべてのプルリクエストで Ubuntu と macOS 上で実行されます（`make test`、Node 22+）。アダプタスイート（Python および Node ワークスペース）は Ubuntu 上で実行されます。WSL2 は Linux ファイルシステム側（`~/…`）の checkout で動作します。Windows マウント（`/mnt/c`・DrvFs）上では、スイートが実行時にファイルシステムの実際の能力をプローブし、権限・FIFO・symlink のケースを失敗させず、明示的な理由付きで skip します（プローブはテストフィクスチャの置き場＝一時ディレクトリ側で行います）。
 **既知の制約:** 既知のテストフレーク（[#16](https://github.com/caty-ai/persona-engine/issues/16)：スイート実行中に dist アーティファクトが書き換えられる）により CI が断続的に赤くなることがありますが、再実行すると通ります。新しく組み込まれた CI ゲート（secret スキャンと history チェック・2026-08）は、実行履歴がまだ短いです。
 
 <!-- family:generated:family-footer:start -->

@@ -12,6 +12,7 @@ import { describe, expect, it } from "vitest";
 
 import { compilePack } from "../../src/compile/index.js";
 import { parseSafeYaml, SafeYamlError } from "../../src/compile/yaml.js";
+import { skipWithoutSymlinks } from "../helpers/fs-caps.js";
 
 function writeMinimalPack(root: string, modeBody: string): void {
   mkdirSync(resolve(root, "modes"), { recursive: true });
@@ -116,7 +117,8 @@ describe("safe compiler inputs", () => {
     }
   });
 
-  it("rejects catalog symlink escapes", () => {
+  it("rejects catalog symlink escapes", (context) => {
+    if (skipWithoutSymlinks(context)) return;
     const temporary = mkdtempSync(resolve(tmpdir(), "persona-catalog-safety-"));
     try {
       const pack = resolve(temporary, "pack");
@@ -140,7 +142,8 @@ describe("safe compiler inputs", () => {
     }
   });
 
-  it("rejects audit directory symlink escapes", () => {
+  it("rejects audit directory symlink escapes", (context) => {
+    if (skipWithoutSymlinks(context)) return;
     const temporary = mkdtempSync(resolve(tmpdir(), "persona-audit-safety-"));
     try {
       const pack = resolve(temporary, "pack");
@@ -169,7 +172,8 @@ describe("safe compiler inputs", () => {
     }
   });
 
-  it("rejects dangling audit directory symlinks", () => {
+  it("rejects dangling audit directory symlinks", (context) => {
+    if (skipWithoutSymlinks(context)) return;
     const temporary = mkdtempSync(resolve(tmpdir(), "persona-audit-dangling-safety-"));
     try {
       const pack = resolve(temporary, "pack");
