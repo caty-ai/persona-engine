@@ -13,11 +13,18 @@ import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { promisify } from "node:util";
 
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, type TestContext } from "vitest";
 
 import { buildPack } from "../../src/compile/index.js";
 import { sha256 } from "../../src/compile/hash.js";
 import { readAuditTail, runDoctor, type DoctorReport } from "../../src/doctor/index.js";
+import {
+  chmodDenialReason,
+  mkfifoProbe,
+  supportsChmodDenial,
+  supportsSymlinks,
+  symlinkReason,
+} from "../helpers/fs-caps.js";
 import type { PolicyJson, RouteDecl, TriggersJson } from "../../src/types.js";
 
 // derive from the package manifest like the CLI does — a hard-coded literal
@@ -31,10 +38,35 @@ const BIN = resolve(import.meta.dirname, "../../bin/persona");
 const execFileAsync = promisify(execFile);
 const temporaryRoots: string[] = [];
 
-// chmod 000 doesn't deny reads to root (some CI/containers run as root), so
-// the permission-denial premise behind these two tests breaks there — skip
-// honestly instead of failing dishonestly.
+// chmod 000 does not deny reads for root, and WSL2 DrvFs plus some other
+// filesystems do not preserve exact chmod-denial semantics at all. These tests
+// only prove something on filesystems that honor the premise, so skip with the
+// measured reason instead.
 const runningAsRoot = process.getuid?.() === 0;
+const rootSkipsChmodDenialReason = "chmod(000) denial probes are not meaningful while tests run as root.";
+const unreadablePolicyTestName = runningAsRoot || !supportsChmodDenial
+  ? `treats an unreadable policy.json as an issue — ${runningAsRoot ? rootSkipsChmodDenialReason : chmodDenialReason}`
+  : "treats an unreadable policy.json as an issue";
+const unreadableManifestTestName = runningAsRoot || !supportsChmodDenial
+  ? `reports only one manifest issue when manifest.json cannot be read — ${runningAsRoot ? rootSkipsChmodDenialReason : chmodDenialReason}`
+  : "reports only one manifest issue when manifest.json cannot be read";
+
+function skipWithoutSymlinks(context: TestContext): boolean {
+  if (supportsSymlinks) return false;
+  context.skip(symlinkReason);
+  return true;
+}
+
+function mkfifoSpawnSkipDetail(result: ReturnType<typeof spawnSync>): string {
+  if (result.error !== undefined) {
+    const code = (result.error as NodeJS.ErrnoException).code ?? result.error.name;
+    return `spawn error ${code}. This commonly happens on WSL2 DrvFs mounts such as /mnt/c; see issue #47.`;
+  }
+  const stderr = typeof result.stderr === "string" ? result.stderr.trim() : result.stderr.toString("utf8").trim();
+  return stderr === ""
+    ? `exit status ${result.status ?? "unknown"}. This commonly happens on WSL2 DrvFs mounts such as /mnt/c; see issue #47.`
+    : `exit status ${result.status ?? "unknown"}: ${stderr}. This commonly happens on WSL2 DrvFs mounts such as /mnt/c; see issue #47.`;
+}
 
 type FixtureOptions = {
   runtime?: "generic" | "hermes" | "openclaw";
@@ -190,7 +222,7 @@ describe("runDoctor", () => {
     expect(JSON.stringify(report)).not.toContain(fakeSecret);
   });
 
-  it.skipIf(runningAsRoot)("treats an unreadable policy.json as an issue", async () => {
+  it.skipIf(runningAsRoot || !supportsChmodDenial)(unreadablePolicyTestName, async () => {
     const root = createFixture();
     const path = resolve(root, "build", "policy.json");
     chmodSync(path, 0o000);
@@ -295,7 +327,7 @@ describe("runDoctor", () => {
     ]));
   });
 
-  it.skipIf(runningAsRoot)("reports only one manifest issue when manifest.json cannot be read", async () => {
+  it.skipIf(runningAsRoot || !supportsChmodDenial)(unreadableManifestTestName, async () => {
     const root = createFixture();
     const manifestPath = resolve(root, "build", "manifest.json");
     chmodSync(manifestPath, 0o000);
@@ -420,7 +452,9 @@ describe("runDoctor", () => {
     expect(report.warnings.some((message) => message.includes("malformed line"))).toBe(false);
   });
 
-  it("rejects an audit directory symlink that escapes the install root", async () => {
+  it("rejects an audit directory symlink that escapes the install root", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const root = createFixture();
     const outside = mkdtempSync(resolve(tmpdir(), "persona-doctor-audit-outside-"));
     temporaryRoots.push(outside);
@@ -445,7 +479,9 @@ describe("runDoctor", () => {
     ]));
   });
 
-  it("reports a dangling audit_dir symlink specifically", async () => {
+  it("reports a dangling audit_dir symlink specifically", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const root = createFixture();
     rmSync(resolve(root, "audit"), { recursive: true });
     symlinkSync(resolve(root, "missing-audit"), resolve(root, "audit"), "dir");
@@ -471,7 +507,9 @@ describe("runDoctor", () => {
     expect(report.warnings.filter((message) => message.includes("Hermes"))).toEqual([]);
   });
 
-  it("warns when a sessions symlink escapes the canonical Hermes profile", async () => {
+  it("warns when a sessions symlink escapes the canonical Hermes profile", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const root = createFixture({ runtime: "hermes" });
     const profile = createHermesProfile(root, true);
     const outside = mkdtempSync(resolve(tmpdir(), "persona-doctor-sessions-outside-"));
@@ -488,7 +526,9 @@ describe("runDoctor", () => {
     ]));
   });
 
-  it("warns when a dangling sessions symlink points outside the Hermes profile", async () => {
+  it("warns when a dangling sessions symlink points outside the Hermes profile", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const root = createFixture({ runtime: "hermes" });
     const profile = createHermesProfile(root, true);
     const outside = mkdtempSync(resolve(tmpdir(), "persona-doctor-sessions-dangling-outside-"));
@@ -504,7 +544,9 @@ describe("runDoctor", () => {
     ]));
   });
 
-  it("uses missing-file handling for a dangling sessions symlink that stays inside the profile", async () => {
+  it("uses missing-file handling for a dangling sessions symlink that stays inside the profile", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const root = createFixture({ runtime: "hermes" });
     const profile = createHermesProfile(root, true);
     const sessionsPath = resolve(profile, "sessions", "sessions.json");
@@ -667,7 +709,9 @@ describe("runDoctor", () => {
     expect(JSON.stringify(report)).not.toContain(secret);
   });
 
-  it("reports a symlinked block through the O_NOFOLLOW open path", async () => {
+  it("reports a symlinked block through the O_NOFOLLOW open path", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const root = createFixture();
     const blockPath = resolve(root, "build", "modes", "default.md");
     const target = resolve(root, "symlinked-block.md");
@@ -683,15 +727,19 @@ describe("runDoctor", () => {
   });
 
   it("reports a manifest-listed FIFO without blocking", async (context) => {
+    if (!mkfifoProbe.ok) {
+      context.skip(mkfifoProbe.reason);
+      return;
+    }
+
     const root = createFixture();
     const blockPath = resolve(root, "build", "modes", "default.md");
     unlinkSync(blockPath);
     const mkfifo = spawnSync("mkfifo", [blockPath], { encoding: "utf8" });
-    if (mkfifo.error !== undefined && (mkfifo.error as NodeJS.ErrnoException).code === "ENOENT") {
-      context.skip("mkfifo is unavailable on this platform");
+    if (mkfifo.error !== undefined || mkfifo.status !== 0) {
+      context.skip(`mkfifo unavailable/failed on this filesystem: ${mkfifoSpawnSkipDetail(mkfifo)}`);
       return;
     }
-    expect(mkfifo.status, mkfifo.stderr).toBe(0);
 
     const report = await doctor(root);
 

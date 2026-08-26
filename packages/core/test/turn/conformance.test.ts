@@ -5,7 +5,15 @@ import { cp, mkdir, mkdtemp, readFile, readdir, realpath, rm, stat, symlink, wri
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, type TestContext, vi } from "vitest";
+
+import {
+  mkfifoProbe,
+  posixPermissionsReason,
+  supportsPosixPermissions,
+  supportsSymlinks,
+  symlinkReason,
+} from "../helpers/fs-caps.js";
 
 const fsFault = vi.hoisted(() => ({
   auditPath: undefined as string | undefined,
@@ -133,6 +141,23 @@ const casesRoot = resolve(
   "../../../../spec/fixtures/runtime/cases",
 );
 const temporaryRoots: string[] = [];
+
+function skipWithoutSymlinks(context: TestContext): boolean {
+  if (supportsSymlinks) return false;
+  context.skip(symlinkReason);
+  return true;
+}
+
+function mkfifoSpawnSkipDetail(result: ReturnType<typeof spawnSync>): string {
+  if (result.error !== undefined) {
+    const code = (result.error as NodeJS.ErrnoException).code ?? result.error.name;
+    return `spawn error ${code}. This commonly happens on WSL2 DrvFs mounts such as /mnt/c; see issue #47.`;
+  }
+  const stderr = typeof result.stderr === "string" ? result.stderr.trim() : result.stderr.toString("utf8").trim();
+  return stderr === ""
+    ? `exit status ${result.status ?? "unknown"}. This commonly happens on WSL2 DrvFs mounts such as /mnt/c; see issue #47.`
+    : `exit status ${result.status ?? "unknown"}: ${stderr}. This commonly happens on WSL2 DrvFs mounts such as /mnt/c; see issue #47.`;
+}
 
 async function temporaryCase(caseName: string): Promise<string> {
   const root = await mkdtemp(resolve(tmpdir(), `persona-runtime-${caseName}-`));
@@ -263,8 +288,6 @@ describe("turn/set runtime conformance", () => {
       { installRoot, engineVersion: "0.0.0" },
     );
     expect(transition.ok).toBe(true);
-    expect((await stat(resolve(installRoot, "state"))).mode & 0o777).toBe(0o700);
-    expect((await stat(resolve(installRoot, "audit"))).mode & 0o777).toBe(0o700);
 
     const resolved = await turn(
       {
@@ -298,6 +321,27 @@ describe("turn/set runtime conformance", () => {
     });
   });
 
+  it("creates state and audit directories with exact 0700 permissions on capable filesystems", async (context) => {
+    if (!supportsPosixPermissions) {
+      context.skip(posixPermissionsReason);
+      return;
+    }
+
+    const installRoot = await temporaryCase("agent-switch-accept");
+    const transition = await set(
+      {
+        actor: "agent",
+        ctx: { platform: "dummy" },
+        requested_mode: "focus",
+      },
+      { installRoot, engineVersion: "0.0.0" },
+    );
+
+    expect(transition.ok).toBe(true);
+    expect((await stat(resolve(installRoot, "state"))).mode & 0o777).toBe(0o700);
+    expect((await stat(resolve(installRoot, "audit"))).mode & 0o777).toBe(0o700);
+  });
+
   it("reports only an adapter error category, never its message, stack, or ctx values", async () => {
     const installRoot = await temporaryCase("minimal-turn");
     const error = new Error("dummy adapter failure");
@@ -318,7 +362,9 @@ describe("turn/set runtime conformance", () => {
     expect(audit).not.toContain("CTX-TURN-MUST-NOT-BE-LOGGED");
   });
 
-  it("fails closed when report_adapter_error encounters a symlinked policy", async () => {
+  it("fails closed when report_adapter_error encounters a symlinked policy", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const installRoot = await temporaryCase("agent-switch-accept");
     const policyPath = resolve(installRoot, "build/policy.json");
     const externalRoot = await mkdtemp(resolve(tmpdir(), "persona-external-report-policy-"));
@@ -348,7 +394,9 @@ describe("turn/set runtime conformance", () => {
     )).rejects.toThrow("report_adapter_error requires ctx.installRoot");
   });
 
-  it("returns the resolved block with degraded true when audit realpath validation fails", async () => {
+  it("returns the resolved block with degraded true when audit realpath validation fails", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const installRoot = await temporaryCase("agent-switch-accept");
     const externalAudit = await mkdtemp(resolve(tmpdir(), "persona-external-audit-"));
     temporaryRoots.push(externalAudit);
@@ -374,7 +422,9 @@ describe("turn/set runtime conformance", () => {
     expect(await readFile(externalAuditFile, "utf8")).toBe("outside remains unchanged\n");
   });
 
-  it("rejects an intermediate audit-directory swap after open without writing outside", async () => {
+  it("rejects an intermediate audit-directory swap after open without writing outside", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const installRoot = await temporaryCase("agent-switch-accept");
     const auditRoot = resolve(installRoot, "audit");
     const externalRoot = await mkdtemp(resolve(tmpdir(), "persona-audit-swap-"));
@@ -460,8 +510,10 @@ describe("turn/set runtime conformance", () => {
     }));
   });
 
-  it.each(["manifest.json", "policy.json", "triggers.json"])(
-    "rejects symlinked build/%s before transition and audits F3",
+  it.skipIf(!supportsSymlinks).each(["manifest.json", "policy.json", "triggers.json"])(
+    supportsSymlinks
+      ? "rejects symlinked build/%s before transition and audits F3"
+      : `rejects symlinked build/%s before transition and audits F3 — ${symlinkReason}`,
     async (artifact) => {
       const installRoot = await temporaryCase("agent-switch-accept");
       const artifactPath = resolve(installRoot, "build", artifact);
@@ -497,7 +549,9 @@ describe("turn/set runtime conformance", () => {
     },
   );
 
-  it("rejects a symlinked build directory before reading its JSON trust roots", async () => {
+  it("rejects a symlinked build directory before reading its JSON trust roots", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const installRoot = await temporaryCase("agent-switch-accept");
     const buildRoot = resolve(installRoot, "build");
     const externalRoot = await mkdtemp(resolve(tmpdir(), "persona-external-build-directory-"));
@@ -520,7 +574,9 @@ describe("turn/set runtime conformance", () => {
     await expect(readFile(resolve(installRoot, "state/shared.json"), "utf8")).rejects.toThrow();
   });
 
-  it("rejects a symlinked build/modes directory before reading mode blocks", async () => {
+  it("rejects a symlinked build/modes directory before reading mode blocks", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const installRoot = await temporaryCase("agent-switch-accept");
     const modesRoot = resolve(installRoot, "build/modes");
     const externalRoot = await mkdtemp(resolve(tmpdir(), "persona-external-modes-directory-"));
@@ -542,7 +598,9 @@ describe("turn/set runtime conformance", () => {
     }));
   });
 
-  it("rejects a symlinked mode block before transition", async () => {
+  it("rejects a symlinked mode block before transition", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const installRoot = await temporaryCase("agent-switch-accept");
     const blockPath = resolve(installRoot, "build/modes/focus.md");
     const externalRoot = await mkdtemp(resolve(tmpdir(), "persona-external-mode-block-"));
@@ -706,15 +764,19 @@ describe("turn/set runtime conformance", () => {
   });
 
   it("rejects a FIFO JSON trust root without opening or blocking on it", async (context) => {
+    if (!mkfifoProbe.ok) {
+      context.skip(mkfifoProbe.reason);
+      return;
+    }
+
     const installRoot = await temporaryCase("agent-switch-accept");
     const policyPath = resolve(installRoot, "build/policy.json");
     await rm(policyPath);
     const mkfifo = spawnSync("mkfifo", [policyPath], { encoding: "utf8" });
-    if (mkfifo.error !== undefined && (mkfifo.error as NodeJS.ErrnoException).code === "ENOENT") {
-      context.skip("mkfifo is unavailable on this platform");
+    if (mkfifo.error !== undefined || mkfifo.status !== 0) {
+      context.skip(`mkfifo unavailable/failed on this filesystem: ${mkfifoSpawnSkipDetail(mkfifo)}`);
       return;
     }
-    expect(mkfifo.status, mkfifo.stderr).toBe(0);
 
     const result = await turn(
       { ctx: { platform: "dummy" }, actor: "owner", utterance: "/persona focus" },
@@ -829,7 +891,9 @@ describe("turn/set runtime conformance", () => {
     });
   });
 
-  it("refuses an audit.jsonl symlink while preserving block resolution", async () => {
+  it("refuses an audit.jsonl symlink while preserving block resolution", async (context) => {
+    if (skipWithoutSymlinks(context)) return;
+
     const installRoot = await temporaryCase("agent-switch-accept");
     const externalRoot = await mkdtemp(resolve(tmpdir(), "persona-external-audit-file-"));
     temporaryRoots.push(externalRoot);
