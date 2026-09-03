@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { constants, readFileSync } from "node:fs";
 import {
+  chmod,
   lstat,
   mkdir,
   open,
@@ -511,13 +512,15 @@ async function writeStatus(
 ): Promise<void> {
   const stateRoot = resolve(deps.installRoot, "state");
   await mkdir(stateRoot, { recursive: true, mode: 0o700 });
+  await chmod(stateRoot, 0o700);
   const temporary = resolve(stateRoot, `.status.json.tmp-${process.pid}-${randomUUID()}`);
   const target = resolve(stateRoot, "status.json");
   try {
-    const handle = await open(temporary, "wx");
+    const handle = await open(temporary, "wx", 0o600);
     try {
       await handle.writeFile(`${JSON.stringify(status)}\n`, "utf8");
       await handle.sync();
+      await handle.chmod(0o600);
     } finally {
       await handle.close();
     }
