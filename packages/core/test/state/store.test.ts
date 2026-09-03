@@ -127,6 +127,24 @@ describe("state reads and atomic writes", () => {
     expect((await stat(join(root, "shared.json"))).mode & 0o777).toBe(0o600);
   });
 
+  it("heals a pre-existing loose temp file to 0600 before writing state", async (context) => {
+    if (!supportsPosixPermissions) {
+      context.skip(posixPermissionsReason);
+      return;
+    }
+
+    const root = await stateRoot();
+    const temporaryPath = join(root, "shared.json.tmp");
+    await writeFile(temporaryPath, "stale", { mode: 0o644 });
+    await chmod(temporaryPath, 0o644);
+
+    await expect(compareAndSwapState(casInput(root))).resolves.toMatchObject({
+      status: "applied",
+    });
+    expect((await stat(join(root, "shared.json"))).mode & 0o777).toBe(0o600);
+    expect(await readdir(root)).toEqual(["shared.json"]);
+  });
+
   it.each(["UPPER", "a/b"])(
     "treats invalid domain %s as F2 without writing",
     async (domain) => {

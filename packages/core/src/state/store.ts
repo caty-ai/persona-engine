@@ -387,9 +387,9 @@ async function atomicWriteState(
 ): Promise<void> {
   const handle = await open(temporaryPath, "w", 0o600);
   try {
+    await handle.chmod(0o600);
     await handle.writeFile(`${JSON.stringify(state)}\n`, "utf8");
     await handle.sync();
-    await handle.chmod(0o600);
   } finally {
     await handle.close();
   }

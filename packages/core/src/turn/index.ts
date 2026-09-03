@@ -518,9 +518,9 @@ async function writeStatus(
   try {
     const handle = await open(temporary, "wx", 0o600);
     try {
+      await handle.chmod(0o600);
       await handle.writeFile(`${JSON.stringify(status)}\n`, "utf8");
       await handle.sync();
-      await handle.chmod(0o600);
     } finally {
       await handle.close();
     }
