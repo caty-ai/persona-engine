@@ -1,12 +1,12 @@
 import { fileURLToPath } from "node:url";
 
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 
 const repositoryRoot = fileURLToPath(new URL(".", import.meta.url));
 
 // packages/core/test/pack.test.ts shells out to `npm pack`. Under npm 10.x
 // (the npm bundled with Node 22, i.e. CI) `--ignore-scripts` is not honoured
-// for a workspace package: npm still runs `prepare` -> `tsc`, which rewrites
+// for a workspace package: npm still runs `prepare` -> `npm run build` -> `tsc`, which rewrites
 // packages/core/dist/ file by file. Every other CLI test spawns bin/persona
 // from that same dist/, so running pack.test.ts alongside them produces
 // truncated or mixed-version dist modules (issue #16). The pack group therefore
@@ -25,7 +25,7 @@ export default defineConfig({
         test: {
           name: "suite",
           root: repositoryRoot,
-          exclude: ["**/node_modules/**", "**/dist/**", ...packTests],
+          exclude: [...configDefaults.exclude, ...packTests],
           sequence: { groupOrder: 0 },
         },
       },
