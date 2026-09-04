@@ -4,15 +4,15 @@
 
 ## From npm
 
-The final package name will be announced at release. Until then, substitute the released package name for `<package>`:
+The package is published on npm as [`@persona-engine/core`](https://www.npmjs.com/package/@persona-engine/core):
 
 ```sh
-npx <package> init
-npx <package> build
-npx <package> doctor
+npx @persona-engine/core init
+npx @persona-engine/core build
+npx @persona-engine/core doctor
 ```
 
-`init` opens a short wizard in an interactive terminal. It creates a starter pack, `build` compiles it, and `doctor` checks the result. In scripts or CI, use `npx <package> init --yes` for the default non-interactive scaffold. With a global or project-local install, the same commands are available as `persona init`, `persona build`, and `persona doctor`.
+`init` opens a short wizard in an interactive terminal. It creates a starter pack, `build` compiles it, and `doctor` checks the result. In scripts or CI, use `npx @persona-engine/core init --yes` for the default non-interactive scaffold. With a global or project-local install, the same commands are available as `persona init`, `persona build`, and `persona doctor`.
 
 ## From a source checkout
 

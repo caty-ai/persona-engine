@@ -463,7 +463,7 @@ For a source checkout, the CLI is `packages/core/bin/persona` (alias it, or set 
 - [x] M3 — OpenClaw adapter + observability CLI (get / list / audit) + voice coloring + agent-initiated switching
 - [x] M4 — public release: npm packaging + init wizard + starter pack template + Claude Code adapter + license & security gates
 
-v0.1.0 is the first public release. Issues and proposals are welcome — see [Contributing](#contributing).
+Releases are tagged on GitHub and published to npm as `@persona-engine/core` — see [Releases](https://github.com/caty-ai/persona-engine/releases) for the history. Issues and proposals are welcome — see [Contributing](#contributing).
 
 ## Contributing
 
