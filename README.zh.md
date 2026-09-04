@@ -463,7 +463,7 @@ python3 -m pytest adapters   # adapter suites (Python 3.11+, pytest)
 - [x] M3 — OpenClaw 适配器 + 可观测 CLI（get / list / audit）+ voice coloring + 智能体发起切换
 - [x] M4 — 公开发布：npm 打包 + init 向导 + starter pack 模板 + Claude Code 适配器 + 许可与安全闸门
 
-v0.1.0 是首个公开版本。欢迎提交 Issue 与建议——见[贡献](#贡献)。
+版本在 GitHub 上打标签，并以 `@persona-engine/core` 发布到 npm——历史见 [Releases](https://github.com/caty-ai/persona-engine/releases)。欢迎提交 Issue 与建议——见[贡献](#贡献)。
 
 ## 贡献
 

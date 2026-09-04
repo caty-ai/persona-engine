@@ -463,7 +463,7 @@ python3 -m pytest adapters   # adapter suites (Python 3.11+, pytest)
 - [x] M3 — OpenClaw アダプタ + 観測 CLI（get / list / audit）+ voice coloring + エージェント起点切替
 - [x] M4 — 公開リリース: npm パッケージング + init ウィザード + starter pack テンプレート + Claude Code アダプタ + ライセンス・セキュリティゲート
 
-v0.1.0 が最初の公開リリースです。Issue や提案を歓迎します — [コントリビュート](#コントリビュート)を参照。
+リリースは GitHub でタグ付けし、npm に `@persona-engine/core` として公開しています — 履歴は [Releases](https://github.com/caty-ai/persona-engine/releases) を参照。Issue や提案を歓迎します — [コントリビュート](#コントリビュート)を参照。
 
 ## コントリビュート
 
