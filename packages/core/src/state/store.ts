@@ -258,7 +258,7 @@ async function acquireLock(
   for (;;) {
     let handle: Awaited<ReturnType<typeof open>> | undefined;
     try {
-      handle = await open(lockPath, "wx");
+      handle = await open(lockPath, "wx", 0o600);
     } catch (error) {
       if (errno(error) !== "EEXIST") {
         return `lock acquisition failed: ${error instanceof Error ? error.message : String(error)}`;
@@ -268,6 +268,7 @@ async function acquireLock(
     if (handle !== undefined) {
       const token = randomUUID();
       try {
+        await handle.chmod(0o600);
         await handle.writeFile(token, "utf8");
         await handle.sync();
         return { handle, token };
@@ -320,7 +321,8 @@ async function recoverStaleLock(
     // This second O_EXCL file serializes stale reapers. Without it, two
     // processes can stat the same stale lock and the later unlink can remove
     // the earlier process's newly acquired lock.
-    recoveryHandle = await open(recoveryPath, "wx");
+    recoveryHandle = await open(recoveryPath, "wx", 0o600);
+    await secureRecoveryFile(recoveryPath, recoveryHandle);
   } catch (error) {
     if (errno(error) !== "EEXIST") {
       return {
@@ -334,7 +336,8 @@ async function recoverStaleLock(
         return "busy";
       }
       await unlink(recoveryPath);
-      recoveryHandle = await open(recoveryPath, "wx");
+      recoveryHandle = await open(recoveryPath, "wx", 0o600);
+      await secureRecoveryFile(recoveryPath, recoveryHandle);
     } catch (retryError) {
       if (errno(retryError) === "EEXIST" || errno(retryError) === "ENOENT") {
         return "busy";
@@ -362,6 +365,19 @@ async function recoverStaleLock(
   } finally {
     await recoveryHandle.close().catch(() => undefined);
     await unlink(recoveryPath).catch(() => undefined);
+  }
+}
+
+async function secureRecoveryFile(
+  recoveryPath: string,
+  recoveryHandle: Awaited<ReturnType<typeof open>>,
+): Promise<void> {
+  try {
+    await recoveryHandle.chmod(0o600);
+  } catch (error) {
+    await recoveryHandle.close().catch(() => undefined);
+    await unlink(recoveryPath).catch(() => undefined);
+    throw error;
   }
 }
 

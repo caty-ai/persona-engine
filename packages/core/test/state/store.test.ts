@@ -1,4 +1,4 @@
-import { writeFileSync } from "node:fs";
+import { statSync, writeFileSync } from "node:fs";
 import {
   chmod,
   mkdir,
@@ -385,6 +385,37 @@ describe("state reads and atomic writes", () => {
 });
 
 describe("exclusive lock protocol", () => {
+  it("creates the lock file with mode 0600 while it is held", async (context) => {
+    if (!supportsPosixPermissions) {
+      context.skip(posixPermissionsReason);
+      return;
+    }
+
+    const root = await stateRoot();
+    const lockPath = join(root, "shared.lock");
+    let lockMode: number | undefined;
+    let nowCalls = 0;
+
+    // The second now() call is the set_at stamp, which runs while the lock is
+    // held (after acquireLock, before atomicWriteState). Discrimination relies
+    // on the runner's umask allowing group/other bits (022 on CI and dev
+    // machines): unpatched code lands at 0644 there. Under umask 077 the
+    // unpatched file would already be 0600 and this test could not tell.
+    const result = await compareAndSwapState(casInput(root), {
+      now: () => {
+        nowCalls += 1;
+        if (nowCalls === 2) {
+          lockMode = statSync(lockPath).mode & 0o777;
+        }
+        return new Date("1970-01-01T00:00:00.000Z");
+      },
+    });
+
+    expect(result.status).toBe("applied");
+    expect(lockMode).not.toBeUndefined();
+    expect(lockMode).toBe(0o600);
+  });
+
   it("does not unlink a lock whose token was replaced before release", async () => {
     const root = await stateRoot();
     const lockPath = join(root, "shared.lock");
