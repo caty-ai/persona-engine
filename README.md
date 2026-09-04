@@ -134,6 +134,7 @@ The engine never calls an LLM and never interprets your persona text. It handles
 - [Security model](#security-model)
 - [FAQ](#faq)
 - [Documentation](#documentation)
+- [Part of Family OS](#family-os)
 - [Development](#development)
 - [Roadmap](#roadmap)
 
@@ -414,7 +415,11 @@ Claude Code, Hermes, and OpenClaw today. The adapter contract ([SPEC.md](SPEC.md
 **Maturity:** `product` — persona-engine is a runtime in production use inside the caty-ai family, using the family registry maturity vocabulary.
 **CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
 **Verified environments:** the core suite runs on Ubuntu and macOS on every pull request (`make test`, Node 22+); the adapter suites (Python and Node workspaces) run on Ubuntu. WSL2 works with a checkout in the Linux filesystem (`~/…`); on a Windows mount (`/mnt/c`, DrvFs) the suite probes the filesystem's actual capabilities at runtime and skips permission/FIFO/symlink cases with an explicit reason instead of failing (the probes run where the test fixtures live — the temp directory).
-**Known constraints:** a known test flake ([#16](https://github.com/caty-ai/persona-engine/issues/16): a dist artifact rewritten mid-suite) can intermittently redden CI and passes on rerun; the newly wired CI gates (secret scan and history check, 2026-08) have a short run history so far.
+**Known constraints:** the newly wired CI gates (secret scan and history check, 2026-08) have a short run history so far.
+
+<a id="family-os"></a>
+
+## Part of Family OS
 
 <!-- family:generated:family-footer:start -->
 

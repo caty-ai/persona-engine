@@ -134,6 +134,7 @@ persona build
 - [セキュリティモデル](#セキュリティモデル)
 - [FAQ](#faq)
 - [ドキュメント](#ドキュメント)
+- [Family OS の一員です](#family-os)
 - [開発](#開発)
 - [ロードマップ](#ロードマップ)
 
@@ -414,7 +415,11 @@ Audit events (newest first):
 **成熟度:** `product` — persona-engine は Caty AI ファミリー内で本番運用されているランタイムで、ファミリーレジストリの成熟度語彙を使用しています。
 **CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
 **検証済み環境:** コアスイートはすべてのプルリクエストで Ubuntu と macOS 上で実行されます（`make test`、Node 22+）。アダプタスイート（Python および Node ワークスペース）は Ubuntu 上で実行されます。WSL2 は Linux ファイルシステム側（`~/…`）の checkout で動作します。Windows マウント（`/mnt/c`・DrvFs）上では、スイートが実行時にファイルシステムの実際の能力をプローブし、権限・FIFO・symlink のケースを失敗させず、明示的な理由付きで skip します（プローブはテストフィクスチャの置き場＝一時ディレクトリ側で行います）。
-**既知の制約:** 既知のテストフレーク（[#16](https://github.com/caty-ai/persona-engine/issues/16)：スイート実行中に dist アーティファクトが書き換えられる）により CI が断続的に赤くなることがありますが、再実行すると通ります。新しく組み込まれた CI ゲート（secret スキャンと history チェック・2026-08）は、実行履歴がまだ短いです。
+**既知の制約:** 新しく組み込まれた CI ゲート（secret スキャンと history チェック・2026-08）は、実行履歴がまだ短いです。
+
+<a id="family-os"></a>
+
+## Family OS の一員です
 
 <!-- family:generated:family-footer:start -->
 

@@ -134,6 +134,7 @@ persona build
 - [安全模型](#安全模型)
 - [FAQ](#faq)
 - [文档](#文档)
+- [Family OS 中的一员](#family-os)
 - [开发](#开发)
 - [路线图](#路线图)
 
@@ -414,7 +415,11 @@ Audit events (newest first):
 **成熟度:** `product` — persona-engine 是在 Caty AI 家族内部投入生产使用的运行时，并采用家族注册表的成熟度词汇。
 **CI:** [![CI](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/ci.yml) [![Test + Lint](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml/badge.svg)](https://github.com/caty-ai/persona-engine/actions/workflows/test-lint.yml)
 **已验证环境:** 核心套件会在每个拉取请求中分别于 Ubuntu 和 macOS 上运行（`make test`、Node 22+）；适配器套件（Python 和 Node 工作区）在 Ubuntu 上运行。WSL2 需要将检出放在 Linux 文件系统（`~/…`）中；在 Windows 挂载盘（`/mnt/c`，DrvFs）上，测试套件会在运行时探测文件系统的实际能力，并对权限/FIFO/符号链接用例给出明确原因并跳过，而不是失败（探测在测试夹具所在的临时目录一侧进行）。
-**已知限制:** 已知的测试偶发失败（[#16](https://github.com/caty-ai/persona-engine/issues/16)：在套件运行过程中重写 dist 构件）可能会间歇性地使 CI 变红，重新运行即可通过；新接入的 CI 闸门（secret 扫描与 history 检查，2026-08）目前运行历史仍然较短。
+**已知限制:** 新接入的 CI 闸门（secret 扫描与 history 检查，2026-08）目前运行历史仍然较短。
+
+<a id="family-os"></a>
+
+## Family OS 中的一员
 
 <!-- family:generated:family-footer:start -->
 
