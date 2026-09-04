@@ -1,9 +1,12 @@
 import { writeFileSync } from "node:fs";
 import {
+  chmod,
+  mkdir,
   mkdtemp,
   readFile,
   readdir,
   rm,
+  stat,
   utimes,
   writeFile,
 } from "node:fs/promises";
@@ -19,6 +22,10 @@ import {
 } from "../../src/state/index.js";
 import type { CasInput, StateSnapshot } from "../../src/state/index.js";
 import type { StateFile } from "../../src/types.js";
+import {
+  posixPermissionsReason,
+  supportsPosixPermissions,
+} from "../helpers/fs-caps.js";
 
 const temporaryRoots: string[] = [];
 
@@ -100,6 +107,41 @@ describe("state reads and atomic writes", () => {
       await readFile(join(root, "shared.json"), "utf8"),
     ) as StateFile;
     expect(onDisk).toEqual(result.state);
+    expect(await readdir(root)).toEqual(["shared.json"]);
+  });
+
+  it("self-heals state directory and file permissions on atomic writes", async (context) => {
+    if (!supportsPosixPermissions) {
+      context.skip(posixPermissionsReason);
+      return;
+    }
+
+    const root = await stateRoot();
+    await mkdir(root, { recursive: true });
+    await chmod(root, 0o755);
+
+    await expect(compareAndSwapState(casInput(root))).resolves.toMatchObject({
+      status: "applied",
+    });
+    expect((await stat(root)).mode & 0o777).toBe(0o700);
+    expect((await stat(join(root, "shared.json"))).mode & 0o777).toBe(0o600);
+  });
+
+  it("heals a pre-existing loose temp file to 0600 before writing state", async (context) => {
+    if (!supportsPosixPermissions) {
+      context.skip(posixPermissionsReason);
+      return;
+    }
+
+    const root = await stateRoot();
+    const temporaryPath = join(root, "shared.json.tmp");
+    await writeFile(temporaryPath, "stale", { mode: 0o644 });
+    await chmod(temporaryPath, 0o644);
+
+    await expect(compareAndSwapState(casInput(root))).resolves.toMatchObject({
+      status: "applied",
+    });
+    expect((await stat(join(root, "shared.json"))).mode & 0o777).toBe(0o600);
     expect(await readdir(root)).toEqual(["shared.json"]);
   });
 

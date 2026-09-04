@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { rmSync, writeFileSync } from "node:fs";
-import { cp, mkdir, mkdtemp, readFile, readdir, realpath, rm, stat, symlink, writeFile } from "node:fs/promises";
+import { chmod, cp, mkdir, mkdtemp, readFile, readdir, realpath, rm, stat, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 
@@ -325,6 +325,47 @@ describe("turn/set runtime conformance", () => {
     expect(transition.ok).toBe(true);
     expect((await stat(resolve(installRoot, "state"))).mode & 0o777).toBe(0o700);
     expect((await stat(resolve(installRoot, "audit"))).mode & 0o777).toBe(0o700);
+  });
+
+  it("self-heals state and status permissions across set and turn writes", async (context) => {
+    if (!supportsPosixPermissions) {
+      context.skip(posixPermissionsReason);
+      return;
+    }
+
+    const installRoot = await temporaryCase("agent-switch-accept");
+    const stateRoot = resolve(installRoot, "state");
+    await mkdir(stateRoot, { recursive: true });
+    await chmod(stateRoot, 0o755);
+
+    const transition = await set(
+      {
+        actor: "agent",
+        ctx: { platform: "dummy" },
+        requested_mode: "focus",
+      },
+      { installRoot, engineVersion: "0.0.0" },
+    );
+
+    expect(transition.ok).toBe(true);
+    expect((await stat(stateRoot)).mode & 0o777).toBe(0o700);
+    await chmod(stateRoot, 0o755);
+    const resolved = await turn(
+      {
+        ctx: { platform: "dummy" },
+        actor: "unknown",
+      },
+      { installRoot, engineVersion: "0.0.0" },
+    );
+
+    expect(resolved.mode).toBe("focus");
+    expect((await stat(stateRoot)).mode & 0o777).toBe(0o700);
+    expect((await stat(resolve(stateRoot, "status.json"))).mode & 0o777).toBe(0o600);
+    const domainFiles = (await readdir(stateRoot)).filter(
+      (entry) => entry.endsWith(".json") && entry !== "status.json",
+    );
+    expect(domainFiles).toHaveLength(1);
+    expect((await stat(resolve(stateRoot, domainFiles[0]!))).mode & 0o777).toBe(0o600);
   });
 
   it("reports only an adapter error category, never its message, stack, or ctx values", async () => {

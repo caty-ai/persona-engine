@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import {
+  chmod,
   mkdir,
   open,
   readFile,
@@ -384,8 +385,9 @@ async function atomicWriteState(
   temporaryPath: string,
   state: StateFile,
 ): Promise<void> {
-  const handle = await open(temporaryPath, "w");
+  const handle = await open(temporaryPath, "w", 0o600);
   try {
+    await handle.chmod(0o600);
     await handle.writeFile(`${JSON.stringify(state)}\n`, "utf8");
     await handle.sync();
   } finally {
@@ -414,6 +416,7 @@ export async function compareAndSwapState(
   try {
     statePaths = paths(input.stateRoot, input.domain);
     await mkdir(input.stateRoot, { recursive: true, mode: 0o700 });
+    await chmod(input.stateRoot, 0o700);
   } catch {
     return {
       status: "state_error",
