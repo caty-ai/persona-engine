@@ -396,6 +396,11 @@ describe("exclusive lock protocol", () => {
     let lockMode: number | undefined;
     let nowCalls = 0;
 
+    // The second now() call is the set_at stamp, which runs while the lock is
+    // held (after acquireLock, before atomicWriteState). Discrimination relies
+    // on the runner's umask allowing group/other bits (022 on CI and dev
+    // machines): unpatched code lands at 0644 there. Under umask 077 the
+    // unpatched file would already be 0600 and this test could not tell.
     const result = await compareAndSwapState(casInput(root), {
       now: () => {
         nowCalls += 1;
