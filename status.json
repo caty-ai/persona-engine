@@ -4,14 +4,14 @@
   "generator_version": "repo-state-gen v1",
   "repo": "caty-ai/persona-engine",
   "stamp_mode": "auto",
-  "generated_at": "2026-09-05T12:05:33Z",
-  "describes_commit": "fd49f1750ef00f4a122f9c654839c163b3c84de9",
-  "describes_commit_date": "2026-09-05T12:05:33Z",
+  "generated_at": "2026-09-07T06:16:25Z",
+  "describes_commit": "472892950b0d8c0f9408555391ce71101ea1bafa",
+  "describes_commit_date": "2026-09-07T06:16:25Z",
   "branch": "main",
   "latest_tag": "v0.2.6",
   "latest_release_url": "https://github.com/caty-ai/persona-engine/releases/tag/v0.2.6",
   "agents_entry": null,
   "canonical_api": "https://api.github.com/repos/caty-ai/persona-engine/commits/main",
-  "canonical_raw": "https://raw.githubusercontent.com/caty-ai/persona-engine/fd49f1750ef00f4a122f9c654839c163b3c84de9/status.json",
+  "canonical_raw": "https://raw.githubusercontent.com/caty-ai/persona-engine/472892950b0d8c0f9408555391ce71101ea1bafa/status.json",
   "freshness_contract": "SHA comparison only; dates may only ever trigger distrust. Protocol: docs/repo-state/spec.md, section 'Reader protocol'."
 }
